@@ -14,6 +14,16 @@ const MAJORS = [
   "Mechanical & Civil Engineering",
   "Data Science & Statistics",
   "Education & Teaching",
+  "Finance & Economics",
+  "Architecture & Urban Design",
+  "Pharmacy & Biomedical Sciences",
+  "Communication & Media Studies",
+  "International Relations & Global Affairs",
+  "Cybersecurity & Network Engineering",
+  "Game Design & Interactive Media",
+  "Nursing & Allied Health",
+  "Marketing & Advertising",
+  "Linguistics & Translation",
 ] as const;
 type Major = (typeof MAJORS)[number];
 
@@ -403,6 +413,366 @@ const MAJOR_DATA: Record<Major, MajorData> = {
     alternativeRoute: { major: "Psychology & Social Sciences", reason: "If you love working with people and want to understand the science behind how they learn and grow, educational psychology bridges research and direct practice — opening doors in both." },
     miniProject: "Plan and teach a 45-minute mini-lesson on any topic you know well to a younger sibling, friend, or classmate. Afterwards, write a short reflection: what worked, what confused them, and what you would change.",
   },
+
+  "Finance & Economics": {
+    skills: ["Financial Modeling", "Economic Analysis", "Investment Valuation", "Risk Management", "Quantitative Research"],
+    careers: ["Investment Banker", "Financial Analyst", "Economist", "Portfolio Manager", "Financial Consultant", "Central Banker"],
+    nextSteps: [
+      "Read 'The Intelligent Investor' by Benjamin Graham or 'Freakonomics' to develop economic intuition.",
+      "Learn Excel and basic financial modeling — it's the industry's core tool.",
+      "Explore Finance, Economics, or Accounting programs at universities.",
+    ],
+    strengthKeywords: ["analytical", "financially literate", "strategic", "detail-oriented"],
+    countries: [
+      { name: "United Kingdom", flag: "🇬🇧" }, { name: "United States", flag: "🇺🇸" },
+      { name: "Switzerland", flag: "🇨🇭" }, { name: "Singapore", flag: "🇸🇬" },
+      { name: "Netherlands", flag: "🇳🇱" }, { name: "Germany", flag: "🇩🇪" },
+    ],
+    universitiesByBudget: {
+      1: ["Erasmus University Rotterdam (Netherlands)", "University of Mannheim (Germany)", "University of Vienna (Austria)", "Tilburg University (Netherlands)"],
+      2: ["University of Edinburgh (UK)", "University of Toronto (Canada)", "University of Melbourne (Australia)", "HEC Montréal (Canada)"],
+      3: ["London School of Economics (UK)", "University of Oxford (UK)", "New York University Stern (USA)", "University of Chicago Booth (USA)", "ETH Zurich (Switzerland)"],
+    },
+    pathways: [
+      { name: "Investment & Finance", description: "Work in banking, asset management, or financial markets.", roles: ["Financial Analyst", "Associate Banker", "Portfolio Manager", "Chief Investment Officer"] },
+      { name: "Corporate Finance", description: "Lead financial strategy, budgeting, and analysis within organizations.", roles: ["Finance Analyst", "Financial Controller", "CFO", "Group Finance Director"] },
+      { name: "Economic Research & Policy", description: "Study economic trends and advise governments, central banks, or NGOs.", roles: ["Research Economist", "Policy Analyst", "Senior Economist", "Chief Economist"] },
+    ],
+    studyCostLabel: "Moderate–High",
+    studyCostColor: "text-amber-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Build Financial Literacy", focus: ["Read 'The Intelligent Investor' or follow Investopedia's free beginner guides", "Track a stock or index fund for 3 months — observe and note what drives changes", "Learn basic Excel: formulas, pivot tables, and simple charts"] },
+      q2: { title: "Apr–Jun: Explore Economic Thinking", focus: ["Read Freakonomics or listen to the podcast — economics is everywhere", "Study supply and demand, inflation, and interest rates through Khan Academy", "Analyze one company's annual report — revenue, profit, debt, and what the numbers tell you"] },
+      q3: { title: "Jul–Sep: Practice Financial Modeling", focus: ["Build a simple financial model in Excel (e.g. personal budgeting or a mock business)", "Complete a free financial modeling introduction course (CFI or Coursera)", "Follow financial news: Bloomberg, FT, or WSJ — summarize one article per week"] },
+      q4: { title: "Oct–Dec: Prepare & Apply", focus: ["Research Finance, Economics, or Accounting programs and their entry requirements", "Join an investing club or school economics competition", "Draft a personal statement emphasizing analytical thinking and financial awareness"] },
+    },
+    alternativeRoute: { major: "Data Science & Statistics", reason: "Quantitative finance and data science overlap heavily. If you love the numbers side of economics, a data science degree opens doors in fintech, investment analytics, and economic modeling." },
+    miniProject: "Pick a publicly traded company and write a 1-page investment case: What does the company do? Is it growing? Is it profitable? Would you invest at the current price, and why?",
+  },
+
+  "Architecture & Urban Design": {
+    skills: ["Architectural Drawing & CAD", "3D Modeling (Revit / SketchUp)", "Urban Planning Principles", "Structural Awareness", "Sustainable Design"],
+    careers: ["Architect", "Urban Planner", "Interior Designer", "Landscape Architect", "Construction Project Manager", "Heritage Conservationist"],
+    nextSteps: [
+      "Start sketching buildings, interiors, and spaces you find inspiring — daily observation sharpens your eye.",
+      "Learn SketchUp Free or AutoCAD LT basics — the tools of the profession.",
+      "Explore Architecture, Urban Design, or Interior Architecture programs at universities and design schools.",
+    ],
+    strengthKeywords: ["spatial thinker", "detail-oriented", "creative", "technically precise"],
+    countries: [
+      { name: "Netherlands", flag: "🇳🇱" }, { name: "Italy", flag: "🇮🇹" },
+      { name: "Spain", flag: "🇪🇸" }, { name: "Germany", flag: "🇩🇪" },
+      { name: "United Kingdom", flag: "🇬🇧" }, { name: "United States", flag: "🇺🇸" },
+    ],
+    universitiesByBudget: {
+      1: ["TU Delft (Netherlands)", "TU Berlin (Germany)", "Politecnico di Milano (Italy — EU fees)", "University of Navarra (Spain)"],
+      2: ["Politecnico di Milano (Italy — international fees)", "University of Edinburgh (UK)", "RMIT University (Australia)", "Carleton University (Canada)"],
+      3: ["Bartlett School of Architecture, UCL (UK)", "ETH Zurich (Switzerland)", "Harvard GSD (USA)", "MIT School of Architecture (USA)", "AA School of Architecture (UK)"],
+    },
+    pathways: [
+      { name: "Private Practice", description: "Work in architecture firms on residential, commercial, or public building projects.", roles: ["Architectural Assistant", "Part II Architect", "Project Architect", "Principal / Director"] },
+      { name: "Urban & Landscape Planning", description: "Shape cities, public spaces, and communities at a large scale.", roles: ["Urban Design Assistant", "Urban Planner", "City Planning Director", "Chief Urban Designer"] },
+      { name: "Sustainable & Research Design", description: "Push forward environmentally responsible and innovative building methods.", roles: ["Sustainability Researcher", "Green Building Specialist", "Design Researcher", "Professor of Architecture"] },
+    ],
+    studyCostLabel: "Moderate",
+    studyCostColor: "text-amber-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Train Your Eye", focus: ["Sketch one building or space per week — focus on proportion, light, and detail", "Study architectural history: from ancient Greece to Modernism to today", "Visit a building or public space and write a one-page critique: what works, what doesn't?"] },
+      q2: { title: "Apr–Jun: Learn the Tools", focus: ["Learn SketchUp Free — model your bedroom or a simple building", "Study basic technical drawing: floor plans, elevations, sections", "Explore sustainable design principles: passive cooling, natural light, material choices"] },
+      q3: { title: "Jul–Sep: Design a Project", focus: ["Design a small structure from scratch: a bus shelter, garden pavilion, or tiny house", "Document your design process with sketches, models, and written rationale", "Visit or photograph interesting buildings and analyze their spatial qualities"] },
+      q4: { title: "Oct–Dec: Build Your Portfolio", focus: ["Compile your sketches, drawings, and projects into a presentation portfolio", "Research architecture schools — most require a portfolio for admission", "Write your design statement: what draws you to architecture and why does space matter to you?"] },
+    },
+    alternativeRoute: { major: "Mechanical & Civil Engineering", reason: "If you love the structural and technical side of buildings more than design and aesthetics, civil engineering focuses on the systems, physics, and construction that make architecture possible." },
+    miniProject: "Design a small public space — a park bench, a bus stop, or a small plaza. Sketch your design from three perspectives (plan, elevation, and 3D view) and write a brief explaining your decisions about materials, light, and how people will use it.",
+  },
+
+  "Pharmacy & Biomedical Sciences": {
+    skills: ["Pharmacology & Drug Mechanisms", "Laboratory Techniques", "Clinical Biochemistry", "Regulatory Affairs", "Patient Counseling"],
+    careers: ["Pharmacist", "Biomedical Scientist", "Clinical Research Associate", "Drug Development Researcher", "Pharmaceutical Consultant", "Medical Science Liaison"],
+    nextSteps: [
+      "Focus on Chemistry and Biology — both are essential foundations for pharmacy and biomedical science.",
+      "Volunteer or shadow at a community pharmacy to understand patient-facing work.",
+      "Research Pharmacy, Biomedical Science, or Biochemistry programs — note that Pharmacy is a regulated profession with specific entry requirements.",
+    ],
+    strengthKeywords: ["precise", "scientifically rigorous", "detail-oriented", "patient-focused"],
+    countries: [
+      { name: "United Kingdom", flag: "🇬🇧" }, { name: "Germany", flag: "🇩🇪" },
+      { name: "Netherlands", flag: "🇳🇱" }, { name: "Australia", flag: "🇦🇺" },
+      { name: "Canada", flag: "🇨🇦" }, { name: "United States", flag: "🇺🇸" },
+    ],
+    universitiesByBudget: {
+      1: ["University of Groningen (Netherlands)", "Heidelberg University (Germany)", "University of Helsinki (Finland)", "Ghent University (Belgium)"],
+      2: ["University of Toronto (Canada)", "University of Melbourne (Australia)", "University of Nottingham (UK)", "University College Dublin (Ireland)"],
+      3: ["University College London (UK)", "University of Cambridge (UK)", "University of Michigan (USA)", "Monash University (Australia)", "King's College London (UK)"],
+    },
+    pathways: [
+      { name: "Clinical Pharmacy", description: "Work in hospitals, community pharmacies, or healthcare settings advising patients on medication.", roles: ["Pre-registration Pharmacist", "Community Pharmacist", "Hospital Pharmacist", "Lead Clinical Pharmacist"] },
+      { name: "Pharmaceutical Industry", description: "Work in drug development, regulatory affairs, or medical sales within pharma companies.", roles: ["Research Associate", "Clinical Research Associate", "Regulatory Affairs Specialist", "Medical Science Liaison"] },
+      { name: "Research & Academia", description: "Advance biomedical knowledge through laboratory and clinical research.", roles: ["Research Technician", "PhD Researcher", "Principal Investigator", "Professor of Pharmacology"] },
+    ],
+    studyCostLabel: "Moderate–High",
+    studyCostColor: "text-amber-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Strengthen Science Foundations", focus: ["Focus on Chemistry (organic chemistry especially) and Biology — core to pharmacy", "Explore Khan Academy's chemistry and biology series for free revision", "Research what pharmacists and biomedical scientists do day to day"] },
+      q2: { title: "Apr–Jun: Get Exposure", focus: ["Volunteer or shadow at a community pharmacy — patient interaction is central to the role", "Study how drugs work: receptors, mechanisms, and side effects at a basic level", "Read about a recent drug development story — from research to approval to patient use"] },
+      q3: { title: "Jul–Sep: Explore Laboratory Work", focus: ["If available, take part in science lab work at school or a summer program", "Study the drug approval process: how medicines go from lab to pharmacy shelf", "Learn about clinical trials: phases, ethics, and how safety is tested"] },
+      q4: { title: "Oct–Dec: Apply With Purpose", focus: ["Research Pharmacy and Biomedical Science programs — Pharmacy requires specific grades and often interviews", "Write a personal statement that shows scientific rigor and care for patients", "Prepare for interviews: pharmacist programs often assess communication and ethical reasoning"] },
+    },
+    alternativeRoute: { major: "Medicine & Health Sciences", reason: "If your passion is for clinical care and diagnosis rather than medication management, medicine offers the full patient journey — with pharmacology as just one part of a broader clinical education." },
+    miniProject: "Choose a common medication (e.g. paracetamol, ibuprofen, or aspirin) and write a one-page explainer: what it does, how it works in the body, its side effects, and who should avoid it. Write it clearly enough for a patient to understand.",
+  },
+
+  "Communication & Media Studies": {
+    skills: ["Storytelling & Narrative Construction", "Digital Content Production", "Media Ethics & Criticism", "Social Media Strategy", "Broadcast & Journalism Techniques"],
+    careers: ["Journalist", "PR Specialist", "Content Strategist", "Broadcast Producer", "Social Media Manager", "Communications Director"],
+    nextSteps: [
+      "Start creating content — write a blog, launch a podcast, or produce short videos on a topic you care about.",
+      "Read widely: quality journalism, opinion pieces, and media criticism to sharpen your eye.",
+      "Explore Journalism, Media Studies, Communication, or Public Relations programs.",
+    ],
+    strengthKeywords: ["communicative", "persuasive", "curious", "storyteller"],
+    countries: [
+      { name: "United Kingdom", flag: "🇬🇧" }, { name: "United States", flag: "🇺🇸" },
+      { name: "Netherlands", flag: "🇳🇱" }, { name: "Australia", flag: "🇦🇺" },
+      { name: "Denmark", flag: "🇩🇰" }, { name: "Canada", flag: "🇨🇦" },
+    ],
+    universitiesByBudget: {
+      1: ["University of Amsterdam (Netherlands)", "Aarhus University (Denmark)", "University of Copenhagen (Denmark)", "Stockholm University (Sweden)"],
+      2: ["University of Toronto (Canada)", "University of Melbourne (Australia)", "University of Nottingham (UK)", "Dublin City University (Ireland)"],
+      3: ["Columbia University Graduate School of Journalism (USA)", "London School of Economics (UK)", "Northwestern University Medill (USA)", "University of Oxford (UK)", "City, University of London (UK)"],
+    },
+    pathways: [
+      { name: "Journalism & Media", description: "Report, investigate, and publish stories across print, broadcast, and digital platforms.", roles: ["Editorial Assistant", "Reporter / Correspondent", "Senior Journalist", "Editor / Bureau Chief"] },
+      { name: "PR & Communications", description: "Shape how organizations communicate with the public, press, and stakeholders.", roles: ["PR Executive", "Communications Specialist", "Head of Communications", "PR Director"] },
+      { name: "Digital Content & Strategy", description: "Create and distribute content across digital and social platforms to build audiences.", roles: ["Content Creator", "Social Media Manager", "Content Strategist", "Head of Digital"] },
+    ],
+    studyCostLabel: "Low–Moderate",
+    studyCostColor: "text-green-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Find Your Voice", focus: ["Start writing regularly: a blog, journal entries, or opinion pieces on topics you care about", "Read 3 different news sources daily and compare how they frame the same story", "Watch one documentary and write a one-page analysis of its storytelling techniques"] },
+      q2: { title: "Apr–Jun: Create & Publish", focus: ["Launch a small media project: a podcast, YouTube channel, newsletter, or Instagram page", "Interview someone you find interesting — practice asking open-ended questions", "Study media ethics: what makes journalism trustworthy? What is bias?"] },
+      q3: { title: "Jul–Sep: Expand Your Toolkit", focus: ["Learn basic video or audio editing (DaVinci Resolve or Audacity, both free)", "Practice writing for different formats: news article, opinion piece, script, social caption", "Submit a piece to your school newspaper, local publication, or an online platform"] },
+      q4: { title: "Oct–Dec: Build a Portfolio", focus: ["Compile your best work: articles, videos, podcasts, or social campaigns", "Research Journalism, Media Studies, or Communication programs", "Write a personal statement highlighting your curiosity, ethical awareness, and storytelling examples"] },
+    },
+    alternativeRoute: { major: "Marketing & Advertising", reason: "If you love storytelling and communication but want a clear commercial focus, marketing channels your creativity into audience strategy, brand building, and measurable campaigns." },
+    miniProject: "Pick a story happening in your local community that hasn't been covered. Research it, interview at least one person involved, and write a 500-word news article or produce a 3-minute video report.",
+  },
+
+  "International Relations & Global Affairs": {
+    skills: ["Geopolitical Analysis", "Diplomatic Communication", "International Law & Policy", "Cross-Cultural Competency", "Research & Report Writing"],
+    careers: ["Diplomat", "Policy Analyst", "NGO Program Manager", "International Trade Specialist", "Think-Tank Researcher", "UN / EU Affairs Officer"],
+    nextSteps: [
+      "Follow global news closely — The Economist, BBC World, or Foreign Affairs are great starting points.",
+      "Learn a second language or deepen one you already have — diplomacy runs on languages.",
+      "Explore International Relations, Political Science, or Global Studies programs.",
+    ],
+    strengthKeywords: ["globally minded", "diplomatic", "analytical", "multilingual"],
+    countries: [
+      { name: "United Kingdom", flag: "🇬🇧" }, { name: "Belgium", flag: "🇧🇪" },
+      { name: "Switzerland", flag: "🇨🇭" }, { name: "Netherlands", flag: "🇳🇱" },
+      { name: "France", flag: "🇫🇷" }, { name: "United States", flag: "🇺🇸" },
+    ],
+    universitiesByBudget: {
+      1: ["University of Groningen (Netherlands)", "Leiden University (Netherlands)", "University of Vienna (Austria)", "Charles University Prague (Czech Republic)"],
+      2: ["Sciences Po (France)", "University of Edinburgh (UK)", "University of Toronto (Canada)", "KU Leuven (Belgium)"],
+      3: ["London School of Economics (UK)", "University of Oxford (UK)", "Georgetown University Walsh School (USA)", "Columbia SIPA (USA)", "Graduate Institute Geneva (Switzerland)"],
+    },
+    pathways: [
+      { name: "Diplomacy & Government", description: "Represent your country or work within government on international affairs.", roles: ["Foreign Service Officer", "Political Officer", "First Secretary", "Ambassador / Consul General"] },
+      { name: "International Organizations", description: "Work within the UN, EU, WTO, or other international bodies.", roles: ["Programme Associate", "Policy Officer", "Senior Programme Manager", "Director General"] },
+      { name: "Think Tanks & Research", description: "Analyze global trends, produce policy papers, and advise decision-makers.", roles: ["Research Analyst", "Policy Researcher", "Senior Fellow", "Director of Policy Research"] },
+    ],
+    studyCostLabel: "Moderate",
+    studyCostColor: "text-amber-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Build Global Awareness", focus: ["Read one quality international newspaper daily (The Economist, BBC, or Foreign Policy)", "Study a current global conflict or treaty — understand the history, interests, and key players", "Learn about one international organization (UN, EU, NATO, WTO) in depth"] },
+      q2: { title: "Apr–Jun: Develop Key Skills", focus: ["Join or start a Model UN club — it develops diplomacy, research, and public speaking simultaneously", "Improve or begin a second language — even basic conversational skills signal global commitment", "Write a position paper on an international issue from two opposing national perspectives"] },
+      q3: { title: "Jul–Sep: Explore the Field", focus: ["Volunteer with an internationally-focused NGO, charity, or human rights organization", "Interview someone who works in diplomacy, development, or international policy", "Study the basics of international law and human rights frameworks (UN Charter, Geneva Conventions)"] },
+      q4: { title: "Oct–Dec: Prepare & Apply", focus: ["Research International Relations, Global Affairs, or Political Science programs", "Build a portfolio of research papers, Model UN positions, or opinion pieces", "Write a personal statement that shows genuine global curiosity, language skills, and policy engagement"] },
+    },
+    alternativeRoute: { major: "Law & Political Science", reason: "International law and political science provide the legal and governance frameworks that underpin diplomacy. If you're drawn to institutions and legal systems rather than cultural dynamics, this route is equally powerful." },
+    miniProject: "Choose an ongoing international dispute or treaty negotiation. Write a two-page briefing document as if you were advising a government: background, key parties, interests, risks, and your recommended policy position.",
+  },
+
+  "Cybersecurity & Network Engineering": {
+    skills: ["Network Architecture & Protocols", "Ethical Hacking & Penetration Testing", "Cryptography Fundamentals", "Threat Detection & Incident Response", "Security Auditing"],
+    careers: ["Cybersecurity Analyst", "Penetration Tester", "Security Engineer", "Network Engineer", "CISO (Chief Information Security Officer)", "Forensic Analyst"],
+    nextSteps: [
+      "Start with CompTIA Security+ or Google's free Cybersecurity Certificate on Coursera.",
+      "Set up a home lab using free tools like VirtualBox and practice ethical hacking on legal platforms like TryHackMe.",
+      "Look into Cybersecurity, Computer Science, or Network Engineering programs.",
+    ],
+    strengthKeywords: ["analytical", "technical", "security-minded", "problem solver"],
+    countries: [
+      { name: "United States", flag: "🇺🇸" }, { name: "United Kingdom", flag: "🇬🇧" },
+      { name: "Israel", flag: "🇮🇱" }, { name: "Germany", flag: "🇩🇪" },
+      { name: "Netherlands", flag: "🇳🇱" }, { name: "Australia", flag: "🇦🇺" },
+    ],
+    universitiesByBudget: {
+      1: ["TU Delft (Netherlands)", "Ruhr University Bochum (Germany)", "University of Helsinki (Finland)", "TU Berlin (Germany)"],
+      2: ["University of Edinburgh (UK)", "University of Waterloo (Canada)", "Deakin University (Australia)", "Royal Holloway, University of London (UK)"],
+      3: ["Carnegie Mellon University (USA)", "MIT (USA)", "University of Oxford (UK)", "Georgia Tech (USA)", "Imperial College London (UK)"],
+    },
+    pathways: [
+      { name: "Offensive Security", description: "Find vulnerabilities before attackers do — as a penetration tester or red team specialist.", roles: ["Junior Penetration Tester", "Security Consultant", "Senior Pen Tester", "Red Team Lead"] },
+      { name: "Defensive Security", description: "Protect systems and respond to breaches as a security analyst or engineer.", roles: ["SOC Analyst", "Security Engineer", "Incident Response Lead", "CISO"] },
+      { name: "Research & Governance", description: "Advance cybersecurity knowledge or shape policy and compliance frameworks.", roles: ["Security Researcher", "Compliance Analyst", "Cyber Policy Advisor", "Head of Information Security"] },
+    ],
+    studyCostLabel: "Moderate",
+    studyCostColor: "text-amber-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Learn the Fundamentals", focus: ["Complete Google's free Cybersecurity Certificate (Coursera) or CompTIA Security+ prep", "Understand how the internet works: IP addresses, DNS, HTTP, TCP/IP", "Create a free TryHackMe account and complete the beginner learning path"] },
+      q2: { title: "Apr–Jun: Build Practical Skills", focus: ["Set up a virtual machine using VirtualBox (free) and practice safely in isolated environments", "Learn basic Linux commands — most security tools run on Linux", "Complete 5 TryHackMe or HackTheBox beginner rooms"] },
+      q3: { title: "Jul–Sep: Go Deeper", focus: ["Study a real-world cyberattack (e.g. SolarWinds, WannaCry) — what went wrong and why?", "Learn basic Python scripting for security automation", "Explore cryptography basics: how encryption, hashing, and certificates work"] },
+      q4: { title: "Oct–Dec: Prepare & Apply", focus: ["Earn a beginner certification (CompTIA Security+ or Google Cybersecurity Certificate)", "Document your labs and projects on a GitHub portfolio", "Research Cybersecurity or Computer Science programs with strong security specializations"] },
+    },
+    alternativeRoute: { major: "Computer Science & Software Engineering", reason: "All cybersecurity is built on software foundations. A CS degree with a security specialization gives you the deep technical base to tackle the most complex security challenges in the industry." },
+    miniProject: "Set up a free TryHackMe account and complete the 'Pre-Security' learning path. Write a one-page reflection on what you learned: what surprised you about how systems can be attacked and what basic defences matter most.",
+  },
+
+  "Game Design & Interactive Media": {
+    skills: ["Game Mechanics & Level Design", "Unity / Unreal Engine Basics", "Narrative & Storytelling for Games", "User Experience in Interactive Systems", "Rapid Prototyping"],
+    careers: ["Game Designer", "Level Designer", "Narrative Designer", "UX Designer (Digital)", "Interactive Media Artist", "VR/AR Developer"],
+    nextSteps: [
+      "Download Unity (free) and follow their official beginner tutorials — build your first game in a weekend.",
+      "Play games critically — analyze why they're fun, frustrating, or compelling.",
+      "Explore Game Design, Interactive Media, or Computer Science programs with a game development focus.",
+    ],
+    strengthKeywords: ["creative", "playful systems thinker", "imaginative", "technically curious"],
+    countries: [
+      { name: "United Kingdom", flag: "🇬🇧" }, { name: "Canada", flag: "🇨🇦" },
+      { name: "Finland", flag: "🇫🇮" }, { name: "Sweden", flag: "🇸🇪" },
+      { name: "United States", flag: "🇺🇸" }, { name: "Netherlands", flag: "🇳🇱" },
+    ],
+    universitiesByBudget: {
+      1: ["Aalto University (Finland)", "Malmö University (Sweden)", "University of Skövde (Sweden)", "Breda University of Applied Sciences (Netherlands)"],
+      2: ["Abertay University (UK)", "University of the Arts London (UK)", "Queensland University of Technology (Australia)", "NSCAD University (Canada)"],
+      3: ["DigiPen Institute of Technology (USA)", "Ringling College of Art and Design (USA)", "Goldsmiths, University of London (UK)", "USC School of Cinematic Arts (USA)"],
+    },
+    pathways: [
+      { name: "Studio Game Development", description: "Work within a game studio as a designer, developer, or artist.", roles: ["Junior Game Designer", "Level Designer", "Senior Game Designer", "Creative Director"] },
+      { name: "Independent / Indie Development", description: "Build and publish your own games independently.", roles: ["Indie Developer", "Solo Creator", "Game Studio Founder", "Published Game Designer"] },
+      { name: "Interactive Media & XR", description: "Design experiences beyond games: VR, AR, interactive installations, and simulations.", roles: ["XR Designer", "Interactive Media Artist", "UX Designer", "Innovation Lead"] },
+    ],
+    studyCostLabel: "Low–Moderate",
+    studyCostColor: "text-green-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Learn the Tools", focus: ["Install Unity (free) and complete the 'Roll-a-Ball' and 'Karting Microgame' beginner tutorials", "Study basic game design theory: core loops, feedback systems, and player motivation", "Play 3 games critically — write notes on what makes each one enjoyable or frustrating"] },
+      q2: { title: "Apr–Jun: Build Your First Game", focus: ["Build a small complete game from scratch — even a simple puzzle or platformer counts", "Learn the basics of C# scripting in Unity or Blueprints in Unreal (both free)", "Share your game with friends and watch them play without explaining — observe silently"] },
+      q3: { title: "Jul–Sep: Expand Skills", focus: ["Add more mechanics to your game or start a second, more ambitious project", "Study narrative design: how games tell stories through mechanics, not just cutscenes", "Participate in a game jam (itch.io hosts free 48-hour jams monthly) — ship something under pressure"] },
+      q4: { title: "Oct–Dec: Build a Portfolio", focus: ["Polish and publish at least one game on itch.io — free hosting for indie games", "Document your design process: decisions, prototypes, and lessons learned", "Research Game Design programs — many require a portfolio or design documentation for admission"] },
+    },
+    alternativeRoute: { major: "Computer Science & Software Engineering", reason: "If the technical and engineering challenges of game development excite you more than design and narrative, a CS degree with game development electives gives you the deepest technical foundation for the industry." },
+    miniProject: "Build and publish a playable game on itch.io. It could be a text adventure, a simple platformer, or a puzzle. Include a short design document explaining your core mechanic and one decision you made to improve the player experience.",
+  },
+
+  "Nursing & Allied Health": {
+    skills: ["Clinical Assessment & Care Planning", "Patient Communication & Advocacy", "Medical Procedures & Safety", "Evidence-Based Practice", "Interdisciplinary Teamwork"],
+    careers: ["Registered Nurse", "Midwife", "Physiotherapist", "Occupational Therapist", "Paramedic", "Nurse Practitioner / Advanced Practice Nurse"],
+    nextSteps: [
+      "Volunteer at a care home, hospital, or health charity to gain direct patient experience.",
+      "Study Biology and Chemistry — both are required for most nursing and allied health programs.",
+      "Research Nursing, Physiotherapy, Midwifery, or Occupational Therapy programs — many have specific entry requirements and limited places.",
+    ],
+    strengthKeywords: ["compassionate", "resilient", "action-oriented", "patient-centered"],
+    countries: [
+      { name: "United Kingdom", flag: "🇬🇧" }, { name: "Australia", flag: "🇦🇺" },
+      { name: "Canada", flag: "🇨🇦" }, { name: "Ireland", flag: "🇮🇪" },
+      { name: "Netherlands", flag: "🇳🇱" }, { name: "Germany", flag: "🇩🇪" },
+    ],
+    universitiesByBudget: {
+      1: ["HAN University of Applied Sciences (Netherlands)", "Charité Berlin (Germany)", "University of Helsinki (Finland)", "University College Cork (Ireland)"],
+      2: ["University of Toronto (Canada)", "Queensland University of Technology (Australia)", "University of Edinburgh (UK)", "University College Dublin (Ireland)"],
+      3: ["King's College London (UK)", "University of Melbourne (Australia)", "University of Pennsylvania (USA)", "University of Sydney (Australia)", "McMaster University (Canada)"],
+    },
+    pathways: [
+      { name: "Clinical Nursing", description: "Provide direct patient care in hospitals, community settings, or specialist units.", roles: ["Student Nurse", "Registered Nurse", "Senior Nurse / Charge Nurse", "Nurse Consultant / Nurse Practitioner"] },
+      { name: "Allied Health & Therapy", description: "Support patient recovery and wellbeing as a physio, OT, paramedic, or specialist.", roles: ["Allied Health Student", "Physiotherapist / OT", "Senior Clinician", "Department Lead / Specialist"] },
+      { name: "Healthcare Leadership & Policy", description: "Move into management, education, or health policy to improve systems at scale.", roles: ["Charge Nurse / Ward Manager", "Clinical Educator", "Director of Nursing", "Chief Nursing Officer"] },
+    ],
+    studyCostLabel: "Low–Moderate",
+    studyCostColor: "text-green-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Build Foundations", focus: ["Strengthen Biology (anatomy, physiology) — essential for all health programs", "Learn about the nursing and allied health professions: day-in-the-life videos, NMC standards", "Explore the difference between nursing, midwifery, physiotherapy, OT, and paramedicine"] },
+      q2: { title: "Apr–Jun: Gain Experience", focus: ["Volunteer at a care home, hospital, or hospice — even 2 hours/week is valuable", "Shadow a nurse or allied health professional if possible through school or personal connections", "Learn basic first aid (many courses are free or low cost)"] },
+      q3: { title: "Jul–Sep: Develop Soft Skills", focus: ["Practice active listening and communication — essential in all clinical roles", "Reflect on a challenging situation where you supported someone — write about it", "Learn about patient safety: what are the most common clinical errors and how are they prevented?"] },
+      q4: { title: "Oct–Dec: Apply With Purpose", focus: ["Research nursing and allied health programs — many require documented patient experience in your application", "Write a personal statement that shows empathy, resilience, and specific patient-facing examples", "Prepare for any interviews: health programs often test ethical reasoning and communication skills"] },
+    },
+    alternativeRoute: { major: "Medicine & Health Sciences", reason: "If you want greater clinical autonomy, prescribing rights, and diagnostic responsibility, medicine is the natural progression — though it requires a longer training path and higher academic entry requirements." },
+    miniProject: "Spend one day volunteering or shadowing in a healthcare setting. Afterwards, write a one-page reflection: What did you observe? What surprised you? What skill would you most need to develop to work effectively in that environment?",
+  },
+
+  "Marketing & Advertising": {
+    skills: ["Brand Strategy & Positioning", "Consumer Psychology", "Digital Marketing (SEO / Paid Media)", "Campaign Planning & Analytics", "Creative Copywriting"],
+    careers: ["Marketing Manager", "Brand Strategist", "Digital Marketing Specialist", "Advertising Creative", "Market Research Analyst", "Chief Marketing Officer"],
+    nextSteps: [
+      "Complete Google's free Digital Marketing Certificate on Skillshop — it's industry-recognized and practical.",
+      "Launch a social media page or small campaign on a topic you care about and analyze what works.",
+      "Explore Marketing, Advertising, Business, or Communications programs.",
+    ],
+    strengthKeywords: ["persuasive", "creative", "data-driven", "audience-aware"],
+    countries: [
+      { name: "United Kingdom", flag: "🇬🇧" }, { name: "United States", flag: "🇺🇸" },
+      { name: "Netherlands", flag: "🇳🇱" }, { name: "Australia", flag: "🇦🇺" },
+      { name: "Canada", flag: "🇨🇦" }, { name: "Germany", flag: "🇩🇪" },
+    ],
+    universitiesByBudget: {
+      1: ["University of Amsterdam (Netherlands)", "Tilburg University (Netherlands)", "Maastricht University (Netherlands)", "University of Mannheim (Germany)"],
+      2: ["University of Edinburgh (UK)", "University of Melbourne (Australia)", "McGill University (Canada)", "Dublin City University (Ireland)"],
+      3: ["London Business School (UK)", "Northwestern University Kellogg (USA)", "HEC Paris (France)", "University of Oxford (UK)", "New York University Stern (USA)"],
+    },
+    pathways: [
+      { name: "Brand & Strategy", description: "Shape how companies position themselves and connect with their audiences.", roles: ["Marketing Coordinator", "Brand Manager", "Marketing Director", "Chief Marketing Officer"] },
+      { name: "Digital & Performance Marketing", description: "Drive measurable results through SEO, paid media, email, and analytics.", roles: ["Digital Marketing Exec", "PPC / SEO Specialist", "Performance Manager", "Head of Digital"] },
+      { name: "Creative & Advertising", description: "Develop campaigns, copy, and creative concepts that move audiences.", roles: ["Junior Copywriter / Creative", "Advertising Executive", "Creative Director", "Executive Creative Director"] },
+    ],
+    studyCostLabel: "Low–Moderate",
+    studyCostColor: "text-green-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Understand Marketing Basics", focus: ["Complete Google's free Digital Marketing Fundamentals certificate (Skillshop)", "Study one brand you admire — how do they position themselves vs. competitors?", "Learn the 4 Ps of marketing and apply them to a real brand"] },
+      q2: { title: "Apr–Jun: Create & Test", focus: ["Launch a social media account on a topic you care about — grow it intentionally", "Write 10 pieces of copy (ads, captions, taglines) and analyze what performs best", "Learn basic analytics: Google Analytics (free), social media insights, email open rates"] },
+      q3: { title: "Jul–Sep: Study Consumer Psychology", focus: ["Read 'Influence' by Cialdini — understanding persuasion is central to marketing", "Analyze 5 advertising campaigns: what emotional trigger does each one use?", "Learn SEO basics using Moz's free Beginner's Guide to SEO"] },
+      q4: { title: "Oct–Dec: Build a Portfolio", focus: ["Document your campaigns, copy, and analytics results in a marketing portfolio", "Research Marketing, Communications, or Business programs", "Write a personal statement that highlights your creativity, commercial awareness, and analytical approach"] },
+    },
+    alternativeRoute: { major: "Communication & Media Studies", reason: "If you love storytelling and public discourse more than commercial strategy, media studies opens doors in journalism, PR, and content creation — where influence is measured in reach and trust rather than conversion." },
+    miniProject: "Create a mock marketing campaign for a local business or cause you care about. Include: a target audience profile, a key message, two social media posts with visuals, and a one-paragraph rationale explaining why your approach will resonate.",
+  },
+
+  "Linguistics & Translation": {
+    skills: ["Phonology, Syntax & Semantics", "Second Language Acquisition", "Translation Theory & Practice", "Computational Linguistics Basics", "Cross-Cultural Communication"],
+    careers: ["Translator / Interpreter", "Linguistic Researcher", "Language Teacher", "Localization Specialist", "Computational Linguist", "Speech & Language Therapist"],
+    nextSteps: [
+      "Study a second or third language seriously — fluency and cultural insight are the core of this field.",
+      "Read 'The Language Instinct' by Steven Pinker — a fascinating introduction to linguistic science.",
+      "Explore Linguistics, Modern Languages, or Translation programs.",
+    ],
+    strengthKeywords: ["linguistically sharp", "culturally aware", "precise", "analytical"],
+    countries: [
+      { name: "United Kingdom", flag: "🇬🇧" }, { name: "Netherlands", flag: "🇳🇱" },
+      { name: "Germany", flag: "🇩🇪" }, { name: "France", flag: "🇫🇷" },
+      { name: "Canada", flag: "🇨🇦" }, { name: "Switzerland", flag: "🇨🇭" },
+    ],
+    universitiesByBudget: {
+      1: ["Leiden University (Netherlands)", "Humboldt University Berlin (Germany)", "Uppsala University (Sweden)", "University of Helsinki (Finland)"],
+      2: ["KU Leuven (Belgium)", "University of Edinburgh (UK)", "McGill University (Canada)", "University of Vienna (Austria)"],
+      3: ["University of Cambridge (UK)", "University of Oxford (UK)", "SOAS University of London (UK)", "Georgetown University (USA)", "ETH Zurich (Switzerland)"],
+    },
+    pathways: [
+      { name: "Translation & Interpretation", description: "Bridge language barriers in legal, medical, diplomatic, and literary contexts.", roles: ["Junior Translator", "Conference Interpreter", "Senior Translator", "Head of Translation"] },
+      { name: "Linguistic Research & Academia", description: "Study how language works, evolves, and interacts with cognition and culture.", roles: ["Research Assistant", "PhD Linguist", "Senior Researcher", "Professor of Linguistics"] },
+      { name: "Language Technology", description: "Apply linguistic knowledge to AI, NLP, and computational language systems.", roles: ["Computational Linguist", "NLP Engineer", "Language Data Analyst", "Head of Language Technology"] },
+    ],
+    studyCostLabel: "Low–Moderate",
+    studyCostColor: "text-green-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Explore Language Scientifically", focus: ["Read 'The Language Instinct' (Pinker) or listen to the 'Lingthusiasm' podcast", "Study one linguistic concept per week: phonemes, morphemes, syntax trees, pragmatics", "Choose a language to study seriously and set a weekly practice goal"] },
+      q2: { title: "Apr–Jun: Practice Translation", focus: ["Translate a short article from one language to another and analyze every choice you made", "Compare different published translations of the same text — why did translators choose differently?", "Study a language you find structurally fascinating — Japanese, Arabic, or Finnish for their unique features"] },
+      q3: { title: "Jul–Sep: Connect Language to Technology", focus: ["Explore how AI translation (Google Translate, DeepL) works and where it still fails", "Learn basic Python — it's the gateway to natural language processing (NLP)", "Take a free NLP introduction course (Coursera or fast.ai)"] },
+      q4: { title: "Oct–Dec: Apply With Focus", focus: ["Research Linguistics, Translation, or Modern Languages programs", "Build a small portfolio: translation samples, a linguistic analysis paper, or a language learning journal", "Write a personal statement demonstrating your love of language systems and cross-cultural awareness"] },
+    },
+    alternativeRoute: { major: "International Relations & Global Affairs", reason: "Language and culture are at the heart of diplomacy. If you want to apply your linguistic skills at a political and policy level, international relations values multilingualism and cross-cultural expertise deeply." },
+    miniProject: "Take a 500-word newspaper article and translate it into another language you know — even partially. Then write a one-page reflection: which words were hardest to translate and why? What does that tell you about how language shapes meaning?",
+  },
 };
 
 // ─── Dimension scoring ────────────────────────────────────────────────────────
@@ -500,16 +870,26 @@ function scoreDimensions(a: QuestionnaireAnswers): Dims {
 // ─── Dimension → major score ──────────────────────────────────────────────────
 function dimScores(d: Dims): Record<string, number> {
   return {
-    "Computer Science & Software Engineering": d.technical * 1.5 + d.analytical * 1.0,
-    "Business Administration & Management":   d.business  * 1.5 + d.leadership * 1.2,
-    "Medicine & Health Sciences":             d.social * 0.8 + d.research * 1.3,
-    "Creative Arts & Graphic Design":         d.creative * 1.8,
-    "Environmental Science & Sustainability": d.research * 1.2 + d.social * 0.5,
-    "Psychology & Social Sciences":           d.social * 1.5 + d.analytical * 0.5,
-    "Law & Political Science":                d.analytical * 1.2 + d.social * 0.6 + d.leadership * 0.5,
-    "Mechanical & Civil Engineering":         d.technical * 1.3 + d.analytical * 0.8,
-    "Data Science & Statistics":              d.analytical * 1.5 + d.technical * 0.8 + d.research * 0.6,
-    "Education & Teaching":                   d.social * 1.2 + d.creative * 0.4 + d.leadership * 0.4,
+    "Computer Science & Software Engineering":  d.technical * 1.5 + d.analytical * 1.0,
+    "Business Administration & Management":     d.business  * 1.5 + d.leadership * 1.2,
+    "Medicine & Health Sciences":               d.social * 0.8 + d.research * 1.3,
+    "Creative Arts & Graphic Design":           d.creative * 1.8,
+    "Environmental Science & Sustainability":   d.research * 1.2 + d.social * 0.5,
+    "Psychology & Social Sciences":             d.social * 1.5 + d.analytical * 0.5,
+    "Law & Political Science":                  d.analytical * 1.2 + d.social * 0.6 + d.leadership * 0.5,
+    "Mechanical & Civil Engineering":           d.technical * 1.3 + d.analytical * 0.8,
+    "Data Science & Statistics":                d.analytical * 1.5 + d.technical * 0.8 + d.research * 0.6,
+    "Education & Teaching":                     d.social * 1.2 + d.creative * 0.4 + d.leadership * 0.4,
+    "Finance & Economics":                      d.business * 1.4 + d.analytical * 1.2,
+    "Architecture & Urban Design":              d.creative * 1.2 + d.technical * 1.0 + d.analytical * 0.5,
+    "Pharmacy & Biomedical Sciences":           d.research * 1.2 + d.technical * 0.8 + d.social * 0.5,
+    "Communication & Media Studies":            d.creative * 1.2 + d.social * 1.0,
+    "International Relations & Global Affairs": d.analytical * 1.0 + d.social * 0.8 + d.leadership * 0.8,
+    "Cybersecurity & Network Engineering":      d.technical * 1.4 + d.analytical * 1.0,
+    "Game Design & Interactive Media":          d.creative * 1.3 + d.technical * 0.8,
+    "Nursing & Allied Health":                  d.social * 1.4 + d.research * 0.6,
+    "Marketing & Advertising":                  d.creative * 1.0 + d.business * 1.0 + d.social * 0.5,
+    "Linguistics & Translation":                d.analytical * 0.8 + d.creative * 0.6 + d.social * 0.8,
   };
 }
 
@@ -520,28 +900,28 @@ function kwScores(a: QuestionnaireAnswers): Record<string, number> {
   const { subjects, interests, strengths, workStyle, futureGoals } = a;
 
   subjects.forEach(sub => {
-    if (sub === "Computer Science")        { s["Computer Science & Software Engineering"] += 3; s["Data Science & Statistics"] += 2; }
-    if (sub === "Mathematics")             { s["Computer Science & Software Engineering"] += 2; s["Data Science & Statistics"] += 2; s["Mechanical & Civil Engineering"] += 1; }
-    if (sub === "Physics")                 { s["Mechanical & Civil Engineering"] += 2; s["Computer Science & Software Engineering"] += 1; }
-    if (sub === "Chemistry")               { s["Medicine & Health Sciences"] += 2; s["Environmental Science & Sustainability"] += 1; }
-    if (sub === "Biology")                 { s["Medicine & Health Sciences"] += 3; s["Environmental Science & Sustainability"] += 1; s["Psychology & Social Sciences"] += 1; }
-    if (sub === "History")                 { s["Law & Political Science"] += 2; s["Psychology & Social Sciences"] += 1; }
-    if (sub === "Economics")               { s["Business Administration & Management"] += 2; s["Data Science & Statistics"] += 1; s["Law & Political Science"] += 1; }
-    if (sub === "Art / Design")            { s["Creative Arts & Graphic Design"] += 3; s["Education & Teaching"] += 1; }
-    if (sub === "Literature / Languages")  { s["Law & Political Science"] += 2; s["Education & Teaching"] += 1; s["Psychology & Social Sciences"] += 1; }
+    if (sub === "Computer Science")        { s["Computer Science & Software Engineering"] += 3; s["Data Science & Statistics"] += 2; s["Cybersecurity & Network Engineering"] += 2; s["Game Design & Interactive Media"] += 1; }
+    if (sub === "Mathematics")             { s["Computer Science & Software Engineering"] += 2; s["Data Science & Statistics"] += 2; s["Mechanical & Civil Engineering"] += 1; s["Finance & Economics"] += 2; }
+    if (sub === "Physics")                 { s["Mechanical & Civil Engineering"] += 2; s["Computer Science & Software Engineering"] += 1; s["Architecture & Urban Design"] += 1; }
+    if (sub === "Chemistry")               { s["Medicine & Health Sciences"] += 2; s["Environmental Science & Sustainability"] += 1; s["Pharmacy & Biomedical Sciences"] += 3; s["Nursing & Allied Health"] += 1; }
+    if (sub === "Biology")                 { s["Medicine & Health Sciences"] += 3; s["Environmental Science & Sustainability"] += 1; s["Psychology & Social Sciences"] += 1; s["Pharmacy & Biomedical Sciences"] += 2; s["Nursing & Allied Health"] += 2; }
+    if (sub === "History")                 { s["Law & Political Science"] += 2; s["Psychology & Social Sciences"] += 1; s["International Relations & Global Affairs"] += 2; }
+    if (sub === "Economics")               { s["Business Administration & Management"] += 2; s["Data Science & Statistics"] += 1; s["Law & Political Science"] += 1; s["Finance & Economics"] += 3; s["International Relations & Global Affairs"] += 1; s["Marketing & Advertising"] += 1; }
+    if (sub === "Art / Design")            { s["Creative Arts & Graphic Design"] += 3; s["Education & Teaching"] += 1; s["Architecture & Urban Design"] += 2; s["Game Design & Interactive Media"] += 2; s["Marketing & Advertising"] += 1; }
+    if (sub === "Literature / Languages")  { s["Law & Political Science"] += 2; s["Education & Teaching"] += 1; s["Psychology & Social Sciences"] += 1; s["Linguistics & Translation"] += 3; s["Communication & Media Studies"] += 2; s["International Relations & Global Affairs"] += 1; }
   });
 
   interests.forEach(i => {
-    if (i === "Building technology & software")         { s["Computer Science & Software Engineering"] += 3; s["Data Science & Statistics"] += 2; s["Mechanical & Civil Engineering"] += 1; }
-    if (i === "Launching businesses & startups")        { s["Business Administration & Management"] += 3; s["Law & Political Science"] += 1; }
-    if (i === "Creating visual art & design")           { s["Creative Arts & Graphic Design"] += 3; s["Education & Teaching"] += 1; }
-    if (i === "Advancing science through research")     { s["Medicine & Health Sciences"] += 2; s["Data Science & Statistics"] += 2; s["Environmental Science & Sustainability"] += 1; }
-    if (i === "Helping people with health & wellbeing") { s["Medicine & Health Sciences"] += 3; s["Psychology & Social Sciences"] += 1; }
+    if (i === "Building technology & software")         { s["Computer Science & Software Engineering"] += 3; s["Data Science & Statistics"] += 2; s["Mechanical & Civil Engineering"] += 1; s["Cybersecurity & Network Engineering"] += 2; s["Game Design & Interactive Media"] += 1; }
+    if (i === "Launching businesses & startups")        { s["Business Administration & Management"] += 3; s["Law & Political Science"] += 1; s["Finance & Economics"] += 2; s["Marketing & Advertising"] += 2; }
+    if (i === "Creating visual art & design")           { s["Creative Arts & Graphic Design"] += 3; s["Education & Teaching"] += 1; s["Architecture & Urban Design"] += 2; s["Game Design & Interactive Media"] += 2; s["Marketing & Advertising"] += 1; }
+    if (i === "Advancing science through research")     { s["Medicine & Health Sciences"] += 2; s["Data Science & Statistics"] += 2; s["Environmental Science & Sustainability"] += 1; s["Pharmacy & Biomedical Sciences"] += 2; }
+    if (i === "Helping people with health & wellbeing") { s["Medicine & Health Sciences"] += 3; s["Psychology & Social Sciences"] += 1; s["Nursing & Allied Health"] += 3; s["Pharmacy & Biomedical Sciences"] += 2; }
     if (i === "Shaping minds through education")        { s["Education & Teaching"] += 3; s["Psychology & Social Sciences"] += 1; }
-    if (i === "Defending justice & policy")             { s["Law & Political Science"] += 3; s["Psychology & Social Sciences"] += 1; }
+    if (i === "Defending justice & policy")             { s["Law & Political Science"] += 3; s["Psychology & Social Sciences"] += 1; s["International Relations & Global Affairs"] += 2; }
     if (i === "Protecting the environment")             { s["Environmental Science & Sustainability"] += 3; s["Medicine & Health Sciences"] += 1; }
-    if (i === "Supporting communities & social causes") { s["Psychology & Social Sciences"] += 3; s["Education & Teaching"] += 1; s["Law & Political Science"] += 1; }
-    if (i === "Engineering innovative systems")         { s["Mechanical & Civil Engineering"] += 3; s["Computer Science & Software Engineering"] += 2; }
+    if (i === "Supporting communities & social causes") { s["Psychology & Social Sciences"] += 3; s["Education & Teaching"] += 1; s["Law & Political Science"] += 1; s["Nursing & Allied Health"] += 2; s["International Relations & Global Affairs"] += 1; s["Communication & Media Studies"] += 1; }
+    if (i === "Engineering innovative systems")         { s["Mechanical & Civil Engineering"] += 3; s["Computer Science & Software Engineering"] += 2; s["Cybersecurity & Network Engineering"] += 1; s["Architecture & Urban Design"] += 1; }
   });
 
   strengths.forEach(st => {
@@ -583,31 +963,51 @@ function buildWhyItMatches(major: Major, a: QuestionnaireAnswers): string[] {
   const reasons: string[] = [];
 
   const subjectMap: Partial<Record<Major, string[]>> = {
-    "Computer Science & Software Engineering": ["Computer Science", "Mathematics", "Physics"],
-    "Business Administration & Management":   ["Economics"],
-    "Medicine & Health Sciences":             ["Biology", "Chemistry"],
-    "Creative Arts & Graphic Design":         ["Art / Design"],
-    "Environmental Science & Sustainability": ["Biology", "Chemistry", "Geography"],
-    "Psychology & Social Sciences":           ["Biology", "History", "Literature / Languages"],
-    "Law & Political Science":                ["History", "Literature / Languages", "Economics"],
-    "Mechanical & Civil Engineering":         ["Physics", "Mathematics"],
-    "Data Science & Statistics":              ["Mathematics", "Computer Science", "Economics"],
-    "Education & Teaching":                   ["Literature / Languages", "Art / Design"],
+    "Computer Science & Software Engineering":  ["Computer Science", "Mathematics", "Physics"],
+    "Business Administration & Management":     ["Economics"],
+    "Medicine & Health Sciences":               ["Biology", "Chemistry"],
+    "Creative Arts & Graphic Design":           ["Art / Design"],
+    "Environmental Science & Sustainability":   ["Biology", "Chemistry", "Geography"],
+    "Psychology & Social Sciences":             ["Biology", "History", "Literature / Languages"],
+    "Law & Political Science":                  ["History", "Literature / Languages", "Economics"],
+    "Mechanical & Civil Engineering":           ["Physics", "Mathematics"],
+    "Data Science & Statistics":                ["Mathematics", "Computer Science", "Economics"],
+    "Education & Teaching":                     ["Literature / Languages", "Art / Design"],
+    "Finance & Economics":                      ["Economics", "Mathematics"],
+    "Architecture & Urban Design":              ["Art / Design", "Physics", "Mathematics"],
+    "Pharmacy & Biomedical Sciences":           ["Chemistry", "Biology"],
+    "Communication & Media Studies":            ["Literature / Languages"],
+    "International Relations & Global Affairs": ["History", "Literature / Languages", "Economics"],
+    "Cybersecurity & Network Engineering":      ["Computer Science", "Mathematics"],
+    "Game Design & Interactive Media":          ["Computer Science", "Art / Design"],
+    "Nursing & Allied Health":                  ["Biology", "Chemistry"],
+    "Marketing & Advertising":                  ["Economics", "Art / Design"],
+    "Linguistics & Translation":                ["Literature / Languages"],
   };
   const matchedSubs = (subjectMap[major] ?? []).filter(s => subjects.includes(s));
   if (matchedSubs.length > 0) reasons.push(`Your strength in ${matchedSubs.join(" and ")} forms a natural foundation for this field.`);
 
   const interestMap: Partial<Record<Major, string[]>> = {
-    "Computer Science & Software Engineering": ["Building technology & software", "Engineering innovative systems"],
-    "Business Administration & Management":   ["Launching businesses & startups"],
-    "Medicine & Health Sciences":             ["Helping people with health & wellbeing", "Advancing science through research"],
-    "Creative Arts & Graphic Design":         ["Creating visual art & design"],
-    "Environmental Science & Sustainability": ["Protecting the environment", "Advancing science through research"],
-    "Psychology & Social Sciences":           ["Supporting communities & social causes", "Shaping minds through education"],
-    "Law & Political Science":                ["Defending justice & policy"],
-    "Mechanical & Civil Engineering":         ["Engineering innovative systems"],
-    "Data Science & Statistics":              ["Building technology & software", "Advancing science through research"],
-    "Education & Teaching":                   ["Shaping minds through education", "Supporting communities & social causes"],
+    "Computer Science & Software Engineering":  ["Building technology & software", "Engineering innovative systems"],
+    "Business Administration & Management":     ["Launching businesses & startups"],
+    "Medicine & Health Sciences":               ["Helping people with health & wellbeing", "Advancing science through research"],
+    "Creative Arts & Graphic Design":           ["Creating visual art & design"],
+    "Environmental Science & Sustainability":   ["Protecting the environment", "Advancing science through research"],
+    "Psychology & Social Sciences":             ["Supporting communities & social causes", "Shaping minds through education"],
+    "Law & Political Science":                  ["Defending justice & policy"],
+    "Mechanical & Civil Engineering":           ["Engineering innovative systems"],
+    "Data Science & Statistics":                ["Building technology & software", "Advancing science through research"],
+    "Education & Teaching":                     ["Shaping minds through education", "Supporting communities & social causes"],
+    "Finance & Economics":                      ["Launching businesses & startups", "Advancing science through research"],
+    "Architecture & Urban Design":              ["Creating visual art & design", "Engineering innovative systems"],
+    "Pharmacy & Biomedical Sciences":           ["Helping people with health & wellbeing", "Advancing science through research"],
+    "Communication & Media Studies":            ["Creating visual art & design", "Supporting communities & social causes"],
+    "International Relations & Global Affairs": ["Defending justice & policy", "Supporting communities & social causes"],
+    "Cybersecurity & Network Engineering":      ["Building technology & software", "Engineering innovative systems"],
+    "Game Design & Interactive Media":          ["Creating visual art & design", "Building technology & software"],
+    "Nursing & Allied Health":                  ["Helping people with health & wellbeing", "Supporting communities & social causes"],
+    "Marketing & Advertising":                  ["Launching businesses & startups", "Creating visual art & design"],
+    "Linguistics & Translation":                ["Supporting communities & social causes", "Defending justice & policy"],
   };
   const matchedInt = (interestMap[major] ?? []).filter(i => interests.includes(i));
   if (matchedInt.length > 0) reasons.push(`Your genuine interest in ${matchedInt[0].toLowerCase()} reflects what this major is about at its core.`);
@@ -654,16 +1054,26 @@ export function getProfileType(a: QuestionnaireAnswers): ProfileType {
 // ─── Hidden match ─────────────────────────────────────────────────────────────
 function buildHiddenMatch(top3majors: string[], combined: Record<string, number>): HiddenMatch {
   const HIDDEN_FLAVORS: Record<Major, { reason: string; icon: string; tag: string }> = {
-    "Computer Science & Software Engineering": { reason: "Your analytical thinking and love for solving problems map naturally to software — even if you've never thought of yourself as a 'coder'.", icon: "💻", tag: "Unexpected Tech Path" },
-    "Business Administration & Management":   { reason: "Your ability to lead, organise, and communicate is the backbone of great business leadership — you might be a natural entrepreneur.", icon: "📊", tag: "Hidden Leader" },
-    "Medicine & Health Sciences":             { reason: "Your empathy and curiosity about people and science make medicine a surprisingly strong fit — it's not just for textbook learners.", icon: "🩺", tag: "Surprising Science Match" },
-    "Creative Arts & Graphic Design":         { reason: "Your creative and visual thinking could thrive in design — a field that values exactly the kind of original expression you might underestimate in yourself.", icon: "🎨", tag: "Overlooked Creative Path" },
-    "Environmental Science & Sustainability": { reason: "If you care about the future, environmental science lets you combine science, data, and purpose into a powerful career direction.", icon: "🌍", tag: "Purpose-Driven Surprise" },
-    "Psychology & Social Sciences":           { reason: "Your people insight and observational mind are core to psychology — a versatile field that opens doors in health, business, and research.", icon: "🧠", tag: "People Science Path" },
-    "Law & Political Science":                { reason: "Your analytical and communication skills are exactly what the legal and policy world needs — even if it feels distant from your current path.", icon: "⚖️", tag: "Unexpected Advocacy Match" },
-    "Mechanical & Civil Engineering":         { reason: "Your hands-on mindset and love for understanding how things work makes engineering a surprisingly natural fit.", icon: "⚙️", tag: "Builder's Hidden Path" },
-    "Data Science & Statistics":              { reason: "Your pattern-seeking, analytical mind is exactly what drives successful data scientists — you may already think like one.", icon: "📈", tag: "The Data Mind" },
-    "Education & Teaching":                   { reason: "Your communication skills and genuine care for others means you have the innate qualities of an exceptional teacher or mentor.", icon: "📚", tag: "Natural Educator" },
+    "Computer Science & Software Engineering":  { reason: "Your analytical thinking and love for solving problems map naturally to software — even if you've never thought of yourself as a 'coder'.", icon: "💻", tag: "Unexpected Tech Path" },
+    "Business Administration & Management":     { reason: "Your ability to lead, organise, and communicate is the backbone of great business leadership — you might be a natural entrepreneur.", icon: "📊", tag: "Hidden Leader" },
+    "Medicine & Health Sciences":               { reason: "Your empathy and curiosity about people and science make medicine a surprisingly strong fit — it's not just for textbook learners.", icon: "🩺", tag: "Surprising Science Match" },
+    "Creative Arts & Graphic Design":           { reason: "Your creative and visual thinking could thrive in design — a field that values exactly the kind of original expression you might underestimate in yourself.", icon: "🎨", tag: "Overlooked Creative Path" },
+    "Environmental Science & Sustainability":   { reason: "If you care about the future, environmental science lets you combine science, data, and purpose into a powerful career direction.", icon: "🌍", tag: "Purpose-Driven Surprise" },
+    "Psychology & Social Sciences":             { reason: "Your people insight and observational mind are core to psychology — a versatile field that opens doors in health, business, and research.", icon: "🧠", tag: "People Science Path" },
+    "Law & Political Science":                  { reason: "Your analytical and communication skills are exactly what the legal and policy world needs — even if it feels distant from your current path.", icon: "⚖️", tag: "Unexpected Advocacy Match" },
+    "Mechanical & Civil Engineering":           { reason: "Your hands-on mindset and love for understanding how things work makes engineering a surprisingly natural fit.", icon: "⚙️", tag: "Builder's Hidden Path" },
+    "Data Science & Statistics":                { reason: "Your pattern-seeking, analytical mind is exactly what drives successful data scientists — you may already think like one.", icon: "📈", tag: "The Data Mind" },
+    "Education & Teaching":                     { reason: "Your communication skills and genuine care for others means you have the innate qualities of an exceptional teacher or mentor.", icon: "📚", tag: "Natural Educator" },
+    "Finance & Economics":                      { reason: "Your analytical thinking and attention to patterns could translate powerfully into economics and finance — you may have an investor's mind without realizing it.", icon: "💰", tag: "Hidden Finance Mind" },
+    "Architecture & Urban Design":              { reason: "Your combination of creative vision and spatial thinking could make architecture a surprisingly natural fit — it's design thinking applied to the physical world.", icon: "🏛️", tag: "Hidden Space Designer" },
+    "Pharmacy & Biomedical Sciences":           { reason: "Your scientific curiosity and care for others could make pharmacy a strong fit — it sits at the intersection of science and patient care.", icon: "💊", tag: "Surprising Science Path" },
+    "Communication & Media Studies":            { reason: "Your ability to connect with people and express ideas could make media and communications an unexpected but powerful match.", icon: "📱", tag: "Hidden Storyteller" },
+    "International Relations & Global Affairs": { reason: "Your analytical mind and global curiosity might make you a natural diplomat or policy analyst — someone who sees the bigger picture.", icon: "🌐", tag: "Global Thinker" },
+    "Cybersecurity & Network Engineering":      { reason: "Your problem-solving instincts and technical curiosity make cybersecurity a surprisingly strong match — it's detective work for the digital age.", icon: "🔒", tag: "Hidden Security Mind" },
+    "Game Design & Interactive Media":          { reason: "Your creative thinking and love for systems make game design an unexpected but powerful fit — games are one of the most complex creative mediums there is.", icon: "🎮", tag: "Hidden Game Designer" },
+    "Nursing & Allied Health":                  { reason: "Your empathy and action-oriented nature could make nursing or allied health a deeply fulfilling path — you'd thrive where every action directly helps someone.", icon: "🏥", tag: "Hidden Carer" },
+    "Marketing & Advertising":                  { reason: "Your creativity and people-reading skills could make marketing a surprisingly strong fit — the best marketers are part psychologist, part storyteller.", icon: "📣", tag: "Hidden Marketer" },
+    "Linguistics & Translation":                { reason: "Your love of communication and patterns in language may run deeper than you think — linguistics is the science of how humans connect across barriers.", icon: "🗣️", tag: "Hidden Language Mind" },
   };
 
   const sorted = Object.entries(combined)
