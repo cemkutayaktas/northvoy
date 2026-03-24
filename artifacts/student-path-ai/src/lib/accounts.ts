@@ -13,7 +13,7 @@ export interface Account {
   id: string;
   username: string;
   email: string;
-  password: string;
+  passwordHash: string;
   createdAt: string;
   savedResult: SavedResult | null;
   savedGoals: string[];
@@ -23,6 +23,45 @@ export interface Account {
 const ACCOUNTS_KEY = "northpath_accounts";
 const CURRENT_KEY = "northpath_current_account";
 
+// ─── Password hashing (SHA-256 via SubtleCrypto) ─────────────────────────────
+async function hashPassword(password: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password + "northpath_salt_2026");
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+// ─── Email validation ────────────────────────────────────────────────────────
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+export function isValidEmail(email: string): boolean {
+  return EMAIL_REGEX.test(email.trim());
+}
+
+// ─── Password validation ─────────────────────────────────────────────────────
+export interface PasswordCheck {
+  valid: boolean;
+  minLength: boolean;
+  hasUppercase: boolean;
+  hasLowercase: boolean;
+  hasNumber: boolean;
+}
+
+export function checkPassword(password: string): PasswordCheck {
+  const minLength = password.length >= 8;
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasLowercase = /[a-z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  return {
+    valid: minLength && hasUppercase && hasLowercase && hasNumber,
+    minLength,
+    hasUppercase,
+    hasLowercase,
+    hasNumber,
+  };
+}
+
+// ─── Storage helpers ─────────────────────────────────────────────────────────
 function loadAccounts(): Account[] {
   try {
     const d = localStorage.getItem(ACCOUNTS_KEY);
@@ -51,16 +90,37 @@ export function setCurrentAccount(id: string | null) {
   else localStorage.removeItem(CURRENT_KEY);
 }
 
-export function registerAccount(username: string, email: string, password: string): { ok: boolean; error?: string; account?: Account } {
+export async function registerAccount(username: string, email: string, password: string): Promise<{ ok: boolean; error?: string; account?: Account }> {
+  const trimmedEmail = email.trim().toLowerCase();
+
+  // Validate email format
+  if (!isValidEmail(trimmedEmail)) {
+    return { ok: false, error: "Please enter a valid email address." };
+  }
+
+  // Validate password strength
+  const pwCheck = checkPassword(password);
+  if (!pwCheck.valid) {
+    return { ok: false, error: "Password must be at least 8 characters with 1 uppercase, 1 lowercase, and 1 number." };
+  }
+
+  // Check duplicate email
   const accounts = loadAccounts();
-  if (accounts.find(a => a.email.toLowerCase() === email.toLowerCase())) {
+  if (accounts.find(a => a.email === trimmedEmail)) {
     return { ok: false, error: "An account with this email already exists." };
   }
+
+  // Validate username
+  if (!username.trim() || username.trim().length < 2) {
+    return { ok: false, error: "Username must be at least 2 characters." };
+  }
+
+  const hashed = await hashPassword(password);
   const account: Account = {
     id: Math.random().toString(36).slice(2) + Date.now().toString(36),
     username: username.trim(),
-    email: email.trim().toLowerCase(),
-    password,
+    email: trimmedEmail,
+    passwordHash: hashed,
     createdAt: new Date().toISOString(),
     savedResult: null,
     savedGoals: [],
@@ -72,11 +132,30 @@ export function registerAccount(username: string, email: string, password: strin
   return { ok: true, account };
 }
 
-export function loginAccount(email: string, password: string): { ok: boolean; error?: string; account?: Account } {
+export async function loginAccount(email: string, password: string): Promise<{ ok: boolean; error?: string; account?: Account }> {
   const accounts = loadAccounts();
-  const account = accounts.find(a => a.email.toLowerCase() === email.toLowerCase());
+  const trimmedEmail = email.trim().toLowerCase();
+  const account = accounts.find(a => a.email === trimmedEmail);
   if (!account) return { ok: false, error: "No account found with this email." };
-  if (account.password !== password) return { ok: false, error: "Incorrect password." };
+
+  const hashed = await hashPassword(password);
+
+  // Support both old plaintext (legacy) and new hashed passwords
+  const passwordMatch = account.passwordHash === hashed
+    || (account as any).password === password; // Legacy fallback
+
+  if (!passwordMatch) return { ok: false, error: "Incorrect password." };
+
+  // Migrate legacy plaintext password to hashed
+  if ((account as any).password && !account.passwordHash) {
+    const idx = accounts.findIndex(a => a.id === account.id);
+    if (idx !== -1) {
+      accounts[idx] = { ...accounts[idx], passwordHash: hashed };
+      delete (accounts[idx] as any).password;
+      saveAccounts(accounts);
+    }
+  }
+
   setCurrentAccount(account.id);
   return { ok: true, account };
 }

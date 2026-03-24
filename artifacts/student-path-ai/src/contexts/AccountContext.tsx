@@ -7,8 +7,8 @@ import {
 
 interface AccountContextValue {
   account: Account | null;
-  login: (email: string, password: string) => { ok: boolean; error?: string };
-  register: (username: string, email: string, password: string) => { ok: boolean; error?: string };
+  login: (email: string, password: string) => Promise<{ ok: boolean; error?: string }>;
+  register: (username: string, email: string, password: string) => Promise<{ ok: boolean; error?: string }>;
   logout: () => void;
   saveResult: (data: SavedResult) => void;
   setGoals: (goals: string[]) => void;
@@ -25,14 +25,14 @@ export function AccountProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => { refresh(); }, [refresh]);
 
-  const login = useCallback((email: string, password: string) => {
-    const res = loginAccount(email, password);
+  const login = useCallback(async (email: string, password: string) => {
+    const res = await loginAccount(email, password);
     if (res.ok && res.account) setAccount(res.account);
     return { ok: res.ok, error: res.error };
   }, []);
 
-  const register = useCallback((username: string, email: string, password: string) => {
-    const res = registerAccount(username, email, password);
+  const register = useCallback(async (username: string, email: string, password: string) => {
+    const res = await registerAccount(username, email, password);
     if (res.ok && res.account) setAccount(res.account);
     return { ok: res.ok, error: res.error };
   }, []);

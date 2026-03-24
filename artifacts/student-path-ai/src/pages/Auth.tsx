@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { useAccount } from "@/contexts/AccountContext";
 import { useLang } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { UserCircle, Mail, Lock, User, Eye, EyeOff, Compass, ArrowLeft } from "lucide-react";
+import { UserCircle, Mail, Lock, User, Eye, EyeOff, Compass, ArrowLeft, Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { checkPassword, isValidEmail } from "@/lib/accounts";
 
 type Tab = "login" | "register";
 
@@ -55,17 +56,20 @@ function LoginForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     if (!email.trim() || !password) { setError(t("auth.errorFillAll")); return; }
     setLoading(true);
-    setTimeout(() => {
-      const res = login(email, password);
-      setLoading(false);
+    try {
+      const res = await login(email, password);
       if (res.ok) setLocation("/account");
       else setError(res.error ?? t("auth.errorLoginFailed"));
-    }, 400);
+    } catch {
+      setError(t("auth.errorLoginFailed"));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -79,6 +83,43 @@ function LoginForm() {
         {loading ? t("auth.btnSigningIn") : t("auth.btnSignIn")}
       </Button>
     </form>
+  );
+}
+
+function PasswordStrength({ password }: { password: string }) {
+  const { t } = useLang();
+  const check = useMemo(() => checkPassword(password), [password]);
+
+  if (!password) return null;
+
+  const rules = [
+    { key: "minLength", label: t("auth.pwRuleMinLength"), met: check.minLength },
+    { key: "hasUppercase", label: t("auth.pwRuleUppercase"), met: check.hasUppercase },
+    { key: "hasLowercase", label: t("auth.pwRuleLowercase"), met: check.hasLowercase },
+    { key: "hasNumber", label: t("auth.pwRuleNumber"), met: check.hasNumber },
+  ];
+
+  const metCount = rules.filter(r => r.met).length;
+  const barColor = metCount <= 1 ? "bg-red-500" : metCount <= 2 ? "bg-orange-500" : metCount <= 3 ? "bg-yellow-500" : "bg-emerald-500";
+
+  return (
+    <div className="space-y-2 mt-1.5">
+      {/* Strength bar */}
+      <div className="flex gap-1">
+        {[0, 1, 2, 3].map(i => (
+          <div key={i} className={cn("h-1 flex-1 rounded-full transition-colors", i < metCount ? barColor : "bg-border")} />
+        ))}
+      </div>
+      {/* Rule checklist */}
+      <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
+        {rules.map(r => (
+          <div key={r.key} className={cn("flex items-center gap-1 text-[11px] transition-colors", r.met ? "text-emerald-600 dark:text-emerald-400" : "text-muted-foreground")}>
+            {r.met ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
+            {r.label}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -97,32 +138,39 @@ function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
   const validate = () => {
     const e: Record<string, string> = {};
     if (!username.trim() || username.trim().length < 2) e.username = t("auth.errorUsernameMin");
-    if (!email.trim() || !email.includes("@")) e.email = t("auth.errorEmailInvalid");
-    if (password.length < 6) e.password = t("auth.errorPasswordMin");
+    if (!email.trim() || !isValidEmail(email)) e.email = t("auth.errorEmailInvalid");
+    const pwCheck = checkPassword(password);
+    if (!pwCheck.valid) e.password = t("auth.errorPasswordRequirements");
     if (password !== confirm) e.confirm = t("auth.errorPasswordMatch");
     return e;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setGlobalError("");
     const errs = validate();
     setErrors(errs);
     if (Object.keys(errs).length > 0) return;
     setLoading(true);
-    setTimeout(() => {
-      const res = register(username, email, password);
-      setLoading(false);
+    try {
+      const res = await register(username, email, password);
       if (res.ok) setLocation("/account");
       else setGlobalError(res.error ?? t("auth.errorRegisterFailed"));
-    }, 400);
+    } catch {
+      setGlobalError(t("auth.errorRegisterFailed"));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <Field label={t("auth.labelUsername")} type="text" value={username} onChange={setUsername} icon={User} placeholder={t("auth.placeholderUsername")} error={errors.username} />
       <Field label={t("auth.labelEmail")} type="email" value={email} onChange={setEmail} icon={Mail} placeholder={t("auth.placeholderEmail")} error={errors.email} />
-      <Field label={t("auth.labelPassword")} type="password" value={password} onChange={setPassword} icon={Lock} placeholder={t("auth.placeholderPasswordNew")} error={errors.password} />
+      <div>
+        <Field label={t("auth.labelPassword")} type="password" value={password} onChange={setPassword} icon={Lock} placeholder={t("auth.placeholderPasswordNew")} error={errors.password} />
+        <PasswordStrength password={password} />
+      </div>
       <Field label={t("auth.labelConfirmPassword")} type="password" value={confirm} onChange={setConfirm} icon={Lock} placeholder={t("auth.placeholderPasswordRepeat")} error={errors.confirm} />
       {globalError && (
         <div className="rounded-xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 px-4 py-3 text-sm text-red-700 dark:text-red-300">{globalError}</div>
