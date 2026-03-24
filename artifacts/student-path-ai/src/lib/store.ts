@@ -69,12 +69,12 @@ export interface ProfileType {
   color: string;
 }
 
-const STORAGE_KEY_ANSWERS  = "student_path_answers";
-const STORAGE_KEY_RESULTS  = "student_path_results";
-const STORAGE_KEY_PROFILE  = "student_path_profile";
-const STORAGE_KEY_HIDDEN   = "student_path_hidden";
-const STORAGE_KEY_WHYNOT   = "student_path_whynot";
-const STORAGE_KEY_CONSENT  = "student_path_consent";
+const STORAGE_KEY_ANSWERS  = "northpath_answers";
+const STORAGE_KEY_RESULTS  = "northpath_results";
+const STORAGE_KEY_PROFILE  = "northpath_profile";
+const STORAGE_KEY_HIDDEN   = "northpath_hidden";
+const STORAGE_KEY_WHYNOT   = "northpath_whynot";
+const STORAGE_KEY_CONSENT  = "northpath_consent";
 
 export function saveAnswers(a: QuestionnaireAnswers) { localStorage.setItem(STORAGE_KEY_ANSWERS, JSON.stringify(a)); }
 export function getAnswers(): QuestionnaireAnswers | null { const d = localStorage.getItem(STORAGE_KEY_ANSWERS); return d ? JSON.parse(d) : null; }

@@ -20,8 +20,8 @@ export interface Account {
   preferredCountries: string[];
 }
 
-const ACCOUNTS_KEY = "student_path_accounts";
-const CURRENT_KEY = "student_path_current_account";
+const ACCOUNTS_KEY = "northpath_accounts";
+const CURRENT_KEY = "northpath_current_account";
 
 function loadAccounts(): Account[] {
   try {
