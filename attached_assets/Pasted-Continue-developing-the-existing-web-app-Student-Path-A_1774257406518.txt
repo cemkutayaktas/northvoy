@@ -1,0 +1,27 @@
+Continue developing the existing web app “Student Path AI”. The app already asks users questions and suggests suitable university majors. Now improve it by making the experience more professional, more personalized, and more data-aware, while still keeping it fully functional as a front-end web app with simple rule-based logic.
+
+Before the questionnaire begins, add a clear consent step. The app must first show a short privacy and consent screen explaining that the user’s responses may be collected and analyzed only for educational and project purposes. The user must actively agree before continuing. If the user does not agree, they should not be allowed to proceed to the questionnaire.
+
+Then improve the questionnaire itself so that it feels more personalized and more detailed. Expand the questions to better understand the user’s strongest subjects, academic interests, personal strengths, work style, career preferences, preferred learning environment, interest in research vs industry, leadership level, creativity, communication, technical interest, and future goals. The questions should still be easy to answer and user-friendly, but they should provide broader and more meaningful input for analysis.
+
+Upgrade the results page into a more advanced personalized guidance dashboard. For each recommended major, show:
+1. why it matches the user,
+2. the user’s likely strengths,
+3. skills they should improve,
+4. possible future career paths,
+5. a short recommended action plan,
+6. strong countries for that field,
+7. example universities in those countries.
+
+Do not use live data, external APIs, or real-time rankings. Keep the university and country suggestions based on predefined, well-structured rule-based logic. Present them as strong example options, not absolute best choices.
+
+Also add a student profile type at the top of the results page, such as Analytical Explorer, Creative Strategist, Tech Builder, Business-Oriented Innovator, or Social Problem Solver, based on the overall answer pattern.
+
+Make the analysis feel broader and more intelligent by using more categories and deeper scoring logic behind the scenes. The system should evaluate areas such as analytical thinking, creativity, communication, leadership, research interest, technical orientation, and business interest, then use those scores to generate more refined recommendations.
+
+Add a visible “App Developers” section in the website and clearly display these names:
+Cem Kutay Aktaş
+Doruk Uzer
+Devin Tolun
+
+Design style: modern, clean, polished, and suitable for a university portfolio. The app should look more advanced than a basic student quiz, but it should not become overly complex. Focus on creating a professional, impressive, and personalized experience while keeping the logic simple, structured, and fully front-end.

@@ -1,0 +1,17 @@
+Continue developing the existing web app from its current state without rebuilding it from scratch. The project name must now be changed everywhere from “Student Path AI” to “NorthPath AI”. Update the app title, visible headings, branding text, and any related labels so the new name is consistently used across the entire website.
+
+This update should focus on fixing two important issues in the current version:
+
+1. Translation system fix:
+The multilingual system is currently incomplete because some parts of the website are not being translated when the user switches languages. Fix the translation system so that the full interface is translated correctly in all supported languages. Make sure that all visible text across the website changes properly, including navigation items, buttons, section titles, cards, results content, labels, forms, settings, developer section, and any interactive result areas. The language switcher should work consistently and the selected language should apply to the full page, not only part of the content.
+
+2. Dark mode fix:
+When dark mode is enabled, some white boxes, cards, and content sections do not adapt correctly, which reduces readability and visibility. Fix the dark mode styling so that all cards, containers, boxes, panels, and text elements automatically adjust to dark mode in a clean and readable way. Make sure there is strong contrast, good visibility, and a polished appearance in both light mode and dark mode. No section should remain bright white in dark mode unless it is intentionally styled and still fully readable.
+
+Important requirements:
+- Continue from the current version of the app.
+- Do not remove or break existing working features.
+- Do not redesign the whole product unnecessarily.
+- Focus on fixing and polishing the current implementation.
+- Keep the interface modern, clean, professional, and suitable for a university portfolio.
+- Make sure the final result feels complete, consistent, and visually balanced in all languages and in both light and dark modes.

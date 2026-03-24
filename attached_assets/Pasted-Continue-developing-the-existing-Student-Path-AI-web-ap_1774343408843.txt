@@ -1,0 +1,18 @@
+Continue developing the existing “Student Path AI” web app from its current working state. Do not rebuild it from scratch. The app already includes the questionnaire, personalized major matching, pathway guidance, country and university direction, multilingual support, shareable results, and the other completed features. This update should focus on improving functionality and making the platform feel more complete and useful.
+
+1. Fix the PDF export system:
+The current PDF feature is not working correctly. Replace or improve it so the user can download their full results as a clean, properly formatted PDF report. The PDF should not be a broken or cut-off screenshot of the page. It should generate a structured full-page report that includes the user’s profile type, top recommended majors, comparison summary, next 12 months plan, hidden match, why not section, pathway explorer, mini project suggestions, and country/university recommendations. The final PDF should look polished, readable, and suitable for saving or sharing.
+
+2. Add account creation and saving features:
+Introduce a simple account system so users can sign up, log in, and save their goals, preferences, and plans. Users should be able to return later and access their saved results and progress. Keep this system clean and user-friendly. The saved information should include at least their latest result, selected interests, saved goals, preferred countries, and personal development plan.
+
+3. Add country-specific university exploration:
+Improve the university recommendation feature so that after receiving a recommended major, the user can choose a specific country and then view 5 strong universities for that field in that country. Keep this logic structured and predefined rather than dependent on live data or external ranking APIs. Present the universities as strong example options for that field in the selected country, not as absolute real-time rankings.
+
+Important requirements:
+- Continue from the current version of the project.
+- Do not remove existing working features.
+- Do not redesign the app unnecessarily.
+- Integrate these additions cleanly into the existing interface.
+- Keep the design modern, organized, polished, and suitable for a university portfolio.
+- Make sure the new systems feel complete, functional, and well integrated into the current product.

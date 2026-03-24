@@ -1,0 +1,19 @@
+Continue developing the existing web app “Student Path AI”. The app already provides personalized major suggestions, strong countries for each field, and example universities. Now expand it into a more advanced student decision-support platform while keeping it fully functional as a front-end web app with simple structured logic.
+
+First, improve the questionnaire system. The current questions are still too general. Redesign them so they feel more personal, insightful, and engaging, while still remaining short, simple, and easy to answer. The questions should help the app better understand the user’s academic strengths, personal development, interests, motivation, work style, creativity, leadership, communication, analytical thinking, research vs industry preference, practical vs theoretical preference, future goals, and budget sensitivity. Use short, human-friendly, scenario-based multiple-choice questions so users do not get bored while answering. Keep the questionnaire around 10 to 14 questions and include a progress bar.
+
+Then expand the results page into a cleaner and more powerful guidance dashboard. The layout should stay organized, section-based, and visually polished so that the page does not feel crowded. Use cards, tabs, accordions, or expandable sections if needed.
+
+Add these new features to the results experience:
+1. Compare My Options: allow the user to compare their top recommended majors side by side in a clear and useful way.
+2. Next 12 Months Plan: provide a practical one-year development plan with suggested skills, project ideas, and useful next steps based on the user’s top match.
+3. Hidden Match: include one surprising but logical field the user may not have considered.
+4. Why Not: briefly explain why some common fields were not among the user’s strongest matches.
+5. Pathway Explorer: show how each recommended major can lead to different future careers or directions.
+6. Budget Direction: use simple categories such as budget-sensitive, moderate flexibility, or open to expensive options, and reflect this in university or country suggestions.
+
+Also make the recommendation logic broader and smarter behind the scenes. Use deeper scoring categories such as analytical thinking, creativity, leadership, communication, technical interest, business interest, research orientation, practical orientation, and financial flexibility to generate more refined outputs. Do not use live data, external APIs, or real-time rankings. Keep everything rule-based and structured.
+
+You may also include a simple confidence indicator for each result, such as Strong Match, Good Match, or Exploratory Match.
+
+Design style: modern, clean, professional, and suitable for a university portfolio. The app should feel significantly more advanced than a basic student quiz, but it should still remain user-friendly, visually balanced, and not overly complex.

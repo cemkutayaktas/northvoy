@@ -1,0 +1,16 @@
+packages:
+  "framer-motion": "For smooth, modern page transitions and interactive element animations matching the futuristic aesthetic."
+  "clsx": "For conditional class name joining."
+  "tailwind-merge": "For merging tailwind classes safely."
+
+images:
+  - path: "artifacts/student-path-ai/public/images/hero-bg.png"
+    description: "Abstract, soft futuristic 3D shapes floating in a clean, bright, light-blue and white space. Minimalist, professional, academic but modern."
+    aspect_ratio: "16:9"
+  - path: "artifacts/student-path-ai/public/images/about-illustration.png"
+    description: "A clean, minimalist 3D illustration showing diverse glowing paths diverging from a central point, symbolizing career choices. Soft blues, teals, and white."
+    aspect_ratio: "4:3"
+
+notes:
+  - "App is entirely frontend-based, no backend APIs required."
+  - "State for the questionnaire is managed via React state and persisted to localStorage upon completion to pass to the Results page."

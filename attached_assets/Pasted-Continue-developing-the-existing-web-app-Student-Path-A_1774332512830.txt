@@ -1,0 +1,34 @@
+Continue developing the existing web app “Student Path AI”. The app is already functioning well as a personalized student decision-support platform, so this next update should focus on making it feel more complete, polished, and product-like while keeping it fully functional as a front-end web app with structured rule-based logic.
+
+Add the following new features:
+
+1. Alternative Route:
+For each top recommended major, include a related alternative path that still matches the user’s profile but from a slightly different angle. This should help users understand that there can be more than one good academic route for them. The alternative should feel logical and helpful, not random.
+
+2. Mini Project Suggestions:
+For each recommended major, add a short practical project idea the user could try in order to test their interest and start building relevant experience. These suggestions should be realistic, beginner-friendly, and portfolio-oriented.
+
+3. Multilanguage Support:
+Add a language switcher in the top-right corner of the website so users can easily switch between English, Turkish, and German. The app should provide full versions of the interface and content in all three languages. The language switcher should be clean, simple, and always visible in the top-right area of the layout.
+
+4. Shareable Results:
+Make the results page shareable. Users should be able to copy or share a link to their result view in a simple way. Keep this lightweight and user-friendly.
+
+5. Light / Dark Mode:
+Add a clean light mode and dark mode toggle. It should improve the user experience and make the site feel more modern and complete.
+
+Important design and UX requirements:
+- Keep the interface clean, modern, polished, and suitable for a university portfolio.
+- Do not let the results page become cluttered. Organize information carefully using sections, cards, tabs, or expandable areas if needed.
+- Make the new features feel integrated into the current product instead of looking like disconnected add-ons.
+- Prioritize clarity, simplicity, and professional presentation.
+
+Also update the “App Developers” section and clearly display these four names:
+- Cem Kutay Aktaş
+- Doruk Uzer
+- Devin Tolun
+- Can Dalkıran
+
+Can Dalkıran should be added as the fourth developer and assigned the remaining unassigned role so that the developer roles appear complete and balanced across the team.
+
+Keep the project visually impressive, easy to navigate, and more like a real student guidance platform than a basic quiz website.
