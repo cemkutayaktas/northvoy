@@ -138,6 +138,7 @@ function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [globalError, setGlobalError] = useState("");
+  const [confirmationSent, setConfirmationSent] = useState(false);
 
   const validate = () => {
     const e: Record<string, string> = {};
@@ -158,14 +159,34 @@ function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
     setLoading(true);
     try {
       const res = await register(username, email, password);
-      if (res.ok) setLocation("/account");
-      else setGlobalError(res.error ?? t("auth.errorRegisterFailed"));
+      if (res.ok) {
+        if (res.requiresConfirmation) setConfirmationSent(true);
+        else setLocation("/account");
+      } else setGlobalError(res.error ?? t("auth.errorRegisterFailed"));
     } catch {
       setGlobalError(t("auth.errorRegisterFailed"));
     } finally {
       setLoading(false);
     }
   };
+
+  if (confirmationSent) {
+    return (
+      <div className="text-center space-y-4 py-4">
+        <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto">
+          <Mail className="w-7 h-7 text-primary" />
+        </div>
+        <div className="space-y-1">
+          <p className="font-semibold text-foreground">{t("auth.confirmEmailTitle")}</p>
+          <p className="text-sm text-muted-foreground">{t("auth.confirmEmailDesc")} <strong>{email}</strong></p>
+        </div>
+        <p className="text-xs text-muted-foreground">{t("auth.confirmEmailNote")}</p>
+        <Button variant="outline" className="w-full" onClick={() => setConfirmationSent(false)}>
+          {t("auth.btnBackToSignUp")}
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -219,7 +240,7 @@ function ForgotPasswordForm({ onBack }: { onBack: () => void }) {
         </div>
         <div className="space-y-1">
           <p className="font-semibold text-foreground">{t("auth.resetEmailSent")}</p>
-          <p className="text-sm text-muted-foreground">{t("auth.resetEmailSentDesc")}</p>
+          <p className="text-sm text-muted-foreground">{t("auth.resetEmailSentDesc")} <strong>{email}</strong></p>
         </div>
         <Button onClick={onBack} className="w-full" size="lg">{t("auth.btnBackToLogin")}</Button>
       </div>

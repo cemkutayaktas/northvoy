@@ -35,7 +35,7 @@ interface AccountContextValue {
   account: Account | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<{ ok: boolean; error?: string }>;
-  register: (username: string, email: string, password: string) => Promise<{ ok: boolean; error?: string }>;
+  register: (username: string, email: string, password: string) => Promise<{ ok: boolean; requiresConfirmation?: boolean; error?: string }>;
   logout: () => void;
   saveResult: (data: SavedResult) => void;
   setGoals: (goals: string[]) => void;
@@ -120,13 +120,18 @@ export function AccountProvider({ children }: { children: ReactNode }) {
     if (!pwCheck.valid)
       return { ok: false, error: "Password must be at least 8 characters with 1 uppercase, 1 lowercase, and 1 number." };
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email: email.trim(),
       password,
-      options: { data: { username: username.trim() } },
+      options: {
+        data: { username: username.trim() },
+        emailRedirectTo: `${window.location.origin}/auth`,
+      },
     });
     if (error) return { ok: false, error: error.message };
-    return { ok: true };
+    // If session is null, Supabase requires email confirmation
+    const requiresConfirmation = !data.session;
+    return { ok: true, requiresConfirmation };
   }, []);
 
   const logout = useCallback(async () => {
