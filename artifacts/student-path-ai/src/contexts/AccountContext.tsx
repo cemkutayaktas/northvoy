@@ -58,7 +58,24 @@ async function fetchAccountData(user: User): Promise<Account | null> {
     supabase.from("user_data").select("saved_result, goals, preferred_countries").eq("id", user.id).single(),
   ]);
 
-  if (profileRes.error || !profileRes.data) return null;
+  // If profile doesn't exist (e.g. signed up before trigger was created), auto-create it
+  if (profileRes.error || !profileRes.data) {
+    const fallbackUsername = user.user_metadata?.username
+      ?? user.email?.split("@")[0]
+      ?? "User";
+    await Promise.all([
+      supabase.from("profiles").upsert({ id: user.id, username: fallbackUsername }),
+      supabase.from("user_data").upsert({ id: user.id }),
+    ]);
+    return {
+      id: user.id,
+      username: fallbackUsername,
+      email: user.email ?? "",
+      savedResult: null,
+      savedGoals: [],
+      preferredCountries: [],
+    };
+  }
 
   return {
     id: user.id,
