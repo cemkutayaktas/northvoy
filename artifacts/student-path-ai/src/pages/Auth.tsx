@@ -5,7 +5,7 @@ import { useAccount } from "@/contexts/AccountContext";
 import { useLang } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { UserCircle, Mail, Lock, User, Eye, EyeOff, Compass, ArrowLeft, Check, X } from "lucide-react";
+import { UserCircle, Mail, Lock, User, Eye, EyeOff, Compass, ArrowLeft, Check, X, KeyRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { checkPassword, isValidEmail } from "@/lib/accounts";
 
