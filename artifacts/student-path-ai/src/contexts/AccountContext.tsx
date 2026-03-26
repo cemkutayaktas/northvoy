@@ -130,7 +130,6 @@ export function AccountProvider({ children }: { children: ReactNode }) {
     // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session?.user) {
-        setLoading(true);
         await loadAccount(session.user);
       } else {
         setAccount(null);
@@ -147,8 +146,13 @@ export function AccountProvider({ children }: { children: ReactNode }) {
   }, [loadAccount]);
 
   const login = useCallback(async (email: string, password: string) => {
+    setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-    if (error) return { ok: false, error: error.message };
+    if (error) {
+      setLoading(false);
+      return { ok: false, error: error.message };
+    }
+    // loading stays true — onAuthStateChange will call setLoading(false) after account loads
     return { ok: true };
   }, []);
 
