@@ -12,6 +12,16 @@ export interface SavedResult {
   savedAt: string;
 }
 
+export interface ApplicationDeadline {
+  id: string;
+  university: string;
+  program: string;
+  deadline: string; // ISO date string (YYYY-MM-DD)
+  status: "planning" | "in-progress" | "submitted" | "accepted" | "rejected";
+  notes?: string;
+  createdAt: string;
+}
+
 export interface Account {
   id: string;
   username: string;
@@ -19,6 +29,7 @@ export interface Account {
   savedResult: SavedResult | null;
   savedGoals: string[];
   preferredCountries: string[];
+  deadlines: ApplicationDeadline[];
 }
 
 export interface ExportedData {
@@ -40,6 +51,7 @@ interface AccountContextValue {
   saveResult: (data: SavedResult) => void;
   setGoals: (goals: string[]) => void;
   setPreferredCountries: (countries: string[]) => void;
+  setDeadlines: (deadlines: ApplicationDeadline[]) => void;
   changePass: (currentPassword: string, newPassword: string) => Promise<{ ok: boolean; error?: string }>;
   exportData: () => ExportedData | null;
   importData: (data: ExportedData) => Promise<{ ok: boolean; error?: string }>;
@@ -55,7 +67,7 @@ const AccountContext = createContext<AccountContextValue | null>(null);
 async function fetchAccountData(user: User): Promise<Account | null> {
   const [profileRes, dataRes] = await Promise.all([
     supabase.from("profiles").select("username").eq("id", user.id).single(),
-    supabase.from("user_data").select("saved_result, goals, preferred_countries").eq("id", user.id).single(),
+    supabase.from("user_data").select("saved_result, goals, preferred_countries, deadlines").eq("id", user.id).single(),
   ]);
 
   // If profile doesn't exist (e.g. signed up before trigger was created), auto-create it
@@ -74,6 +86,7 @@ async function fetchAccountData(user: User): Promise<Account | null> {
       savedResult: null,
       savedGoals: [],
       preferredCountries: [],
+      deadlines: [],
     };
   }
 
@@ -84,6 +97,7 @@ async function fetchAccountData(user: User): Promise<Account | null> {
     savedResult: dataRes.data?.saved_result ?? null,
     savedGoals: dataRes.data?.goals ?? [],
     preferredCountries: dataRes.data?.preferred_countries ?? [],
+    deadlines: dataRes.data?.deadlines ?? [],
   };
 }
 
@@ -193,6 +207,16 @@ export function AccountProvider({ children }: { children: ReactNode }) {
     setAccount(prev => prev ? { ...prev, preferredCountries: countries } : null);
   }, [account]);
 
+  const setDeadlines = useCallback(async (deadlines: ApplicationDeadline[]) => {
+    if (!account) return;
+    await supabase.from("user_data").upsert({
+      id: account.id,
+      deadlines,
+      updated_at: new Date().toISOString(),
+    });
+    setAccount(prev => prev ? { ...prev, deadlines } : null);
+  }, [account]);
+
   const changePass = useCallback(async (currentPassword: string, newPassword: string) => {
     if (!account) return { ok: false, error: "Not logged in." };
     const pwCheck = checkPassword(newPassword);
@@ -292,7 +316,7 @@ export function AccountProvider({ children }: { children: ReactNode }) {
     <AccountContext.Provider value={{
       account, loading,
       login, register, logout,
-      saveResult, setGoals, setPreferredCountries,
+      saveResult, setGoals, setPreferredCountries, setDeadlines,
       changePass, exportData, importData,
       forgotPassword, updateUser, updateUserEmail, deleteAcc,
       refresh,

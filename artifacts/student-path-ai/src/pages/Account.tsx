@@ -10,11 +10,12 @@ import {
   UserCircle, LogOut, BookMarked, Target, Globe, ChevronRight,
   Star, Sparkles, Plus, X, CheckCircle2, Trophy,
   Settings, Lock, Download, Upload, Check, Trash2, Mail, AtSign,
+  CalendarDays, Clock, AlertTriangle, GraduationCap, Edit2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { checkPassword } from "@/lib/accounts";
 import { saveResults, saveProfile, saveHiddenMatch, saveWhyNot, saveAnswers } from "@/lib/store";
-import type { ExportedData } from "@/contexts/AccountContext";
+import type { ExportedData, ApplicationDeadline } from "@/contexts/AccountContext";
 
 const GOAL_SUGGESTIONS = [
   "Research at least 3 universities offering my top major",
@@ -457,7 +458,229 @@ function DangerZone() {
 }
 
 
-type Section = "results" | "goals" | "countries" | "settings";
+// ─── Deadline Tracker ─────────────────────────────────────────────────────────
+const STATUS_CONFIG: Record<ApplicationDeadline["status"], { label: string; color: string; bg: string }> = {
+  "planning":    { label: "Planning",    color: "text-slate-600",   bg: "bg-slate-100 border-slate-200"   },
+  "in-progress": { label: "In Progress", color: "text-blue-600",    bg: "bg-blue-50 border-blue-200"      },
+  "submitted":   { label: "Submitted",   color: "text-violet-600",  bg: "bg-violet-50 border-violet-200"  },
+  "accepted":    { label: "Accepted",    color: "text-emerald-600", bg: "bg-emerald-50 border-emerald-200" },
+  "rejected":    { label: "Rejected",    color: "text-red-500",     bg: "bg-red-50 border-red-200"        },
+};
+
+function daysUntil(dateStr: string): number {
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const deadline = new Date(dateStr + "T00:00:00");
+  return Math.round((deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+}
+
+function UrgencyBadge({ days }: { days: number }) {
+  if (days < 0)  return <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 border border-slate-200">Passed</span>;
+  if (days === 0) return <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-600 border border-red-200 animate-pulse">Today!</span>;
+  if (days <= 7)  return <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-600 border border-red-200">{days}d left</span>;
+  if (days <= 30) return <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 border border-amber-200">{days}d left</span>;
+  return <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-700 border border-green-200">{days}d left</span>;
+}
+
+const EMPTY_FORM = { university: "", program: "", deadline: "", status: "planning" as ApplicationDeadline["status"], notes: "" };
+
+function DeadlineTracker() {
+  const { account, setDeadlines } = useAccount();
+  const deadlines = account?.deadlines ?? [];
+  const [showForm, setShowForm] = useState(false);
+  const [editId, setEditId] = useState<string | null>(null);
+  const [form, setForm] = useState(EMPTY_FORM);
+  const [saving, setSaving] = useState(false);
+
+  const sorted = [...deadlines].sort((a, b) => {
+    const da = daysUntil(a.deadline), db = daysUntil(b.deadline);
+    // Upcoming first, then passed (most recent pass last)
+    if (da >= 0 && db < 0) return -1;
+    if (da < 0 && db >= 0) return 1;
+    return da - db;
+  });
+
+  const openAdd = () => { setForm(EMPTY_FORM); setEditId(null); setShowForm(true); };
+  const openEdit = (d: ApplicationDeadline) => {
+    setForm({ university: d.university, program: d.program, deadline: d.deadline, status: d.status, notes: d.notes ?? "" });
+    setEditId(d.id);
+    setShowForm(true);
+  };
+
+  const handleSave = async () => {
+    if (!form.university.trim() || !form.program.trim() || !form.deadline) return;
+    setSaving(true);
+    let updated: ApplicationDeadline[];
+    if (editId) {
+      updated = deadlines.map(d => d.id === editId ? { ...d, ...form } : d);
+    } else {
+      const newEntry: ApplicationDeadline = { ...form, id: crypto.randomUUID(), createdAt: new Date().toISOString() };
+      updated = [...deadlines, newEntry];
+    }
+    await setDeadlines(updated);
+    setSaving(false);
+    setShowForm(false);
+    setEditId(null);
+    setForm(EMPTY_FORM);
+  };
+
+  const handleDelete = async (id: string) => {
+    await setDeadlines(deadlines.filter(d => d.id !== id));
+  };
+
+  const handleStatusChange = async (id: string, status: ApplicationDeadline["status"]) => {
+    await setDeadlines(deadlines.map(d => d.id === id ? { ...d, status } : d));
+  };
+
+  return (
+    <div className="space-y-4">
+      {/* Header row */}
+      <div className="flex items-center justify-between">
+        <p className="text-xs text-muted-foreground">Track your application deadlines and stay organized.</p>
+        <Button size="sm" onClick={openAdd} className="shrink-0">
+          <Plus className="w-3.5 h-3.5 mr-1.5" /> Add Deadline
+        </Button>
+      </div>
+
+      {/* Add/Edit Form */}
+      {showForm && (
+        <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
+          className="rounded-xl border border-primary/30 bg-primary/5 p-4 space-y-3">
+          <p className="text-sm font-semibold">{editId ? "Edit Deadline" : "Add New Deadline"}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs font-medium text-muted-foreground mb-1 block">University *</label>
+              <input value={form.university} onChange={e => setForm(f => ({ ...f, university: e.target.value }))}
+                placeholder="e.g. TU Munich"
+                className="w-full h-9 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-muted-foreground mb-1 block">Program *</label>
+              <input value={form.program} onChange={e => setForm(f => ({ ...f, program: e.target.value }))}
+                placeholder="e.g. MSc Computer Science"
+                className="w-full h-9 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-muted-foreground mb-1 block">Deadline Date *</label>
+              <input type="date" value={form.deadline} onChange={e => setForm(f => ({ ...f, deadline: e.target.value }))}
+                className="w-full h-9 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-muted-foreground mb-1 block">Status</label>
+              <select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value as ApplicationDeadline["status"] }))}
+                className="w-full h-9 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                {Object.entries(STATUS_CONFIG).map(([k, v]) => (
+                  <option key={k} value={k}>{v.label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div>
+            <label className="text-xs font-medium text-muted-foreground mb-1 block">Notes (optional)</label>
+            <input value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
+              placeholder="e.g. Need recommendation letters, IELTS score required"
+              className="w-full h-9 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+          </div>
+          <div className="flex gap-2">
+            <Button size="sm" onClick={handleSave} disabled={saving || !form.university.trim() || !form.program.trim() || !form.deadline}>
+              <Check className="w-3.5 h-3.5 mr-1.5" /> {saving ? "Saving…" : editId ? "Update" : "Save"}
+            </Button>
+            <Button size="sm" variant="outline" onClick={() => { setShowForm(false); setEditId(null); }}>
+              Cancel
+            </Button>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Empty state */}
+      {sorted.length === 0 && !showForm && (
+        <div className="text-center py-10 text-muted-foreground">
+          <CalendarDays className="w-10 h-10 mx-auto mb-3 opacity-30" />
+          <p className="text-sm font-medium">No deadlines yet</p>
+          <p className="text-xs mt-1">Add your university application deadlines to stay on track.</p>
+        </div>
+      )}
+
+      {/* Deadline list */}
+      {sorted.length > 0 && (
+        <div className="space-y-2">
+          {sorted.map(d => {
+            const days = daysUntil(d.deadline);
+            const statusCfg = STATUS_CONFIG[d.status];
+            const isPast = days < 0;
+            return (
+              <motion.div key={d.id} layout
+                className={cn("rounded-xl border p-4 transition-opacity", isPast ? "opacity-60" : "")}>
+                <div className="flex items-start gap-3">
+                  {/* Icon */}
+                  <div className={cn("w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5",
+                    days <= 7 && days >= 0 ? "bg-red-100" : days <= 30 && days >= 0 ? "bg-amber-100" : "bg-muted")}>
+                    {days <= 7 && days >= 0
+                      ? <AlertTriangle className="w-4 h-4 text-red-500" />
+                      : <GraduationCap className="w-4 h-4 text-muted-foreground" />}
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2 mb-0.5">
+                      <p className="text-sm font-semibold truncate">{d.university}</p>
+                      <UrgencyBadge days={days} />
+                    </div>
+                    <p className="text-xs text-muted-foreground truncate">{d.program}</p>
+                    <div className="flex flex-wrap items-center gap-2 mt-2">
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                        <Clock className="w-3 h-3" />
+                        {new Date(d.deadline + "T00:00:00").toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" })}
+                      </div>
+                      {/* Inline status selector */}
+                      <select
+                        value={d.status}
+                        onChange={e => handleStatusChange(d.id, e.target.value as ApplicationDeadline["status"])}
+                        className={cn("text-[10px] font-bold px-2 py-0.5 rounded-full border cursor-pointer focus:outline-none", statusCfg.bg, statusCfg.color)}>
+                        {Object.entries(STATUS_CONFIG).map(([k, v]) => (
+                          <option key={k} value={k}>{v.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                    {d.notes && <p className="text-xs text-muted-foreground mt-1.5 italic">📝 {d.notes}</p>}
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex items-center gap-1 shrink-0">
+                    <button onClick={() => openEdit(d)}
+                      className="p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
+                      <Edit2 className="w-3.5 h-3.5" />
+                    </button>
+                    <button onClick={() => handleDelete(d.id)}
+                      className="p-1.5 rounded-lg hover:bg-red-50 text-muted-foreground hover:text-red-500 transition-colors">
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Summary footer */}
+      {sorted.length > 0 && (
+        <div className="flex flex-wrap gap-3 pt-2 border-t border-border/40 text-xs text-muted-foreground">
+          {Object.entries(STATUS_CONFIG).map(([k, v]) => {
+            const count = deadlines.filter(d => d.status === k).length;
+            if (count === 0) return null;
+            return (
+              <span key={k} className={cn("px-2 py-0.5 rounded-full border font-medium", v.bg, v.color)}>
+                {v.label}: {count}
+              </span>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+type Section = "results" | "goals" | "countries" | "deadlines" | "settings";
 
 export default function Account() {
   const { account, logout } = useAccount();
@@ -471,10 +694,11 @@ export default function Account() {
   }
 
   const NAV: { id: Section; label: string; icon: React.ElementType }[] = [
-    { id: "results", label: t("account.navSavedResults"), icon: Star },
-    { id: "goals", label: t("account.navGoals"), icon: Target },
-    { id: "countries", label: t("account.navCountries"), icon: Globe },
-    { id: "settings", label: t("account.navSettings"), icon: Settings },
+    { id: "results",   label: t("account.navSavedResults"), icon: Star },
+    { id: "goals",     label: t("account.navGoals"),        icon: Target },
+    { id: "countries", label: t("account.navCountries"),    icon: Globe },
+    { id: "deadlines", label: "Deadlines",                  icon: CalendarDays },
+    { id: "settings",  label: t("account.navSettings"),     icon: Settings },
   ];
 
   const STATS = [
@@ -568,6 +792,16 @@ export default function Account() {
                   <h2 className="font-display font-bold text-base">{t("account.navCountries")}</h2>
                 </div>
                 <CountryPicker />
+              </>
+            )}
+
+            {section === "deadlines" && (
+              <>
+                <div className="flex items-center gap-2 mb-5">
+                  <CalendarDays className="w-4 h-4 text-primary" />
+                  <h2 className="font-display font-bold text-base">Application Deadlines</h2>
+                </div>
+                <DeadlineTracker />
               </>
             )}
 
