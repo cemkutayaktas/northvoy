@@ -52,11 +52,24 @@ export default function ResetPassword() {
 
   const pwCheck = useMemo(() => checkPassword(password), [password]);
 
-  // Supabase sends the recovery token in the URL hash — it sets the session automatically
+  // Supabase v2 PKCE flow: reset link arrives as ?code=... query param
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) setSessionReady(true);
-    });
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+
+    if (code) {
+      // Exchange PKCE code for a session
+      supabase.auth.exchangeCodeForSession(code).then(({ data }) => {
+        if (data.session) setSessionReady(true);
+        // Remove the code from the URL so it can't be reused
+        window.history.replaceState({}, "", window.location.pathname);
+      });
+    } else {
+      // Fallback: session may already exist (e.g. implicit flow or page refresh)
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session) setSessionReady(true);
+      });
+    }
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session) setSessionReady(true);
