@@ -823,10 +823,21 @@ function ScholarshipFinder() {
 type Section = "results" | "goals" | "countries" | "deadlines" | "scholarships" | "settings";
 
 export default function Account() {
-  const { account, logout } = useAccount();
+  const { account, loading, logout } = useAccount();
   const { t } = useLang();
   const [, setLocation] = useLocation();
   const [section, setSection] = useState<Section>("results");
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3 text-muted-foreground">
+          <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+          <p className="text-sm">Loading your account…</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!account) {
     setLocation("/auth");

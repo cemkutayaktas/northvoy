@@ -364,8 +364,40 @@ export const QS_RANKINGS: Record<string, number | null> = {
   "RMIT University": 186,
 };
 
+// Aliases for names in matching.ts that differ from QS_RANKINGS keys
+const QS_ALIASES: Record<string, string> = {
+  "Carnegie Mellon":           "Carnegie Mellon University",
+  "TU Munich":                 "TU Munich (TUM)",
+  "University College London": "UCL",
+  "ANU":                       "ANU",
+  "Wharton School, UPenn":     "Wharton School (UPenn)",
+  "Harvard Business School":   "Harvard Business School",
+  "London Business School":    "London Business School",
+  "INSEAD":                    "INSEAD (Fontainebleau)",
+  "University of St. Gallen":  "University of St. Gallen (HSG)",
+};
+
 export function getQSRank(universityName: string): number | null {
-  return QS_RANKINGS[universityName] ?? null;
+  // 1. Exact match
+  if (universityName in QS_RANKINGS) return QS_RANKINGS[universityName];
+
+  // 2. Strip trailing " (Country...)" or " (info)" suffix, e.g. "MIT (USA)" → "MIT"
+  const stripped = universityName.replace(/\s*\([^)]*\)\s*$/, "").trim();
+  if (stripped !== universityName && stripped in QS_RANKINGS) return QS_RANKINGS[stripped];
+
+  // 3. Check aliases on stripped name
+  if (QS_ALIASES[stripped]) {
+    const aliased = QS_ALIASES[stripped];
+    if (aliased in QS_RANKINGS) return QS_RANKINGS[aliased];
+  }
+
+  // 4. Check aliases on original name
+  if (QS_ALIASES[universityName]) {
+    const aliased = QS_ALIASES[universityName];
+    if (aliased in QS_RANKINGS) return QS_RANKINGS[aliased];
+  }
+
+  return null;
 }
 
 export function getRankLabel(rank: number): string {
