@@ -64,14 +64,14 @@ interface AccountContextValue {
 
 const AccountContext = createContext<AccountContextValue | null>(null);
 
-async function fetchAccountData(user: User): Promise<Account | null> {
+async function fetchAccountData(user: User): Promise<Account> {
   const [profileRes, dataRes] = await Promise.all([
     supabase.from("profiles").select("username").eq("id", user.id).single(),
     supabase.from("user_data").select("saved_result, goals, preferred_countries, deadlines").eq("id", user.id).single(),
-  ]);
+  ]).catch(() => [null, null] as const);
 
-  // If profile doesn't exist (e.g. signed up before trigger was created), auto-create it
-  if (profileRes.error || !profileRes.data) {
+  // If profile doesn't exist or network error, return fallback
+  if (!profileRes || profileRes.error || !profileRes.data) {
     const fallbackUsername = user.user_metadata?.username
       ?? user.email?.split("@")[0]
       ?? "User";
@@ -105,9 +105,10 @@ export function AccountProvider({ children }: { children: ReactNode }) {
   const [account, setAccount] = useState<Account | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const loadAccount = useCallback(async (user: User) => {
+  const loadAccount = useCallback(async (user: User): Promise<Account> => {
     const data = await fetchAccountData(user);
     setAccount(data);
+    return data;
   }, []);
 
   useEffect(() => {
@@ -152,13 +153,15 @@ export function AccountProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(async (email: string, password: string) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+      const { data, error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
       if (error) return { ok: false, error: error.message };
+      // Load account immediately so Auth.tsx can redirect as soon as login() returns
+      if (data.user) await loadAccount(data.user);
       return { ok: true };
     } catch {
       return { ok: false, error: "Network error. Please check your connection and try again." };
     }
-  }, []);
+  }, [loadAccount]);
 
   const register = useCallback(async (username: string, email: string, password: string) => {
     if (!username.trim() || username.trim().length < 2)
