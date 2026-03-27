@@ -3,7 +3,7 @@ import {
   HiddenMatch, WhyNotEntry, PathwayBranch, TwelveMonthPlan, AlternativeRoute,
 } from "./store";
 
-const MAJORS = [
+export const MAJORS = [
   "Computer Science & Software Engineering",
   "Business Administration & Management",
   "Medicine & Health Sciences",
@@ -25,7 +25,7 @@ const MAJORS = [
   "Marketing & Advertising",
   "Linguistics & Translation",
 ] as const;
-type Major = (typeof MAJORS)[number];
+export type Major = (typeof MAJORS)[number];
 
 // ─── Budget tiers ─────────────────────────────────────────────────────────────
 type BudgetTier = 1 | 2 | 3;
@@ -37,7 +37,7 @@ function getBudgetTier(budgetLevel: string): BudgetTier {
 }
 
 // ─── Per-major static data ────────────────────────────────────────────────────
-interface MajorData {
+export interface MajorData {
   skills: string[];
   careers: string[];
   nextSteps: string[];
@@ -52,7 +52,7 @@ interface MajorData {
   miniProject: string;
 }
 
-const MAJOR_DATA: Record<Major, MajorData> = {
+export const MAJOR_DATA: Record<Major, MajorData> = {
 
   "Computer Science & Software Engineering": {
     skills: ["Algorithms & Data Structures", "System Design", "Version Control (Git)", "Cloud Architecture", "Agile Development"],

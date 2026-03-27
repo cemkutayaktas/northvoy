@@ -15,6 +15,8 @@ import About from "@/pages/About";
 import Auth from "@/pages/Auth";
 import Account from "@/pages/Account";
 import ResetPassword from "@/pages/ResetPassword";
+import Compare from "@/pages/Compare";
+import Tracker from "@/pages/Tracker";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -42,6 +44,8 @@ function Router() {
           <Route path="/auth" component={Auth} />
           <Route path="/account" component={Account} />
           <Route path="/reset-password" component={ResetPassword} />
+          <Route path="/compare" component={Compare} />
+          <Route path="/tracker" component={Tracker} />
           <Route component={NotFound} />
         </Switch>
       </main>

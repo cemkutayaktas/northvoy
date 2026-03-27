@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Compass, Sun, Moon, ChevronDown, Globe, UserCircle, LogOut, Menu, X } from "lucide-react";
+import { Compass, Sun, Moon, ChevronDown, Globe, UserCircle, LogOut, Menu, X, SplitSquareHorizontal, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLang } from "@/contexts/LanguageContext";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -39,6 +39,7 @@ export function Navbar() {
   const links = [
     { href: "/", label: t("nav.home") },
     { href: "/questionnaire", label: t("nav.quiz") },
+    { href: "/compare", label: "Compare" },
     { href: "/about", label: t("nav.about") },
   ];
 
@@ -137,6 +138,10 @@ export function Navbar() {
                       className="flex items-center gap-2.5 px-3 py-2 text-sm text-foreground hover:bg-muted transition-colors">
                       <UserCircle className="w-4 h-4" /> {t("account.myAccount")}
                     </Link>
+                    <Link href="/tracker" onClick={() => setAccountOpen(false)}
+                      className="flex items-center gap-2.5 px-3 py-2 text-sm text-foreground hover:bg-muted transition-colors">
+                      <TrendingUp className="w-4 h-4" /> Application Tracker
+                    </Link>
                     <button
                       onClick={() => { logout(); setAccountOpen(false); }}
                       className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors">
@@ -197,6 +202,11 @@ export function Navbar() {
                   className="flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium text-foreground hover:bg-muted transition-colors">
                   <UserCircle className="w-4 h-4 text-primary" />
                   {account.username} — {t("account.myAccount")}
+                </Link>
+                <Link href="/tracker"
+                  className="flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium text-foreground hover:bg-muted transition-colors">
+                  <TrendingUp className="w-4 h-4 text-emerald-500" />
+                  Application Tracker
                 </Link>
                 <button
                   onClick={() => { logout(); setMobileOpen(false); }}
