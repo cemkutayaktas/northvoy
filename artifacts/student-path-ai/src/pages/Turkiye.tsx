@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
-  TURKISH_UNIVERSITIES, ABROAD_SCHOLARSHIPS, YKS_MAJOR_MAPPINGS, YKS_TYPE_INFO,
+  TURKISH_UNIVERSITIES, ABROAD_SCHOLARSHIPS, YKS_MAJOR_MAP, YKS_TYPE_INFO,
   type YKSType, type TurkishUniversity, type AbroadScholarship,
 } from "@/lib/turkiye";
 import {
@@ -249,7 +249,7 @@ export default function Turkiye() {
     (city === "All" || u.city === city)
   );
 
-  const mappings = showAllMap ? YKS_MAJOR_MAPPINGS : YKS_MAJOR_MAPPINGS.slice(0, 8);
+  const mappings = showAllMap ? YKS_MAJOR_MAP : YKS_MAJOR_MAP.slice(0, 8);
 
   return (
     <div className="min-h-screen pt-24 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -375,7 +375,7 @@ export default function Turkiye() {
                     className="w-full flex items-center justify-center gap-2 py-3 text-xs font-semibold text-primary hover:bg-primary/5 transition-colors border-t border-border/40">
                     {showAllMap
                       ? <><ChevronUp className="w-3.5 h-3.5" /> {L.showLess}</>
-                      : <><ChevronDown className="w-3.5 h-3.5" /> {L.showAll} ({YKS_MAJOR_MAPPINGS.length})</>
+                      : <><ChevronDown className="w-3.5 h-3.5" /> {L.showAll} ({YKS_MAJOR_MAP.length})</>
                     }
                   </button>
                 </Card>
