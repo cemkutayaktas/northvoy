@@ -2,23 +2,26 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NorthVoy — Discover Your Ideal University Major</title>
-    <meta name="description" content="NorthVoy helps high school students discover their ideal university major through a smart 9-question quiz. Explore 20+ majors, career paths, and universities across 60+ countries." />
+    <meta name="description" content="Find your ideal university major in 5 minutes. NorthVoy matches high school students with 20+ majors, career paths, and universities across 60+ countries." />
     <meta name="keywords" content="university major quiz, career guidance, NorthVoy, student career test, university path finder, academic guidance, major matching" />
     <meta name="author" content="NorthVoy" />
     <meta name="robots" content="index, follow" />
+    <meta http-equiv="content-language" content="en" />
 
     <!-- Open Graph / Social Sharing -->
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://northvoy.com" />
     <meta property="og:title" content="NorthVoy — Discover Your Ideal University Major" />
     <meta property="og:description" content="Answer 9 questions and get matched with your ideal university major, career paths, and universities worldwide. Free and instant." />
     <meta property="og:site_name" content="NorthVoy" />
+    <meta property="og:locale" content="en_US" />
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="NorthVoy — Discover Your Ideal University Major" />
-    <meta name="twitter:description" content="Answer 9 questions and get matched with your ideal university major, career paths, and universities worldwide." />
+    <meta name="twitter:description" content="Answer 9 questions and get matched with your ideal university major, career paths, and universities worldwide. Free and instant." />
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#2563eb" />
@@ -38,15 +41,51 @@
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "NorthVoy",
-      "description": "Smart academic guidance tool that matches students with their ideal university major through a structured questionnaire.",
+      "url": "https://northvoy.com",
+      "description": "NorthVoy helps high school students discover their ideal university major through a structured 9-question questionnaire. Get personalized recommendations for 20+ academic majors, career paths, skill breakdowns, and universities across 60+ countries.",
       "applicationCategory": "EducationalApplication",
       "operatingSystem": "Web",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      "inLanguage": ["en", "tr", "de"],
+      "audience": { "@type": "EducationalAudience", "educationalRole": "student" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "featureList": [
+        "9-question academic interest quiz",
+        "Matches across 20+ university majors",
+        "Career path recommendations",
+        "University suggestions across 60+ countries",
+        "12-month action plan",
+        "Downloadable PDF report",
+        "Available in English, Turkish, and German"
+      ]
     }
     </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <main style="font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem;">
+        <h1>NorthVoy — Discover Your Ideal University Major</h1>
+        <p>NorthVoy is a free academic guidance tool for high school students. Answer 9 questions about your subjects, interests, strengths, and goals — and get matched with the university majors that fit you best.</p>
+        <h2>How It Works</h2>
+        <ol>
+          <li><strong>Answer 9 Questions</strong> — Tell us about your favorite subjects, interests, strengths, and career preferences.</li>
+          <li><strong>Get Matched Instantly</strong> — Our scoring engine ranks your best-fit majors from a list of 20+ academic fields.</li>
+          <li><strong>Explore Your Results</strong> — Dive into career paths, universities in 60+ countries, a 12-month action plan, and download a PDF report.</li>
+        </ol>
+        <h2>Academic Majors Covered</h2>
+        <p>Computer Science, Business Administration, Medicine, Creative Arts, Environmental Science, Psychology, Law, Engineering, Data Science, Education, Finance, Architecture, Pharmacy, Media Studies, International Relations, Cybersecurity, Game Design, Nursing, Marketing, Linguistics, and more.</p>
+        <h2>Features</h2>
+        <ul>
+          <li>Free and instant results — no registration required</li>
+          <li>Available in English, Turkish (Türkçe), and German (Deutsch)</li>
+          <li>University suggestions filtered by budget and country</li>
+          <li>Detailed career path explorer</li>
+          <li>Downloadable PDF guidance report</li>
+          <li>Turkey Hub — dedicated guide for studying in Turkey and abroad (YKS info, universities, scholarships)</li>
+        </ul>
+        <p>Please enable JavaScript to use NorthVoy.</p>
+      </main>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
