@@ -39,9 +39,11 @@
     <link rel="alternate" hreflang="x-default" href="https://northvoy.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 
-    <!-- Structured Data -->
+    <!-- Structured Data: WebApplication -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -62,6 +64,72 @@
         "12-month action plan",
         "Downloadable PDF report",
         "Available in English, Turkish, and German"
+      ]
+    }
+    </script>
+
+    <!-- Structured Data: FAQ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is NorthVoy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "NorthVoy is a free academic guidance tool for high school students. It uses a structured 9-question questionnaire to match students with their ideal university major, career paths, and universities across 60+ countries."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does NorthVoy work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Answer 9 questions about your subjects, interests, strengths, work style, and goals. NorthVoy's scoring engine evaluates your answers across multiple dimensions and ranks the best-fit majors from a list of 20+ academic fields. Results include career paths, skill breakdowns, university suggestions, and a 12-month action plan."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is NorthVoy free to use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. NorthVoy is completely free. No registration is required to take the quiz and see your results. You can optionally create a free account to save your results and track your applications."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does the NorthVoy quiz take?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The quiz takes approximately 5 minutes. There are 9 questions covering your academic interests, strengths, work style, learning approach, and career goals."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What university majors does NorthVoy cover?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "NorthVoy covers 20+ university majors including Computer Science, Business Administration, Medicine, Creative Arts, Environmental Science, Psychology, Law, Engineering, Data Science, Education, Finance, Architecture, Pharmacy, Media Studies, International Relations, Cybersecurity, Game Design, Nursing, Marketing, and Linguistics."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What languages is NorthVoy available in?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "NorthVoy is fully available in English, Turkish (Türkçe), and German (Deutsch). You can switch languages at any time using the language selector in the navigation bar."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does NorthVoy have information about studying in Turkey?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. NorthVoy includes a dedicated Turkey Hub with information on studying in Turkey and abroad, including YKS exam types, top Turkish universities, scholarships, and city guides."
+          }
+        }
       ]
     }
     </script>
