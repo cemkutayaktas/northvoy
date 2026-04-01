@@ -428,7 +428,7 @@ function CompareTab({ results }: { results: MatchResult[] }) {
                 {/* Match % bar */}
                 <div className="space-y-1">
                   <div className="flex justify-between items-center">
-                    <span className="text-[11px] text-white/80">Profile Match</span>
+                    <span className="text-[11px] text-white/80">{t("results.sections.compareProfileMatch")}</span>
                     <span className="text-sm font-bold">{pct}%</span>
                   </div>
                   <div className="h-1.5 rounded-full bg-white/20 overflow-hidden">
@@ -441,7 +441,7 @@ function CompareTab({ results }: { results: MatchResult[] }) {
               <div className="p-4 space-y-4 bg-card flex-1">
                 {/* Why it fits */}
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">Why it fits</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">{t("results.sections.compareWhyItFits")}</p>
                   <ul className="space-y-1">
                     {r.whyItMatches.slice(0, 3).map((w, j) => (
                       <li key={j} className="flex items-start gap-1.5 text-xs">
@@ -454,7 +454,7 @@ function CompareTab({ results }: { results: MatchResult[] }) {
 
                 {/* Key skills */}
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">Key Skills</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">{t("results.sections.compareKeySkills")}</p>
                   <div className="flex flex-wrap gap-1">
                     {r.skills.slice(0, 4).map((sk, j) => (
                       <span key={j} className={cn("text-[10px] px-2 py-0.5 rounded-full font-medium", s.badgeBg)}>{sk}</span>
@@ -464,7 +464,7 @@ function CompareTab({ results }: { results: MatchResult[] }) {
 
                 {/* Careers */}
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">Careers</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">{t("results.sections.compareCareers")}</p>
                   <div className="flex flex-wrap gap-1">
                     {r.careers.slice(0, 3).map((c, j) => (
                       <span key={j} className="text-[10px] bg-green-50 dark:bg-green-950/30 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800 px-2 py-0.5 rounded-full">{c}</span>
@@ -475,11 +475,11 @@ function CompareTab({ results }: { results: MatchResult[] }) {
                 {/* Study cost + countries */}
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mb-1">Study Cost</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mb-1">{t("results.sections.compareStudyCost")}</p>
                     <span className={cn("text-xs font-semibold", r.studyCostColor)}>{r.studyCostLabel}</span>
                   </div>
                   <div className="text-right">
-                    <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mb-1">Top Countries</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mb-1">{t("results.sections.compareTopCountries")}</p>
                     <div className="flex gap-0.5 justify-end">
                       {r.countries.slice(0, 3).map((c, j) => (
                         <span key={j} title={c.name} className="text-base leading-none">{c.flag}</span>
@@ -490,7 +490,7 @@ function CompareTab({ results }: { results: MatchResult[] }) {
 
                 {/* Top universities */}
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">Top Universities</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">{t("results.sections.compareTopUniversities")}</p>
                   <ul className="space-y-0.5">
                     {r.universities.slice(0, 3).map((u, j) => (
                       <li key={j} className="flex items-start gap-1 text-xs text-muted-foreground">

@@ -51,7 +51,7 @@ const COL_COLORS = [
 const MAX_SELECTIONS = 3;
 
 export default function Compare() {
-  const { lang } = useLang();
+  const { t, lang } = useLang();
   const [selected, setSelected] = useState<string[]>([]);
   const [search, setSearch] = useState("");
 
@@ -79,9 +79,9 @@ export default function Compare() {
           <div className="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-primary/20">
             <SplitSquareHorizontal className="w-7 h-7 text-white" />
           </div>
-          <h1 className="text-3xl sm:text-4xl font-display font-extrabold mb-2">Major Comparison Tool</h1>
+          <h1 className="text-3xl sm:text-4xl font-display font-extrabold mb-2">{t("compare.pageTitle")}</h1>
           <p className="text-base text-muted-foreground max-w-xl mx-auto">
-            Select up to 3 majors to compare side-by-side — skills, careers, costs, and more.
+            {t("compare.pageDesc")}
           </p>
         </motion.div>
 
@@ -92,16 +92,16 @@ export default function Compare() {
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
-              placeholder="Search majors…"
+              placeholder={t("compare.searchPlaceholder")}
               className="w-full h-10 pl-9 pr-3 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
             />
           </div>
           <span className="text-sm text-muted-foreground font-medium shrink-0">
-            {selected.length}/{MAX_SELECTIONS} selected
+            {selected.length}/{MAX_SELECTIONS} {t("compare.selectedLabel")}
           </span>
           {selected.length > 0 && (
             <Button variant="outline" size="sm" onClick={() => setSelected([])}>
-              <RotateCcw className="w-3.5 h-3.5 mr-1.5" /> Clear
+              <RotateCcw className="w-3.5 h-3.5 mr-1.5" /> {t("compare.clearBtn")}
             </Button>
           )}
         </div>
@@ -162,7 +162,7 @@ export default function Compare() {
             <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 12 }}>
               <div className="flex items-center gap-3 mb-5">
                 <div className="h-px flex-1 bg-border/60" />
-                <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Comparison</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{t("compare.comparisonLabel")}</span>
                 <div className="h-px flex-1 bg-border/60" />
               </div>
 
@@ -187,7 +187,7 @@ export default function Compare() {
                             {/* Skills */}
                             <div>
                               <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-indigo-600 mb-2">
-                                <Zap className="w-3 h-3" /> Key Skills
+                                <Zap className="w-3 h-3" /> {t("compare.keySkills")}
                               </div>
                               <ul className="space-y-1">
                                 {data.skills.slice(0, 5).map((s, j) => (
@@ -201,7 +201,7 @@ export default function Compare() {
                             {/* Careers */}
                             <div>
                               <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-green-600 mb-2">
-                                <Briefcase className="w-3 h-3" /> Careers
+                                <Briefcase className="w-3 h-3" /> {t("compare.careers")}
                               </div>
                               <div className="flex flex-wrap gap-1">
                                 {data.careers.slice(0, 6).map((c, j) => (
@@ -213,7 +213,7 @@ export default function Compare() {
                             {/* Countries */}
                             <div>
                               <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-sky-600 mb-2">
-                                <Globe className="w-3 h-3" /> Top Countries
+                                <Globe className="w-3 h-3" /> {t("compare.topCountries")}
                               </div>
                               <div className="flex flex-wrap gap-1">
                                 {data.countries.slice(0, 4).map(c => (
@@ -227,7 +227,7 @@ export default function Compare() {
                             {/* Pathways */}
                             <div>
                               <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-violet-600 mb-2">
-                                <Route className="w-3 h-3" /> Career Paths
+                                <Route className="w-3 h-3" /> {t("compare.careerPaths")}
                               </div>
                               <ul className="space-y-1">
                                 {data.pathways.map((p, j) => (
@@ -251,7 +251,7 @@ export default function Compare() {
         {!canCompare && (
           <div className="text-center py-16 text-muted-foreground">
             <SplitSquareHorizontal className="w-12 h-12 mx-auto mb-3 opacity-20" />
-            <p className="text-sm">Select at least 2 majors above to start comparing</p>
+            <p className="text-sm">{t("compare.selectPrompt")}</p>
           </div>
         )}
       </div>

@@ -146,9 +146,9 @@ export default function About() {
           <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
             <Mail className="w-6 h-6 text-primary" />
           </div>
-          <h3 className="text-xl font-bold mb-2">Get in Touch</h3>
+          <h3 className="text-xl font-bold mb-2">{t("about.contactTitle")}</h3>
           <p className="text-muted-foreground text-sm mb-4 max-w-md mx-auto">
-            Have questions, feedback, or partnership inquiries? We'd love to hear from you.
+            {t("about.contactDesc")}
           </p>
           <a
             href="mailto:northvoy@gmail.com"

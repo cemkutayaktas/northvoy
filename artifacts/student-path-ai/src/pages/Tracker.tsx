@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { useLang } from "@/contexts/LanguageContext";
 import {
   CalendarDays, Plus, Trash2, GraduationCap, Clock,
   CheckCircle2, XCircle, Loader2, ClipboardList, Edit2, X, Save,
@@ -23,6 +24,14 @@ const STATUS_CONFIG: Record<Status, { label: string; color: string; icon: React.
   "rejected":    { label: "Rejected",    color: "bg-red-100 text-red-700 border-red-200 dark:bg-red-950/50 dark:text-red-300",    icon: XCircle },
 };
 
+const STATUS_TKEY: Record<Status, string> = {
+  "planning":    "tracker.statusPlanning",
+  "in-progress": "tracker.statusInProgress",
+  "submitted":   "tracker.statusSubmitted",
+  "accepted":    "tracker.statusAccepted",
+  "rejected":    "tracker.statusRejected",
+};
+
 function daysUntil(dateStr: string): number {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -32,26 +41,27 @@ function daysUntil(dateStr: string): number {
 }
 
 function DeadlineBadge({ deadline, status }: { deadline: string; status: Status }) {
+  const { t } = useLang();
   if (status === "accepted" || status === "rejected") return null;
   const days = daysUntil(deadline);
   if (days < 0) return (
     <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700 border border-red-200">
-      <AlertTriangle className="w-3 h-3" /> Overdue
+      <AlertTriangle className="w-3 h-3" /> {t("tracker.overdue")}
     </span>
   );
   if (days === 0) return (
     <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700 border border-red-200">
-      <AlertTriangle className="w-3 h-3" /> Due today!
+      <AlertTriangle className="w-3 h-3" /> {t("tracker.dueToday")}
     </span>
   );
   if (days <= 7) return (
     <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 border border-amber-200">
-      <Clock className="w-3 h-3" /> {days}d left
+      <Clock className="w-3 h-3" /> {days}{t("tracker.daysLeft")}
     </span>
   );
   return (
     <span className="inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full bg-muted text-muted-foreground border border-border">
-      <CalendarDays className="w-3 h-3" /> {days}d left
+      <CalendarDays className="w-3 h-3" /> {days}{t("tracker.daysLeft")}
     </span>
   );
 }
@@ -59,6 +69,7 @@ function DeadlineBadge({ deadline, status }: { deadline: string; status: Status 
 const EMPTY_FORM = { university: "", program: "", deadline: "", status: "planning" as Status, notes: "" };
 
 function AddForm({ onSave, onCancel }: { onSave: (d: typeof EMPTY_FORM) => void; onCancel: () => void }) {
+  const { t } = useLang();
   const [form, setForm] = useState(EMPTY_FORM);
   const set = (k: keyof typeof EMPTY_FORM, v: string) => setForm(f => ({ ...f, [k]: v }));
 
@@ -68,32 +79,32 @@ function AddForm({ onSave, onCancel }: { onSave: (d: typeof EMPTY_FORM) => void;
     <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
       <Card className="p-5 border-2 border-primary/30 bg-primary/3 mb-5">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-sm">Add New Application</h3>
+          <h3 className="font-semibold text-sm">{t("tracker.addFormTitle")}</h3>
           <button onClick={onCancel} className="text-muted-foreground hover:text-foreground transition-colors">
             <X className="w-4 h-4" />
           </button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
           <div>
-            <label className="text-xs font-medium text-muted-foreground mb-1 block">University *</label>
+            <label className="text-xs font-medium text-muted-foreground mb-1 block">{t("tracker.labelUniversity")} *</label>
             <input
               value={form.university}
               onChange={e => set("university", e.target.value)}
-              placeholder="e.g. MIT"
+              placeholder={t("tracker.placeholderUniversity")}
               className="w-full h-9 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
             />
           </div>
           <div>
-            <label className="text-xs font-medium text-muted-foreground mb-1 block">Program *</label>
+            <label className="text-xs font-medium text-muted-foreground mb-1 block">{t("tracker.labelProgram")} *</label>
             <input
               value={form.program}
               onChange={e => set("program", e.target.value)}
-              placeholder="e.g. Computer Science BSc"
+              placeholder={t("tracker.placeholderProgram")}
               className="w-full h-9 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
             />
           </div>
           <div>
-            <label className="text-xs font-medium text-muted-foreground mb-1 block">Deadline *</label>
+            <label className="text-xs font-medium text-muted-foreground mb-1 block">{t("tracker.labelDeadline")} *</label>
             <input
               type="date"
               value={form.deadline}
@@ -102,32 +113,32 @@ function AddForm({ onSave, onCancel }: { onSave: (d: typeof EMPTY_FORM) => void;
             />
           </div>
           <div>
-            <label className="text-xs font-medium text-muted-foreground mb-1 block">Status</label>
+            <label className="text-xs font-medium text-muted-foreground mb-1 block">{t("tracker.labelStatus")}</label>
             <select
               value={form.status}
               onChange={e => set("status", e.target.value)}
               className="w-full h-9 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
             >
               {(Object.keys(STATUS_CONFIG) as Status[]).map(s => (
-                <option key={s} value={s}>{STATUS_CONFIG[s].label}</option>
+                <option key={s} value={s}>{t(STATUS_TKEY[s])}</option>
               ))}
             </select>
           </div>
         </div>
         <div className="mb-4">
-          <label className="text-xs font-medium text-muted-foreground mb-1 block">Notes (optional)</label>
+          <label className="text-xs font-medium text-muted-foreground mb-1 block">{t("tracker.labelNotes")}</label>
           <textarea
             value={form.notes}
             onChange={e => set("notes", e.target.value)}
-            placeholder="Any notes about this application…"
+            placeholder={t("tracker.placeholderNotes")}
             rows={2}
             className="w-full px-3 py-2 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary resize-none"
           />
         </div>
         <div className="flex gap-2 justify-end">
-          <Button variant="outline" size="sm" onClick={onCancel}>Cancel</Button>
+          <Button variant="outline" size="sm" onClick={onCancel}>{t("tracker.cancelBtn")}</Button>
           <Button size="sm" disabled={!valid} onClick={() => valid && onSave(form)}>
-            <Save className="w-3.5 h-3.5 mr-1.5" /> Save Application
+            <Save className="w-3.5 h-3.5 mr-1.5" /> {t("tracker.saveBtn")}
           </Button>
         </div>
       </Card>
@@ -140,6 +151,7 @@ function AppCard({ entry, onDelete, onStatusChange }: {
   onDelete: () => void;
   onStatusChange: (s: Status) => void;
 }) {
+  const { t } = useLang();
   const [editing, setEditing] = useState(false);
   const cfg = STATUS_CONFIG[entry.status];
   const Icon = cfg.icon;
@@ -160,7 +172,7 @@ function AppCard({ entry, onDelete, onStatusChange }: {
             <div className="flex flex-wrap items-center gap-2 mb-0.5">
               <h4 className="font-semibold text-sm">{entry.university}</h4>
               <span className={cn("inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border", cfg.color)}>
-                <Icon className="w-3 h-3" />{cfg.label}
+                <Icon className="w-3 h-3" />{t(STATUS_TKEY[entry.status])}
               </span>
               <DeadlineBadge deadline={entry.deadline} status={entry.status} />
             </div>
@@ -188,7 +200,7 @@ function AppCard({ entry, onDelete, onStatusChange }: {
           {editing && (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
               className="mt-4 pt-4 border-t border-border/50">
-              <p className="text-xs font-medium text-muted-foreground mb-2">Update status:</p>
+              <p className="text-xs font-medium text-muted-foreground mb-2">{t("tracker.updateStatus")}</p>
               <div className="flex flex-wrap gap-1.5">
                 {(Object.keys(STATUS_CONFIG) as Status[]).map(s => {
                   const c = STATUS_CONFIG[s];
@@ -199,7 +211,7 @@ function AppCard({ entry, onDelete, onStatusChange }: {
                         "inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full border transition-all",
                         entry.status === s ? c.color : "bg-background border-border text-muted-foreground hover:border-primary hover:text-primary"
                       )}>
-                      <Ic className="w-3 h-3" />{c.label}
+                      <Ic className="w-3 h-3" />{t(STATUS_TKEY[s])}
                     </button>
                   );
                 })}
@@ -213,6 +225,7 @@ function AppCard({ entry, onDelete, onStatusChange }: {
 }
 
 export default function Tracker() {
+  const { t } = useLang();
   const [, setLocation] = useLocation();
   const { account, loading, setDeadlines } = useAccount();
   const [showForm, setShowForm] = useState(false);
@@ -258,17 +271,17 @@ export default function Tracker() {
     };
     setDeadlines([...deadlines, entry]);
     setShowForm(false);
-    toast.success("Application added!");
+    toast.success(t("tracker.toastAdded"));
   };
 
   const handleDelete = (id: string) => {
     setDeadlines(deadlines.filter(d => d.id !== id));
-    toast.success("Application removed.");
+    toast.success(t("tracker.toastRemoved"));
   };
 
   const handleStatus = (id: string, status: Status) => {
     setDeadlines(deadlines.map(d => d.id === id ? { ...d, status } : d));
-    toast.success(`Marked as ${STATUS_CONFIG[status].label}`);
+    toast.success(`${t("tracker.toastMarkedAs")} ${t(STATUS_TKEY[status])}`);
   };
 
   return (
@@ -284,12 +297,12 @@ export default function Tracker() {
                 <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
                   <TrendingUp className="w-5 h-5 text-white" />
                 </div>
-                <h1 className="text-2xl sm:text-3xl font-display font-extrabold">Application Tracker</h1>
+                <h1 className="text-2xl sm:text-3xl font-display font-extrabold">{t("tracker.pageTitle")}</h1>
               </div>
-              <p className="text-sm text-muted-foreground ml-13">Track your university applications and deadlines in one place.</p>
+              <p className="text-sm text-muted-foreground ml-13">{t("tracker.pageDesc")}</p>
             </div>
             <Button onClick={() => setShowForm(true)} disabled={showForm}>
-              <Plus className="w-4 h-4 mr-1.5" /> Add Application
+              <Plus className="w-4 h-4 mr-1.5" /> {t("tracker.addBtn")}
             </Button>
           </div>
         </motion.div>
@@ -298,10 +311,10 @@ export default function Tracker() {
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
           className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
           {[
-            { label: "Total", value: stats.total, color: "text-foreground", bg: "bg-muted/40" },
-            { label: "In Progress", value: stats.inProgress, color: "text-blue-600", bg: "bg-blue-50 dark:bg-blue-950/30" },
-            { label: "Submitted", value: stats.submitted, color: "text-amber-600", bg: "bg-amber-50 dark:bg-amber-950/30" },
-            { label: "Accepted", value: stats.accepted, color: "text-green-600", bg: "bg-green-50 dark:bg-green-950/30" },
+            { label: t("tracker.statsTotal"),      value: stats.total,      color: "text-foreground", bg: "bg-muted/40" },
+            { label: t("tracker.statsInProgress"), value: stats.inProgress, color: "text-blue-600",   bg: "bg-blue-50 dark:bg-blue-950/30" },
+            { label: t("tracker.statsSubmitted"),  value: stats.submitted,  color: "text-amber-600", bg: "bg-amber-50 dark:bg-amber-950/30" },
+            { label: t("tracker.statsAccepted"),   value: stats.accepted,   color: "text-green-600", bg: "bg-green-50 dark:bg-green-950/30" },
           ].map(s => (
             <Card key={s.label} className={cn("p-4 border-border/50", s.bg)}>
               <p className={cn("text-2xl font-display font-extrabold", s.color)}>{s.value}</p>
@@ -319,8 +332,8 @@ export default function Tracker() {
         {sorted.length === 0 ? (
           <div className="text-center py-20 text-muted-foreground">
             <CalendarDays className="w-12 h-12 mx-auto mb-3 opacity-20" />
-            <p className="text-sm font-medium">No applications yet</p>
-            <p className="text-xs mt-1">Click "Add Application" to start tracking your university applications.</p>
+            <p className="text-sm font-medium">{t("tracker.emptyTitle")}</p>
+            <p className="text-xs mt-1">{t("tracker.emptyDesc")}</p>
           </div>
         ) : (
           <div className="space-y-3">
