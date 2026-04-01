@@ -439,6 +439,10 @@ const en = {
     labelSecurityQuestion: "Security Question (recommended)",
     selectQuestion: "Select a question…",
     securityAnswerPlaceholder: "Your answer (case-insensitive)",
+    nudgeBannerTitle: "Save your results for free",
+    nudgeBannerDesc: "Create a free account before you start — so your results, career matches, and action plan are saved and accessible anytime.",
+    nudgeBannerBtn: "Create free account",
+    nudgeBannerDismiss: "Continue without saving",
   },
   account: {
     yourAccount: "Your Account",
@@ -1062,6 +1066,10 @@ const tr: typeof en = {
     labelSecurityQuestion: "Güvenlik Sorusu (önerilen)",
     selectQuestion: "Bir soru seçin…",
     securityAnswerPlaceholder: "Cevabınız (büyük/küçük harf fark etmez)",
+    nudgeBannerTitle: "Sonuçlarını ücretsiz kaydet",
+    nudgeBannerDesc: "Başlamadan önce ücretsiz bir hesap oluştur — sonuçların, kariyer eşleşmelerin ve aksiyon planın kaydedilsin, istediğin zaman eriş.",
+    nudgeBannerBtn: "Ücretsiz hesap oluştur",
+    nudgeBannerDismiss: "Kaydetmeden devam et",
   },
   account: {
     yourAccount: "Hesabınız",
@@ -1682,6 +1690,10 @@ const de: typeof en = {
     labelSecurityQuestion: "Sicherheitsfrage (empfohlen)",
     selectQuestion: "Frage auswählen…",
     securityAnswerPlaceholder: "Deine Antwort (Groß-/Kleinschreibung egal)",
+    nudgeBannerTitle: "Ergebnisse kostenlos speichern",
+    nudgeBannerDesc: "Erstelle vor dem Start ein kostenloses Konto – damit deine Ergebnisse, Karriere-Matches und dein Aktionsplan gespeichert werden und jederzeit abrufbar sind.",
+    nudgeBannerBtn: "Kostenloses Konto erstellen",
+    nudgeBannerDismiss: "Ohne Speichern fortfahren",
   },
   account: {
     yourAccount: "Dein Konto",

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { Lang, translations, tOption } from "@/lib/i18n";
 
 interface LanguageContextValue {
@@ -21,6 +21,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     if (saved === "en" || saved === "tr" || saved === "de") return saved;
     return "en";
   });
+
+  // Keep <html lang="..."> in sync with selected language
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   function setLang(l: Lang) {
     setLangState(l);

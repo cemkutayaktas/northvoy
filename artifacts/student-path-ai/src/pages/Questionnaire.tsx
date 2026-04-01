@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -10,9 +10,10 @@ import {
   QuestionnaireAnswers,
 } from "@/lib/store";
 import { calculateResults, getProfileType } from "@/lib/matching";
-import { Check, ChevronRight, ChevronLeft, ShieldCheck, AlertCircle } from "lucide-react";
+import { Check, ChevronRight, ChevronLeft, ShieldCheck, AlertCircle, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLang } from "@/contexts/LanguageContext";
+import { useAccount } from "@/contexts/AccountContext";
 
 // ─── Step definitions ─────────────────────────────────────────────────────────
 const STEPS = [
@@ -264,8 +265,10 @@ type Screen = "consent" | "declined" | "quiz" | "processing";
 export default function Questionnaire() {
   const [, setLocation] = useLocation();
   const { t, tOpt } = useLang();
+  const { account } = useAccount();
   const [screen, setScreen] = useState<Screen>("consent");
   const [currentStep, setCurrentStep] = useState(0);
+  const [nudgeDismissed, setNudgeDismissed] = useState(false);
 
   const [answers, setAnswers] = useState<QuestionnaireAnswers>({
     subjects: [], interests: [], strengths: [],
@@ -363,6 +366,32 @@ export default function Questionnaire() {
   return (
     <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-gray-50/50">
       <div className="max-w-3xl mx-auto">
+
+        {/* Account nudge banner */}
+        {!account && !nudgeDismissed && (
+          <div className="mb-6 flex items-start gap-3 rounded-xl border border-primary/25 bg-primary/5 px-4 py-3.5">
+            <div className="mt-0.5 w-8 h-8 shrink-0 rounded-lg bg-primary/10 flex items-center justify-center">
+              <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-foreground">{t("auth.nudgeBannerTitle")}</p>
+              <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{t("auth.nudgeBannerDesc")}</p>
+              <Link href="/auth"
+                className="inline-block mt-2 text-xs font-semibold text-primary hover:text-primary/80 underline underline-offset-2 transition-colors">
+                {t("auth.nudgeBannerBtn")} →
+              </Link>
+            </div>
+            <button
+              onClick={() => setNudgeDismissed(true)}
+              aria-label={t("auth.nudgeBannerDismiss")}
+              className="shrink-0 w-6 h-6 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors mt-0.5"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
 
         {/* Progress */}
         <div className="mb-8">
