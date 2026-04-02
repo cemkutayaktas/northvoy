@@ -20,11 +20,16 @@
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="tr_TR" />
     <meta property="og:locale:alternate" content="de_DE" />
+    <meta property="og:image" content="https://northvoy.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="NorthVoy — Discover your ideal University Path" />
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="NorthVoy — Discover Your Ideal University Major" />
     <meta name="twitter:description" content="Answer 9 questions and get matched with your ideal university major, career paths, and universities worldwide. Free and instant." />
+    <meta name="twitter:image" content="https://northvoy.com/og-image.png" />
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#2563eb" />
@@ -43,6 +48,15 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+
+    <!-- Google Analytics GA4 — replace G-XXXXXXXXXX with your Measurement ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', { send_page_view: false });
+    </script>
 
     <!-- Structured Data: WebApplication -->
     <script type="application/ld+json">

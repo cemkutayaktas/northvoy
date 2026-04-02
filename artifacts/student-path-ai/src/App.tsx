@@ -1,11 +1,24 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AccountProvider, useAccount } from "@/contexts/AccountContext";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
+
+// GA4 page-view tracking for SPA route changes
+function usePageTracking() {
+  const [location] = useLocation();
+  useEffect(() => {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "page_view", {
+        page_path: location,
+        page_location: window.location.href,
+      });
+    }
+  }, [location]);
+}
 
 import { Navbar } from "@/components/layout/Navbar";
 
@@ -36,6 +49,7 @@ const queryClient = new QueryClient();
 
 function Router() {
   const { loading } = useAccount();
+  usePageTracking();
 
   if (loading) {
     return (
