@@ -8,7 +8,7 @@ import { AccountProvider, useAccount } from "@/contexts/AccountContext";
 import { lazy, Suspense, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// GA4 page-view tracking for SPA route changes
+// GA4 page-view tracking + canonical tag update for SPA route changes
 function usePageTracking() {
   const [location] = useLocation();
   useEffect(() => {
@@ -17,6 +17,11 @@ function usePageTracking() {
         page_path: location,
         page_location: window.location.href,
       });
+    }
+    // Update canonical tag to match current route
+    const canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (canonical) {
+      canonical.href = "https://northvoy.com" + (location === "/" ? "" : location);
     }
   }, [location]);
 }
