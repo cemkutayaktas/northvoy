@@ -369,8 +369,8 @@ export default function Questionnaire() {
 
         {/* Account nudge banner */}
         {!account && !nudgeDismissed && (
-          <div className="mb-6 flex items-start gap-3 rounded-xl border border-primary/25 bg-primary/5 px-4 py-3.5">
-            <div className="mt-0.5 w-8 h-8 shrink-0 rounded-lg bg-primary/10 flex items-center justify-center">
+          <div className="mb-6 flex items-start gap-3 rounded-xl border border-primary/30 dark:border-primary/50 bg-primary/8 dark:bg-primary/20 px-4 py-3.5">
+            <div className="mt-0.5 w-8 h-8 shrink-0 rounded-lg bg-primary/15 dark:bg-primary/30 flex items-center justify-center">
               <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>

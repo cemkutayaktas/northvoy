@@ -639,7 +639,7 @@ function ExploreTab({ hidden, whyNot }: { hidden: HiddenMatch; whyNot: WhyNotEnt
 function LockedOverlay({ message }: { message?: string }) {
   const [, setLocation] = useLocation();
   return (
-    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-xl bg-background/60 backdrop-blur-sm border border-border/40">
+    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-xl bg-background/70 dark:bg-background/80 backdrop-blur-sm border border-border/40">
       <div className="text-center px-6 py-8 max-w-xs">
         <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
           <UserCircle className="w-6 h-6 text-primary" />
