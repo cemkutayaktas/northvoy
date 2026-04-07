@@ -115,21 +115,10 @@ export function AccountProvider({ children }: { children: ReactNode }) {
     // Fallback: stop spinner after 5s even if Supabase is unreachable
     const timeout = setTimeout(() => setLoading(false), 5000);
 
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      clearTimeout(timeout);
-      if (session?.user) {
-        loadAccount(session.user).finally(() => setLoading(false));
-      } else {
-        setLoading(false);
-      }
-    }).catch(() => {
-      clearTimeout(timeout);
-      setLoading(false);
-    });
-
-    // Listen for auth state changes
+    // onAuthStateChange fires immediately with INITIAL_SESSION in Supabase v2,
+    // so we don't need a separate getSession() call — using both causes race conditions.
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      clearTimeout(timeout);
       try {
         if (session?.user) {
           await loadAccount(session.user);
