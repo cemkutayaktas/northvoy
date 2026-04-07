@@ -102,7 +102,7 @@ function CountryExplorer({ major, countries, onUniversityClick }: { major: strin
   const unis = selectedCountry ? countryData[selectedCountry] ?? [] : [];
 
   return (
-    <div className="border-t border-border/40 px-6 sm:px-8 py-5 bg-sky-50/30 dark:bg-sky-950/20">
+    <div className="border-t border-border/40 px-6 sm:px-8 py-5 bg-sky-50 dark:bg-sky-950/50">
       <button
         onClick={() => setOpen(o => !o)}
         className="flex items-center gap-2 text-sm font-semibold text-foreground hover:text-sky-600 transition-colors w-full"
@@ -124,7 +124,7 @@ function CountryExplorer({ major, countries, onUniversityClick }: { major: strin
                   "text-xs flex items-center gap-1.5 px-3 py-1.5 rounded-full border transition-colors font-medium",
                   selectedCountry === c.name
                     ? "bg-sky-500 text-white border-sky-500 shadow-md"
-                    : "bg-background border-border text-foreground hover:border-sky-400 hover:text-sky-600"
+                    : "bg-white dark:bg-sky-950/80 border-sky-200 dark:border-sky-700 text-foreground hover:border-sky-400 hover:text-sky-600 dark:hover:border-sky-500 dark:hover:text-sky-400"
                 )}
               >
                 {c.flag} {c.name}
