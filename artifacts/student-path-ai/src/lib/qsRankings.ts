@@ -76,7 +76,7 @@ export const QS_RANKINGS: Record<string, number | null> = {
   "University of Queensland": 53,
   "ANU Medical School": 32,
 
-  "Karolinska Institute": 70,
+  "Karolinska Institute": null,
   "University of Gothenburg": null,
   "Umeå University": null,
 
