@@ -8,16 +8,77 @@ import { AccountProvider, useAccount } from "@/contexts/AccountContext";
 import { lazy, Suspense, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// GA4 page-view tracking + canonical tag update for SPA route changes
+// ─── Per-route SEO metadata ──────────────────────────────────────────────────
+const ROUTE_META: Record<string, { title: string; description: string }> = {
+  "/": {
+    title: "NorthVoy — Discover Your Ideal University Major",
+    description: "Find your ideal university major in 5 minutes. NorthVoy matches high school students with 20+ majors, career paths, and universities across 60+ countries.",
+  },
+  "/questionnaire": {
+    title: "University Major Quiz — NorthVoy",
+    description: "Answer 9 questions about your interests, strengths, and goals to discover which university major fits you best. Free, instant results.",
+  },
+  "/results": {
+    title: "Your Results — NorthVoy",
+    description: "See your personalized university major matches, career paths, skill breakdowns, and university suggestions across 60+ countries.",
+  },
+  "/about": {
+    title: "About NorthVoy — How It Works & Our Team",
+    description: "Learn how NorthVoy's 9-question quiz helps students find their ideal university major. Meet the team and see how our matching engine works.",
+  },
+  "/compare": {
+    title: "Compare University Majors — NorthVoy",
+    description: "Compare up to 3 university majors side-by-side — skills, career paths, top countries, costs, and more. Free comparison tool by NorthVoy.",
+  },
+  "/turkiye": {
+    title: "Turkey University Guide — NorthVoy",
+    description: "Complete guide for studying in Turkey: top universities, YKS exam types, tuition fees, QS rankings, and scholarships for studying abroad.",
+  },
+  "/tracker": {
+    title: "Application Tracker — NorthVoy",
+    description: "Track your university applications and deadlines in one place. Manage statuses, notes, and never miss a deadline.",
+  },
+  "/auth": {
+    title: "Sign In — NorthVoy",
+    description: "Create a free NorthVoy account to save your results, track applications, and access all features.",
+  },
+  "/account": {
+    title: "My Account — NorthVoy",
+    description: "Manage your NorthVoy account settings, saved results, and preferences.",
+  },
+};
+
+// GA4 page-view tracking + canonical tag + per-route meta updates for SPA
 function usePageTracking() {
   const [location] = useLocation();
   useEffect(() => {
+    // GA4 page-view tracking
     if (typeof window.gtag === "function") {
       window.gtag("event", "page_view", {
         page_path: location,
         page_location: window.location.href,
       });
     }
+
+    // Per-route title & description
+    const meta = ROUTE_META[location] ?? ROUTE_META["/"]!;
+    document.title = meta.title;
+
+    const descTag = document.querySelector('meta[name="description"]');
+    if (descTag) descTag.setAttribute("content", meta.description);
+
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute("content", meta.title);
+
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute("content", meta.description);
+
+    const twTitle = document.querySelector('meta[name="twitter:title"]');
+    if (twTitle) twTitle.setAttribute("content", meta.title);
+
+    const twDesc = document.querySelector('meta[name="twitter:description"]');
+    if (twDesc) twDesc.setAttribute("content", meta.description);
+
     // Update canonical tag to match current route
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!canonical) {
@@ -26,6 +87,10 @@ function usePageTracking() {
       document.head.appendChild(canonical);
     }
     canonical.href = "https://northvoy.com" + (location === "/" ? "" : location);
+
+    // Update og:url
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute("content", "https://northvoy.com" + (location === "/" ? "" : location));
   }, [location]);
 }
 
