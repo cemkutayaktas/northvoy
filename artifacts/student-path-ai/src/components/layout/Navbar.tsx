@@ -12,6 +12,8 @@ const LANG_OPTIONS: { value: Lang; label: string; flag: string }[] = [
   { value: "en", label: "English", flag: "🇬🇧" },
   { value: "tr", label: "Türkçe", flag: "🇹🇷" },
   { value: "de", label: "Deutsch", flag: "🇩🇪" },
+  { value: "fr", label: "Français", flag: "🇫🇷" },
+  { value: "es", label: "Español", flag: "🇪🇸" },
 ];
 
 export function Navbar() {
@@ -41,6 +43,7 @@ export function Navbar() {
     { href: "/", label: t("nav.home") },
     { href: "/questionnaire", label: t("nav.quiz") },
     { href: "/compare", label: "Compare" },
+    { href: "/blog", label: t("nav.blog") },
     { href: "/turkiye", label: "🇹🇷 Türkiye" },
     { href: "/about", label: t("nav.about") },
   ];

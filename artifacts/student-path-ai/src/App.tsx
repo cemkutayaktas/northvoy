@@ -46,6 +46,14 @@ const ROUTE_META: Record<string, { title: string; description: string }> = {
     title: "My Account — NorthVoy",
     description: "Manage your NorthVoy account settings, saved results, and preferences.",
   },
+  "/blog": {
+    title: "Blog — NorthVoy",
+    description: "Guides and insights to help students choose the right university major and navigate higher education.",
+  },
+  "/countries": {
+    title: "Country Guides — NorthVoy",
+    description: "Explore the best countries to study abroad as an international student.",
+  },
 };
 
 // GA4 page-view tracking + canonical tag + per-route meta updates for SPA
@@ -109,6 +117,10 @@ const ResetPassword = lazy(() => import("@/pages/ResetPassword"));
 const Compare = lazy(() => import("@/pages/Compare"));
 const Tracker = lazy(() => import("@/pages/Tracker"));
 const Turkiye = lazy(() => import("@/pages/Turkiye"));
+const Blog = lazy(() => import("@/pages/Blog"));
+const BlogPost = lazy(() => import("@/pages/BlogPost"));
+const Countries = lazy(() => import("@/pages/Countries"));
+const CountryDetail = lazy(() => import("@/pages/CountryDetail"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 function PageLoader() {
@@ -157,6 +169,10 @@ function Router() {
                 <Route path="/compare" component={Compare} />
                 <Route path="/tracker" component={Tracker} />
                 <Route path="/turkiye" component={Turkiye} />
+                <Route path="/blog" component={Blog} />
+                <Route path="/blog/:slug" component={BlogPost} />
+                <Route path="/countries" component={Countries} />
+                <Route path="/countries/:slug" component={CountryDetail} />
                 <Route component={NotFound} />
               </Switch>
             </Suspense>
