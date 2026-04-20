@@ -1185,7 +1185,7 @@ export function calculateResults(a: QuestionnaireAnswers): {
       countries: MAJOR_DATA[m].countries,
       universities: MAJOR_DATA[m].universitiesByBudget[budget],
       pathways: MAJOR_DATA[m].pathways,
-      twelveMonthPlan: rank === 0 ? MAJOR_DATA[m].twelveMonthPlan : null,
+      twelveMonthPlan: MAJOR_DATA[m].twelveMonthPlan,
       studyCostLabel: MAJOR_DATA[m].studyCostLabel,
       studyCostColor: MAJOR_DATA[m].studyCostColor,
       alternativeRoute: MAJOR_DATA[m].alternativeRoute,

@@ -12,8 +12,6 @@ const LANG_OPTIONS: { value: Lang; label: string; flag: string }[] = [
   { value: "en", label: "English", flag: "🇬🇧" },
   { value: "tr", label: "Türkçe", flag: "🇹🇷" },
   { value: "de", label: "Deutsch", flag: "🇩🇪" },
-  { value: "fr", label: "Français", flag: "🇫🇷" },
-  { value: "es", label: "Español", flag: "🇪🇸" },
 ];
 
 export function Navbar() {

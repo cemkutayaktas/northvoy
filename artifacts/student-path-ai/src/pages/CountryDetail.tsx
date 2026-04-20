@@ -153,7 +153,7 @@ function CountryDetailInner({
                 <SelectTrigger>
                   <SelectValue placeholder={t("countries.selectMajor")} />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white dark:bg-slate-900 border border-border shadow-xl z-[60]">
                   {majors.map((m) => (
                     <SelectItem key={m} value={m}>
                       {m}
