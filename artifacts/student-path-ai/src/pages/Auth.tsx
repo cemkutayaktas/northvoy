@@ -128,7 +128,7 @@ function PasswordStrength({ password }: { password: string }) {
 }
 
 function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
-  const { register } = useAccount();
+  const { register, resendConfirmation } = useAccount();
   const { t } = useLang();
   const [, setLocation] = useLocation();
   const [username, setUsername] = useState("");
@@ -139,6 +139,8 @@ function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
   const [loading, setLoading] = useState(false);
   const [globalError, setGlobalError] = useState("");
   const [confirmationSent, setConfirmationSent] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendStatus, setResendStatus] = useState<"idle" | "sent" | "error">("idle");
 
   const validate = () => {
     const e: Record<string, string> = {};
@@ -170,6 +172,14 @@ function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
     }
   };
 
+  const handleResend = async () => {
+    setResendLoading(true);
+    setResendStatus("idle");
+    const res = await resendConfirmation(email);
+    setResendStatus(res.ok ? "sent" : "error");
+    setResendLoading(false);
+  };
+
   if (confirmationSent) {
     return (
       <div className="text-center space-y-4 py-4">
@@ -181,7 +191,25 @@ function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
           <p className="text-sm text-muted-foreground">{t("auth.confirmEmailDesc")} <strong>{email}</strong></p>
         </div>
         <p className="text-xs text-muted-foreground">{t("auth.confirmEmailNote")}</p>
-        <Button variant="outline" className="w-full" onClick={() => setConfirmationSent(false)}>
+
+        {/* Resend button */}
+        <Button
+          variant="default"
+          className="w-full"
+          onClick={handleResend}
+          disabled={resendLoading || resendStatus === "sent"}
+        >
+          {resendLoading
+            ? t("auth.resendLoading")
+            : resendStatus === "sent"
+            ? <><Check className="w-4 h-4 mr-2" />{t("auth.resendSent")}</>
+            : t("auth.resendEmail")}
+        </Button>
+        {resendStatus === "error" && (
+          <p className="text-xs text-destructive">{t("auth.resendError")}</p>
+        )}
+
+        <Button variant="outline" className="w-full" onClick={() => { setConfirmationSent(false); setResendStatus("idle"); }}>
           {t("auth.btnBackToSignUp")}
         </Button>
       </div>

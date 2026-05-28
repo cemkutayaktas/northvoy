@@ -47,6 +47,7 @@ interface AccountContextValue {
   loading: boolean;
   login: (email: string, password: string) => Promise<{ ok: boolean; error?: string }>;
   register: (username: string, email: string, password: string) => Promise<{ ok: boolean; requiresConfirmation?: boolean; error?: string }>;
+  resendConfirmation: (email: string) => Promise<{ ok: boolean; error?: string }>;
   logout: () => void;
   saveResult: (data: SavedResult) => void;
   setGoals: (goals: string[]) => void;
@@ -186,6 +187,16 @@ export function AccountProvider({ children }: { children: ReactNode }) {
     // If session is null, Supabase requires email confirmation
     const requiresConfirmation = !data.session;
     return { ok: true, requiresConfirmation };
+  }, []);
+
+  const resendConfirmation = useCallback(async (email: string): Promise<{ ok: boolean; error?: string }> => {
+    const { error } = await supabase.auth.resend({
+      type: "signup",
+      email: email.trim(),
+      options: { emailRedirectTo: `${window.location.origin}/auth` },
+    });
+    if (error) return { ok: false, error: error.message };
+    return { ok: true };
   }, []);
 
   const logout = useCallback(async () => {
@@ -331,7 +342,7 @@ export function AccountProvider({ children }: { children: ReactNode }) {
   return (
     <AccountContext.Provider value={{
       account, loading,
-      login, register, logout,
+      login, register, resendConfirmation, logout,
       saveResult, setGoals, setPreferredCountries, setDeadlines,
       changePass, exportData, importData,
       forgotPassword, updateUser, updateUserEmail, deleteAcc,
