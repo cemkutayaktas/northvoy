@@ -135,6 +135,132 @@
       ]
     },
     {
+      "source": "/majors",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/computer-science-software-engineering",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/computer-science-software-engineering>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/business-administration-management",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/business-administration-management>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/medicine-health-sciences",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/medicine-health-sciences>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/creative-arts-graphic-design",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/creative-arts-graphic-design>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/environmental-science-sustainability",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/environmental-science-sustainability>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/psychology-social-sciences",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/psychology-social-sciences>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/law-political-science",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/law-political-science>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/mechanical-civil-engineering",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/mechanical-civil-engineering>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/data-science-statistics",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/data-science-statistics>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/education-teaching",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/education-teaching>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/finance-economics",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/finance-economics>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/architecture-urban-design",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/architecture-urban-design>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/pharmacy-biomedical-sciences",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/pharmacy-biomedical-sciences>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/communication-media-studies",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/communication-media-studies>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/international-relations-global-affairs",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/international-relations-global-affairs>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/cybersecurity-network-engineering",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/cybersecurity-network-engineering>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/game-design-interactive-media",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/game-design-interactive-media>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/nursing-allied-health",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/nursing-allied-health>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/marketing-advertising",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/marketing-advertising>; rel=\"canonical\"" }
+      ]
+    },
+    {
+      "source": "/majors/linguistics-translation",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/majors/linguistics-translation>; rel=\"canonical\"" }
+      ]
+    },
+    {
       "source": "/assets/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }

@@ -54,6 +54,14 @@ const ROUTE_META: Record<string, { title: string; description: string }> = {
     title: "Country Guides — NorthVoy",
     description: "Explore the best countries to study abroad as an international student.",
   },
+  "/majors": {
+    title: "Explore University Majors — NorthVoy",
+    description: "Browse all 20 university majors with salary data, career paths, top universities, and 12-month action plans.",
+  },
+  "/majors/:slug": {
+    title: "Major Guide — NorthVoy",
+    description: "Deep-dive into a university major — salary range, job growth, career pathways, top universities, and a 12-month plan.",
+  },
 };
 
 // GA4 page-view tracking + canonical tag + per-route meta updates for SPA
@@ -121,6 +129,8 @@ const Blog = lazy(() => import("@/pages/Blog"));
 const BlogPost = lazy(() => import("@/pages/BlogPost"));
 const Countries = lazy(() => import("@/pages/Countries"));
 const CountryDetail = lazy(() => import("@/pages/CountryDetail"));
+const Majors = lazy(() => import("@/pages/Majors"));
+const MajorDetail = lazy(() => import("@/pages/MajorDetail"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 function PageLoader() {
@@ -173,6 +183,8 @@ function Router() {
                 <Route path="/blog/:slug" component={BlogPost} />
                 <Route path="/countries" component={Countries} />
                 <Route path="/countries/:slug" component={CountryDetail} />
+                <Route path="/majors" component={Majors} />
+                <Route path="/majors/:slug" component={MajorDetail} />
                 <Route component={NotFound} />
               </Switch>
             </Suspense>

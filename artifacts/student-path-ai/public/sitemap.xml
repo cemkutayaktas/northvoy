@@ -202,4 +202,236 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/countries/netherlands"/>
   </url>
 
+  <!-- Major Pages -->
+  <url>
+    <loc>https://northvoy.com/majors</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/computer-science-software-engineering</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/computer-science-software-engineering"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/computer-science-software-engineering"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/computer-science-software-engineering"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/computer-science-software-engineering"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/business-administration-management</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/business-administration-management"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/business-administration-management"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/business-administration-management"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/business-administration-management"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/medicine-health-sciences</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/medicine-health-sciences"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/medicine-health-sciences"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/medicine-health-sciences"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/medicine-health-sciences"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/creative-arts-graphic-design</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/creative-arts-graphic-design"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/creative-arts-graphic-design"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/creative-arts-graphic-design"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/creative-arts-graphic-design"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/environmental-science-sustainability</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/environmental-science-sustainability"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/environmental-science-sustainability"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/environmental-science-sustainability"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/environmental-science-sustainability"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/psychology-social-sciences</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/psychology-social-sciences"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/psychology-social-sciences"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/psychology-social-sciences"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/psychology-social-sciences"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/law-political-science</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/law-political-science"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/law-political-science"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/law-political-science"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/law-political-science"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/mechanical-civil-engineering</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/mechanical-civil-engineering"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/mechanical-civil-engineering"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/mechanical-civil-engineering"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/mechanical-civil-engineering"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/data-science-statistics</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/data-science-statistics"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/data-science-statistics"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/data-science-statistics"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/data-science-statistics"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/education-teaching</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/education-teaching"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/education-teaching"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/education-teaching"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/education-teaching"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/finance-economics</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/finance-economics"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/finance-economics"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/finance-economics"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/finance-economics"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/architecture-urban-design</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/architecture-urban-design"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/architecture-urban-design"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/architecture-urban-design"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/architecture-urban-design"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/pharmacy-biomedical-sciences</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/pharmacy-biomedical-sciences"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/pharmacy-biomedical-sciences"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/pharmacy-biomedical-sciences"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/pharmacy-biomedical-sciences"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/communication-media-studies</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/communication-media-studies"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/communication-media-studies"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/communication-media-studies"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/communication-media-studies"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/international-relations-global-affairs</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/international-relations-global-affairs"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/international-relations-global-affairs"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/international-relations-global-affairs"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/international-relations-global-affairs"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/cybersecurity-network-engineering</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/cybersecurity-network-engineering"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/cybersecurity-network-engineering"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/cybersecurity-network-engineering"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/cybersecurity-network-engineering"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/game-design-interactive-media</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/game-design-interactive-media"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/game-design-interactive-media"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/game-design-interactive-media"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/game-design-interactive-media"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/nursing-allied-health</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/nursing-allied-health"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/nursing-allied-health"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/nursing-allied-health"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/nursing-allied-health"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/marketing-advertising</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/marketing-advertising"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/marketing-advertising"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/marketing-advertising"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/marketing-advertising"/>
+  </url>
+
+  <url>
+    <loc>https://northvoy.com/majors/linguistics-translation</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/majors/linguistics-translation"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/majors/linguistics-translation"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/majors/linguistics-translation"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/majors/linguistics-translation"/>
+  </url>
+
 </urlset>
