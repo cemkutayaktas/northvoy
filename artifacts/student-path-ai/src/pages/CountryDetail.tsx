@@ -115,7 +115,7 @@ function CountryDetailInner({
 
         {/* Overview */}
         <motion.section initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-          <SectionHeader icon={<Sparkles className="w-4 h-4" />} label="Overview" />
+          <SectionHeader icon={<Sparkles className="w-4 h-4" />} label={t("countries.overviewSection")} />
           <p className="text-foreground/80 leading-relaxed">{t(guide.overviewKey)}</p>
         </motion.section>
 

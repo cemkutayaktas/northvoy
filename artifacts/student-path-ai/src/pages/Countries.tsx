@@ -4,7 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useLang } from "@/contexts/LanguageContext";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { GraduationCap, Wallet, ArrowRight } from "lucide-react";
+import { GraduationCap, Wallet, ArrowRight, Sparkles } from "lucide-react";
 import { COUNTRY_GUIDES } from "@/lib/countryGuides";
 
 function CountryCard({ guide, index }: { guide: (typeof COUNTRY_GUIDES)[number]; index: number }) {
@@ -68,6 +68,7 @@ function CountryCard({ guide, index }: { guide: (typeof COUNTRY_GUIDES)[number];
 
 export default function Countries() {
   const { t } = useLang();
+  const [, setLocation] = useLocation();
 
   return (
     <div className="min-h-screen">
@@ -84,7 +85,7 @@ export default function Countries() {
           transition={{ duration: 0.5 }}
         >
           <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary bg-primary/10 border border-primary/20 px-3 py-1.5 rounded-full mb-5">
-            🌍 {t("countries.pageTitle")}
+            🌍 {t("countries.studyAbroad")}
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-white mb-4">
             {t("countries.pageTitle")}
@@ -102,6 +103,30 @@ export default function Countries() {
             <CountryCard key={guide.slug} guide={guide} index={i} />
           ))}
         </div>
+      </div>
+
+      {/* Quiz CTA */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="rounded-2xl bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 p-8 sm:p-10 text-center"
+        >
+          <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+            <Sparkles className="w-6 h-6 text-primary" />
+          </div>
+          <h2 className="text-xl sm:text-2xl font-display font-bold mb-2">
+            {t("majorPages.takeQuizCta")}
+          </h2>
+          <p className="text-muted-foreground text-sm max-w-md mx-auto mb-6">
+            {t("countries.pageSubtitle")}
+          </p>
+          <Button size="lg" onClick={() => setLocation("/questionnaire")} className="gap-2">
+            {t("nav.startQuiz")} <ArrowRight className="w-4 h-4" />
+          </Button>
+        </motion.div>
       </div>
     </div>
   );
