@@ -66,40 +66,54 @@ interface AccountContextValue {
 const AccountContext = createContext<AccountContextValue | null>(null);
 
 async function fetchAccountData(user: User): Promise<Account> {
-  const [profileRes, dataRes] = await Promise.all([
-    supabase.from("profiles").select("username").eq("id", user.id).single(),
-    supabase.from("user_data").select("saved_result, goals, preferred_countries, deadlines").eq("id", user.id).single(),
-  ]).catch(() => [null, null] as const);
+  const fallbackUsername = user.user_metadata?.username
+    ?? user.email?.split("@")[0]
+    ?? "User";
 
-  // If profile doesn't exist or network error, return fallback
-  if (!profileRes || profileRes.error || !profileRes.data) {
-    const fallbackUsername = user.user_metadata?.username
-      ?? user.email?.split("@")[0]
-      ?? "User";
-    await Promise.all([
-      supabase.from("profiles").upsert({ id: user.id, username: fallbackUsername }),
-      supabase.from("user_data").upsert({ id: user.id }),
+  const fallback: Account = {
+    id: user.id,
+    username: fallbackUsername,
+    email: user.email ?? "",
+    savedResult: null,
+    savedGoals: [],
+    preferredCountries: [],
+    deadlines: [],
+  };
+
+  try {
+    // 6-second timeout so a slow/unreachable DB never hangs the app
+    const [profileRes, dataRes] = await Promise.race([
+      Promise.all([
+        supabase.from("profiles").select("username").eq("id", user.id).single(),
+        supabase.from("user_data").select("saved_result, goals, preferred_countries, deadlines").eq("id", user.id).single(),
+      ]),
+      new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("fetchAccountData timeout")), 6000)
+      ),
     ]);
+
+    if (!profileRes || profileRes.error || !profileRes.data) {
+      // New user — create rows fire-and-forget so we never block the UI
+      Promise.all([
+        supabase.from("profiles").upsert({ id: user.id, username: fallbackUsername }),
+        supabase.from("user_data").upsert({ id: user.id }),
+      ]).catch(() => {});
+      return fallback;
+    }
+
     return {
       id: user.id,
-      username: fallbackUsername,
+      username: profileRes.data.username,
       email: user.email ?? "",
-      savedResult: null,
-      savedGoals: [],
-      preferredCountries: [],
-      deadlines: [],
+      savedResult: dataRes?.data?.saved_result ?? null,
+      savedGoals: dataRes?.data?.goals ?? [],
+      preferredCountries: dataRes?.data?.preferred_countries ?? [],
+      deadlines: dataRes?.data?.deadlines ?? [],
     };
+  } catch {
+    // Timeout or network error — return minimal fallback so the app still renders
+    return fallback;
   }
-
-  return {
-    id: user.id,
-    username: profileRes.data.username,
-    email: user.email ?? "",
-    savedResult: dataRes.data?.saved_result ?? null,
-    savedGoals: dataRes.data?.goals ?? [],
-    preferredCountries: dataRes.data?.preferred_countries ?? [],
-    deadlines: dataRes.data?.deadlines ?? [],
-  };
 }
 
 export function AccountProvider({ children }: { children: ReactNode }) {
@@ -116,21 +130,33 @@ export function AccountProvider({ children }: { children: ReactNode }) {
     // Fallback: stop spinner after 5s even if Supabase is unreachable
     const timeout = setTimeout(() => setLoading(false), 5000);
 
-    // onAuthStateChange fires immediately with INITIAL_SESSION in Supabase v2,
-    // so we don't need a separate getSession() call — using both causes race conditions.
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    // onAuthStateChange fires immediately with INITIAL_SESSION in Supabase v2.
+    // KEY FIX: Stop the spinner AS SOON as we know whether the user is logged in,
+    // then load the full profile in the background. This prevents a hanging DB
+    // query from freezing the app on the loading screen indefinitely.
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       clearTimeout(timeout);
-      try {
-        if (session?.user) {
-          await loadAccount(session.user);
-        } else {
-          setAccount(null);
-        }
-      } catch {
-        // network error during account load — still stop spinner
-      } finally {
+      if (!session?.user) {
+        setAccount(null);
         setLoading(false);
+        return;
       }
+      // User is authenticated — stop spinner immediately with minimal info from
+      // the session token, then hydrate the full profile asynchronously.
+      const user = session.user;
+      setLoading(false);
+      loadAccount(user).catch(() => {
+        // Profile fetch failed — keep the minimal account derived from session
+        setAccount(prev => prev ?? {
+          id: user.id,
+          username: user.user_metadata?.username ?? user.email?.split("@")[0] ?? "User",
+          email: user.email ?? "",
+          savedResult: null,
+          savedGoals: [],
+          preferredCountries: [],
+          deadlines: [],
+        });
+      });
     });
 
     return () => subscription.unsubscribe();
