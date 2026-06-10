@@ -105,6 +105,12 @@
       ]
     },
     {
+      "source": "/scholarships",
+      "headers": [
+        { "key": "Link", "value": "<https://northvoy.com/scholarships>; rel=\"canonical\"" }
+      ]
+    },
+    {
       "source": "/countries/germany",
       "headers": [
         { "key": "Link", "value": "<https://northvoy.com/countries/germany>; rel=\"canonical\"" }

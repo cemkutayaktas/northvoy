@@ -135,6 +135,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/blog/how-to-write-a-university-application"/>
   </url>
 
+  <!-- Scholarship Finder -->
+  <url>
+    <loc>https://northvoy.com/scholarships</loc>
+    <lastmod>2026-06-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://northvoy.com/scholarships"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://northvoy.com/scholarships"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://northvoy.com/scholarships"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://northvoy.com/scholarships"/>
+  </url>
+
   <!-- Country Guides -->
   <url>
     <loc>https://northvoy.com/countries</loc>

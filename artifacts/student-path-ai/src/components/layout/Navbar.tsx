@@ -40,10 +40,10 @@ export function Navbar() {
   const links = [
     { href: "/", label: t("nav.home") },
     { href: "/questionnaire", label: t("nav.quiz") },
-    { href: "/compare", label: "Compare" },
     { href: "/majors", label: t("nav.majors") },
-    { href: "/blog", label: t("nav.blog") },
+    { href: "/scholarships", label: t("nav.scholarships") },
     { href: "/countries", label: t("nav.countries") },
+    { href: "/blog", label: t("nav.blog") },
     { href: "/turkiye", label: "🇹🇷 Türkiye" },
     { href: "/about", label: t("nav.about") },
   ];

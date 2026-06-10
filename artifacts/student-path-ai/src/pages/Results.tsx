@@ -11,6 +11,7 @@ import { shareResults } from "@/lib/shareResults";
 import { UNIVERSITIES_BY_COUNTRY } from "@/lib/universities";
 import { SALARY_DATA, GROWTH_COLOR, salaryChipText } from "@/lib/salaryData";
 import { getQSRank } from "@/lib/qsRankings";
+import { getScholarshipsForProfile, type Scholarship } from "@/lib/scholarships";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -21,6 +22,7 @@ import {
   SplitSquareHorizontal, CalendarDays, Compass,
   ChevronDown, ChevronUp, XCircle, BadgeCheck, AlertCircle,
   Share2, Check, FlaskConical, Route, Download, UserCircle, Save, Medal,
+  ExternalLink, Calendar, BookOpen, Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLang } from "@/contexts/LanguageContext";
@@ -669,6 +671,92 @@ function ExploreTab({ hidden, whyNot }: { hidden: HiddenMatch; whyNot: WhyNotEnt
   );
 }
 
+// ─── Tab 5: Scholarships ──────────────────────────────────────────────────────
+const SCHOLARSHIP_TYPE_COLORS: Record<Scholarship["type"], string> = {
+  full:         "bg-green-100 text-green-700 border-green-200",
+  partial:      "bg-blue-100 text-blue-700 border-blue-200",
+  living:       "bg-teal-100 text-teal-700 border-teal-200",
+  merit:        "bg-violet-100 text-violet-700 border-violet-200",
+  "need-based": "bg-amber-100 text-amber-700 border-amber-200",
+};
+
+function ScholarshipsTab({ results, preferredCountries }: { results: MatchResult[]; preferredCountries: string[] }) {
+  const { t, lang } = useLang();
+  const [, setLocation] = useLocation();
+
+  const allCountries = [...new Set([
+    ...preferredCountries,
+    ...results.flatMap(r => r.countries.map(c => c.name)),
+  ])];
+  const majorNames = results.map(r => r.major);
+  const scholarships = getScholarshipsForProfile(allCountries, majorNames);
+
+  const typeLabel = (type: Scholarship["type"]) => {
+    const map: Record<Scholarship["type"], string> = {
+      full: t("scholarships.typeFull"), partial: t("scholarships.typePartial"),
+      living: t("scholarships.typeLiving"), merit: t("scholarships.typeMerit"),
+      "need-based": t("scholarships.typeNeedBased"),
+    };
+    return map[type];
+  };
+
+  return (
+    <div>
+      <div className="flex items-start justify-between gap-4 mb-6 flex-wrap">
+        <div>
+          <h3 className="text-xl font-display font-bold">{t("scholarships.matchedTitle")}</h3>
+          <p className="text-sm text-muted-foreground mt-1">{t("scholarships.resultsTabSub")}</p>
+        </div>
+        <Button variant="outline" size="sm" onClick={() => setLocation("/scholarships")} className="gap-1.5 shrink-0">
+          <ExternalLink className="w-3.5 h-3.5" /> {t("scholarships.viewAll")}
+        </Button>
+      </div>
+
+      {scholarships.length === 0 ? (
+        <div className="text-center py-12 text-muted-foreground">
+          <Sparkles className="w-10 h-10 mx-auto mb-3 opacity-30" />
+          <p className="text-sm">{t("scholarships.noMatchedNote")}</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {scholarships.map((s, i) => (
+            <motion.div key={s.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}>
+              <Card className="p-5 border border-border/70 hover:border-primary/40 hover:shadow-md transition-all h-full flex flex-col">
+                <div className="flex items-start justify-between gap-2 mb-3">
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-semibold text-sm leading-tight">{s.name}</h4>
+                    <p className="text-xs text-muted-foreground mt-0.5">{s.provider}</p>
+                  </div>
+                  <span className={cn("text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full border shrink-0", SCHOLARSHIP_TYPE_COLORS[s.type])}>
+                    {typeLabel(s.type)}
+                  </span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 bg-primary/10 text-primary text-xs font-bold px-2.5 py-1 rounded-full mb-3">
+                  <Trophy className="w-3 h-3" />{s.amount}
+                </div>
+                <div className="space-y-1.5 text-xs text-foreground/75 flex-1">
+                  <div className="flex items-start gap-1.5"><BookOpen className="w-3 h-3 shrink-0 mt-0.5 text-primary" />{s.coverage}</div>
+                  <div className="flex items-start gap-1.5"><Users className="w-3 h-3 shrink-0 mt-0.5 text-violet-500" />{s.eligibility}</div>
+                  <div className="flex items-center gap-1.5"><Calendar className="w-3 h-3 shrink-0 text-amber-500" /><span className="font-medium">{s.deadline}</span></div>
+                </div>
+                <div className="flex flex-wrap gap-1 mt-3">
+                  {s.countries.slice(0, 3).map(c => (
+                    <span key={c} className="text-[10px] bg-sky-50 dark:bg-sky-950/30 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-800 px-2 py-0.5 rounded-full">{c}</span>
+                  ))}
+                </div>
+                <Button size="sm" variant="outline" className="mt-4 gap-1.5 w-full"
+                  onClick={() => window.open(s.link, "_blank", "noopener,noreferrer")}>
+                  <ExternalLink className="w-3 h-3" />{t("scholarships.applyNow")}
+                </Button>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Locked Overlay ───────────────────────────────────────────────────────────
 function LockedOverlay({ message }: { message?: string }) {
   const [, setLocation] = useLocation();
@@ -886,6 +974,9 @@ export default function Results() {
               <TabsTrigger value="explore" className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-md">
                 <Sparkles className="w-3.5 h-3.5" />{t("results.tabs.explore")}
               </TabsTrigger>
+              <TabsTrigger value="scholarships" className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-md">
+                <Trophy className="w-3.5 h-3.5" />{t("scholarships.resultsTab")}
+              </TabsTrigger>
             </TabsList>
           </div>
 
@@ -938,6 +1029,15 @@ export default function Results() {
               </div>
               {!account && <LockedOverlay message="Sign up free to explore your hidden match and alternative paths." />}
             </div>
+          </TabsContent>
+
+          <TabsContent value="scholarships">
+            <Card className="p-6 sm:p-8">
+              <ScholarshipsTab
+                results={results}
+                preferredCountries={account?.preferredCountries ?? []}
+              />
+            </Card>
           </TabsContent>
         </Tabs>
 
