@@ -150,6 +150,7 @@ const queryClient = new QueryClient();
 
 function Router() {
   const { loading } = useAccount();
+  const [location] = useLocation();
   usePageTracking();
 
   if (loading) {

@@ -2,6 +2,10 @@ import {
   QuestionnaireAnswers, MatchResult, ProfileType,
   HiddenMatch, WhyNotEntry, PathwayBranch, TwelveMonthPlan, AlternativeRoute,
 } from "./store";
+import {
+  QUIZ_FIELDS, QUIZ_OPTIONS, SCENARIO_FIELDS, SCENARIO_OPTIONS, LIKERT_IDS,
+  type QuizField, type LikertId,
+} from "./quizOptions";
 
 export const MAJORS = [
   "Computer Science & Software Engineering",
@@ -775,186 +779,629 @@ export const MAJOR_DATA: Record<Major, MajorData> = {
   },
 };
 
-// ─── Dimension scoring ────────────────────────────────────────────────────────
-interface Dims {
-  analytical: number; creative: number; social: number;
-  technical: number; leadership: number; research: number; business: number;
+// ─── Scoring engine v2 ────────────────────────────────────────────────────────
+// Declarative, normalized, guard-railed. Three signals feed every match:
+//   1. OPTION_DIMS        — what each answer option reveals about the student (9 dimensions)
+//   2. SCORING[m].dims    — how much each dimension matters for a major
+//   3. SCORING[m].affinity — direct answer-option → major evidence
+// Multi-select fields contribute their MEAN, so selecting everything is no
+// advantage, and every score is normalized against the achievable maximum for
+// the fields actually answered — percentages are honest, not relative-to-top.
+// Gates demote majors that lack a minimum prerequisite signal (e.g. Medicine
+// without any science answer), which prevents nonsensical recommendations.
+
+export const DIM_KEYS = [
+  "analytical", "creative", "social", "technical", "leadership",
+  "research", "business", "handsOn", "care",
+] as const;
+export type DimKey = (typeof DIM_KEYS)[number];
+export type Dims = Record<DimKey, number>;
+
+const zeroDims = (): Dims =>
+  Object.fromEntries(DIM_KEYS.map(k => [k, 0])) as Dims;
+
+// What each canonical answer option says about the student.
+// Option strings are globally unique across fields, so one flat map suffices.
+const OPTION_DIMS: Record<string, Partial<Dims>> = {
+  // subjects
+  "Mathematics":                { analytical: 2, technical: 1 },
+  "Computer Science":           { technical: 3, analytical: 1 },
+  "Physics":                    { technical: 2, analytical: 1 },
+  "Biology":                    { research: 2, care: 1 },
+  "Chemistry":                  { research: 2, technical: 1 },
+  "History":                    { analytical: 1, research: 1 },
+  "Economics":                  { business: 2, analytical: 1 },
+  "Art / Design":               { creative: 3 },
+  "Literature / Languages":     { creative: 1, social: 2 },
+  "Geography":                  { research: 1, analytical: 1 },
+  "Physical Education":         { handsOn: 2, social: 1 },
+
+  // interests
+  "Building technology & software":         { technical: 3, analytical: 1 },
+  "Launching businesses & startups":        { business: 3, leadership: 1 },
+  "Creating visual art & design":           { creative: 3 },
+  "Advancing science through research":     { research: 3, analytical: 1 },
+  "Helping people with health & wellbeing": { care: 2, social: 1, research: 1 },
+  "Shaping minds through education":        { social: 2, care: 1 },
+  "Defending justice & policy":             { analytical: 2, social: 1 },
+  "Protecting the environment":             { research: 2, care: 1 },
+  "Supporting communities & social causes": { social: 2, care: 2 },
+  "Engineering innovative systems":         { technical: 3, analytical: 1 },
+
+  // strengths
+  "Breaking down complex problems":            { analytical: 3 },
+  "Thinking creatively and originally":        { creative: 3 },
+  "Connecting with and understanding people":  { social: 2, care: 2 },
+  "Leading and motivating others":             { leadership: 3, business: 1 },
+  "Technical or digital skills":               { technical: 3 },
+  "Organizing and planning effectively":       { business: 2, analytical: 1 },
+  "Researching and digging into topics":       { research: 3, analytical: 1 },
+  "Explaining things clearly to others":       { social: 2, leadership: 1 },
+  "Staying calm and finding solutions":        { analytical: 2, technical: 1 },
+
+  // workStyle
+  "Analyzing data and patterns":              { analytical: 2, technical: 1 },
+  "Collaborating and connecting with people": { social: 3, leadership: 1 },
+  "Building or fixing physical things":       { handsOn: 3, technical: 1 },
+  "Designing and creating something new":     { creative: 3 },
+  "Working independently on focused tasks":   { research: 2, analytical: 1 },
+  "Managing a team toward a shared goal":     { leadership: 3, business: 1 },
+
+  // careerEnv
+  "A research lab or university":           { research: 3, analytical: 1 },
+  "A fast-paced corporate environment":     { business: 3, leadership: 1 },
+  "My own startup or business":             { business: 2, leadership: 2, technical: 1 },
+  "A creative studio or agency":            { creative: 3 },
+  "A school, hospital, or community space": { social: 2, care: 2 },
+  "Outdoors or in the field":               { handsOn: 2, research: 2 },
+  "A hospital or healthcare setting":       { care: 3, research: 1 },
+  "A government or policy institution":     { analytical: 2, social: 1, leadership: 1 },
+
+  // learningApproach
+  "Reading deeply and theorizing":          { research: 2, analytical: 1 },
+  "Hands-on practice and experimentation":  { handsOn: 2, technical: 1 },
+  "Creative exploration and play":          { creative: 2 },
+  "Group projects and discussion":          { social: 2, leadership: 1 },
+  "Solo deep-dives and self-study":         { research: 2, analytical: 1 },
+  "Data analysis and structured reasoning": { analytical: 2, technical: 1 },
+
+  // workOrientation
+  "Push the boundaries of scientific knowledge": { research: 3, analytical: 1 },
+  "Build products that millions of people use":  { technical: 3 },
+  "Lead teams and shape organizations":          { leadership: 3, business: 1 },
+  "Bring beauty and meaning into the world":     { creative: 3 },
+  "Directly improve people's lives day to day":  { care: 3, social: 1 },
+  "Find patterns that explain complex phenomena": { analytical: 3, research: 1 },
+
+  // futureGoals
+  "Having meaningful impact in the world":        { social: 1, leadership: 1 },
+  "Earning well and building financial security": { business: 2 },
+  "Using my creativity freely":                   { creative: 2 },
+  "Helping people directly every day":            { care: 2, social: 1 },
+  "Being at the cutting edge of innovation":      { technical: 1, leadership: 1 },
+  "Building systems and technology":              { technical: 2 },
+  "Influencing policy and social change":         { analytical: 1, leadership: 1 },
+  "Understanding the world at a deep level":      { research: 2, analytical: 1 },
+
+  // scenarioProject (detailed mode)
+  "Architect the app and write the code":     { technical: 3, analytical: 1 },
+  "Design the look, feel, and story":         { creative: 3 },
+  "Run the numbers and analyze the data":     { analytical: 3 },
+  "Organize the team, budget, and timeline":  { business: 2, leadership: 2 },
+  "Research the science behind the problem":  { research: 3 },
+  "Interview people and present the findings": { social: 2, leadership: 1 },
+
+  // scenarioFreeDay (detailed mode)
+  "Building or tinkering with something technical": { technical: 2, handsOn: 2 },
+  "Drawing, making music, or editing videos":       { creative: 3 },
+  "Volunteering or helping someone out":            { care: 3 },
+  "Reading about science, history, or big ideas":   { research: 2, analytical: 1 },
+  "Playing sports or being outdoors":               { handsOn: 3 },
+  "Planning a small business or side hustle":       { business: 3 },
+};
+
+// Detailed mode: what each Likert statement measures (rated 1–5; 3 is neutral).
+const LIKERT_DIMS: Record<LikertId, Partial<Dims>> = {
+  solveLogic:     { analytical: 3 },
+  buildThings:    { handsOn: 3, technical: 1 },
+  expressArt:     { creative: 3 },
+  helpPeople:     { care: 3, social: 1 },
+  leadGroup:      { leadership: 3 },
+  curiousScience: { research: 3 },
+  ventureSpirit:  { business: 3 },
+  fixTech:        { technical: 3 },
+  dataPatterns:   { analytical: 2, research: 1 },
+  empathize:      { care: 2, social: 2 },
+  publicSpeak:    { social: 2, leadership: 2 },
+  experiment:     { handsOn: 2, research: 2 },
+  aesthetics:     { creative: 2 },
+  organizeEvents: { business: 2, leadership: 1 },
+  debateIdeas:    { analytical: 2, social: 1 },
+  natureOutdoors: { handsOn: 2, care: 1, research: 1 },
+};
+
+// How much weight each question carries in the final profile.
+const FIELD_WEIGHT: Record<QuizField, number> = {
+  subjects: 1.2, interests: 1.4, strengths: 1.2, workStyle: 1.0,
+  careerEnv: 1.0, learningApproach: 0.8, workOrientation: 1.1, futureGoals: 1.0,
+};
+const SCENARIO_FIELD_WEIGHT = 1.2;
+const LIKERT_FIELD_WEIGHT = 2.2;
+const AFFINITY_SHARE = 0.55;
+const DIMENSION_SHARE = 0.45;
+
+// ─── Per-major scoring profile ────────────────────────────────────────────────
+export interface MajorScoring {
+  /** Dimension weights — dot product with the student's dimension vector. */
+  dims: Partial<Dims>;
+  /** Direct evidence: canonical answer option → points for this major. */
+  affinity: Record<string, number>;
+  /** Guardrail: if NONE of these options were selected, multiply the score. */
+  gate?: { anyOf: string[]; penalty: number };
 }
 
-function scoreDimensions(a: QuestionnaireAnswers): Dims {
-  const d: Dims = { analytical: 0, creative: 0, social: 0, technical: 0, leadership: 0, research: 0, business: 0 };
-  const { subjects, interests, strengths, workStyle, careerEnv, learningApproach, workOrientation, futureGoals } = a;
+export const SCORING: Record<Major, MajorScoring> = {
+  "Computer Science & Software Engineering": {
+    dims: { technical: 1.5, analytical: 1.0 },
+    affinity: {
+      "Computer Science": 3, "Mathematics": 2, "Physics": 1,
+      "Building technology & software": 3, "Engineering innovative systems": 2,
+      "Technical or digital skills": 2, "Breaking down complex problems": 1, "Staying calm and finding solutions": 1,
+      "Analyzing data and patterns": 1, "Working independently on focused tasks": 1,
+      "My own startup or business": 1, "A fast-paced corporate environment": 1,
+      "Hands-on practice and experimentation": 1, "Data analysis and structured reasoning": 1,
+      "Build products that millions of people use": 3,
+      "Building systems and technology": 2, "Being at the cutting edge of innovation": 1, "Earning well and building financial security": 1,
+      "Architect the app and write the code": 3, "Building or tinkering with something technical": 2,
+    },
+    gate: {
+      anyOf: ["Computer Science", "Mathematics", "Building technology & software", "Technical or digital skills", "Building systems and technology", "Architect the app and write the code", "Building or tinkering with something technical"],
+      penalty: 0.6,
+    },
+  },
 
-  // Subjects
-  if (subjects.includes("Mathematics"))            { d.analytical += 2; d.technical += 1; }
-  if (subjects.includes("Computer Science"))       { d.technical += 3; d.analytical += 1; }
-  if (subjects.includes("Physics"))                { d.technical += 2; d.analytical += 1; }
-  if (subjects.includes("Biology"))                { d.research += 2; d.social += 1; }
-  if (subjects.includes("Chemistry"))              { d.research += 2; d.technical += 1; }
-  if (subjects.includes("History"))                { d.analytical += 1; d.research += 1; }
-  if (subjects.includes("Economics"))              { d.business += 2; d.analytical += 1; }
-  if (subjects.includes("Art / Design"))           { d.creative += 3; }
-  if (subjects.includes("Literature / Languages")) { d.creative += 1; d.social += 2; }
-  if (subjects.includes("Geography"))              { d.research += 1; d.analytical += 1; }
+  "Business Administration & Management": {
+    dims: { business: 1.5, leadership: 1.2 },
+    affinity: {
+      "Economics": 2,
+      "Launching businesses & startups": 3,
+      "Leading and motivating others": 2, "Organizing and planning effectively": 2,
+      "Collaborating and connecting with people": 1, "Managing a team toward a shared goal": 2,
+      "A fast-paced corporate environment": 3, "My own startup or business": 2,
+      "Group projects and discussion": 1,
+      "Lead teams and shape organizations": 3,
+      "Earning well and building financial security": 2, "Having meaningful impact in the world": 1,
+      "Organize the team, budget, and timeline": 3, "Planning a small business or side hustle": 3,
+    },
+  },
 
-  // Interests (new strings)
-  if (interests.includes("Building technology & software"))      { d.technical += 3; d.analytical += 1; }
-  if (interests.includes("Launching businesses & startups"))     { d.business += 3; d.leadership += 1; }
-  if (interests.includes("Creating visual art & design"))        { d.creative += 3; }
-  if (interests.includes("Advancing science through research"))  { d.research += 3; d.analytical += 1; }
-  if (interests.includes("Helping people with health & wellbeing")) { d.social += 2; d.research += 1; }
-  if (interests.includes("Shaping minds through education"))     { d.social += 3; }
-  if (interests.includes("Defending justice & policy"))          { d.analytical += 2; d.social += 1; }
-  if (interests.includes("Protecting the environment"))          { d.research += 2; d.social += 1; }
-  if (interests.includes("Supporting communities & social causes")) { d.social += 3; }
-  if (interests.includes("Engineering innovative systems"))      { d.technical += 3; d.analytical += 1; }
+  "Medicine & Health Sciences": {
+    dims: { care: 1.2, research: 1.3, social: 0.4 },
+    affinity: {
+      "Biology": 3, "Chemistry": 2,
+      "Helping people with health & wellbeing": 3, "Advancing science through research": 2,
+      "Connecting with and understanding people": 1, "Researching and digging into topics": 2, "Staying calm and finding solutions": 1,
+      "A hospital or healthcare setting": 3, "A school, hospital, or community space": 1,
+      "Hands-on practice and experimentation": 1,
+      "Directly improve people's lives day to day": 2, "Push the boundaries of scientific knowledge": 1,
+      "Helping people directly every day": 2, "Understanding the world at a deep level": 1,
+      "Research the science behind the problem": 2, "Volunteering or helping someone out": 2,
+    },
+    gate: {
+      anyOf: ["Biology", "Chemistry", "Helping people with health & wellbeing", "A hospital or healthcare setting", "Advancing science through research"],
+      penalty: 0.5,
+    },
+  },
 
-  // Strengths (new strings)
-  if (strengths.includes("Breaking down complex problems"))      { d.analytical += 3; }
-  if (strengths.includes("Thinking creatively and originally"))  { d.creative += 3; }
-  if (strengths.includes("Connecting with and understanding people")) { d.social += 3; }
-  if (strengths.includes("Leading and motivating others"))       { d.leadership += 3; d.business += 1; }
-  if (strengths.includes("Technical or digital skills"))         { d.technical += 3; }
-  if (strengths.includes("Organizing and planning effectively")) { d.business += 2; d.analytical += 1; }
-  if (strengths.includes("Researching and digging into topics")) { d.research += 3; d.analytical += 1; }
-  if (strengths.includes("Explaining things clearly to others")) { d.social += 2; d.leadership += 1; }
-  if (strengths.includes("Staying calm and finding solutions"))  { d.analytical += 2; d.technical += 1; }
+  "Creative Arts & Graphic Design": {
+    dims: { creative: 1.8 },
+    affinity: {
+      "Art / Design": 3, "Literature / Languages": 1,
+      "Creating visual art & design": 3,
+      "Thinking creatively and originally": 2,
+      "Designing and creating something new": 2,
+      "A creative studio or agency": 3,
+      "Creative exploration and play": 2,
+      "Bring beauty and meaning into the world": 3,
+      "Using my creativity freely": 2,
+      "Design the look, feel, and story": 3, "Drawing, making music, or editing videos": 3,
+    },
+    gate: {
+      anyOf: ["Art / Design", "Creating visual art & design", "Thinking creatively and originally", "Designing and creating something new", "Using my creativity freely", "Creative exploration and play", "Design the look, feel, and story", "Drawing, making music, or editing videos"],
+      penalty: 0.6,
+    },
+  },
 
-  // Work style (new strings)
-  if (workStyle === "Analyzing data and patterns")              { d.analytical += 2; d.technical += 1; }
-  if (workStyle === "Collaborating and connecting with people") { d.social += 3; d.leadership += 1; }
-  if (workStyle === "Building or fixing physical things")       { d.technical += 2; }
-  if (workStyle === "Designing and creating something new")     { d.creative += 3; }
-  if (workStyle === "Working independently on focused tasks")   { d.research += 2; d.analytical += 1; }
-  if (workStyle === "Managing a team toward a shared goal")     { d.leadership += 3; d.business += 1; }
+  "Environmental Science & Sustainability": {
+    dims: { research: 1.2, care: 0.4, handsOn: 0.4 },
+    affinity: {
+      "Biology": 1, "Chemistry": 1, "Geography": 2,
+      "Protecting the environment": 3, "Advancing science through research": 1,
+      "Researching and digging into topics": 1,
+      "Outdoors or in the field": 3, "A research lab or university": 1,
+      "Hands-on practice and experimentation": 1,
+      "Push the boundaries of scientific knowledge": 1,
+      "Having meaningful impact in the world": 1, "Understanding the world at a deep level": 1,
+      "Research the science behind the problem": 1, "Playing sports or being outdoors": 2, "Reading about science, history, or big ideas": 1,
+    },
+  },
 
-  // Career environment (new strings)
-  if (careerEnv === "A research lab or university")             { d.research += 3; d.analytical += 1; }
-  if (careerEnv === "A fast-paced corporate environment")       { d.business += 3; d.leadership += 1; }
-  if (careerEnv === "My own startup or business")               { d.business += 2; d.leadership += 2; d.technical += 1; }
-  if (careerEnv === "A creative studio or agency")              { d.creative += 3; }
-  if (careerEnv === "A school, hospital, or community space")   { d.social += 3; }
-  if (careerEnv === "Outdoors or in the field")                 { d.research += 2; }
-  if (careerEnv === "A hospital or healthcare setting")         { d.social += 2; d.research += 1; }
-  if (careerEnv === "A government or policy institution")       { d.analytical += 2; d.social += 1; d.leadership += 1; }
+  "Psychology & Social Sciences": {
+    dims: { social: 1.3, care: 0.8, analytical: 0.5 },
+    affinity: {
+      "Biology": 1, "History": 1, "Literature / Languages": 1,
+      "Supporting communities & social causes": 3, "Shaping minds through education": 1, "Helping people with health & wellbeing": 1,
+      "Connecting with and understanding people": 2, "Researching and digging into topics": 1,
+      "Collaborating and connecting with people": 2,
+      "A school, hospital, or community space": 1, "A research lab or university": 1,
+      "Group projects and discussion": 1,
+      "Directly improve people's lives day to day": 1, "Find patterns that explain complex phenomena": 1,
+      "Helping people directly every day": 1, "Understanding the world at a deep level": 1,
+      "Interview people and present the findings": 2, "Volunteering or helping someone out": 2,
+    },
+  },
 
-  // Learning approach (new strings)
-  if (learningApproach === "Reading deeply and theorizing")         { d.research += 2; d.analytical += 1; }
-  if (learningApproach === "Hands-on practice and experimentation") { d.technical += 2; }
-  if (learningApproach === "Creative exploration and play")         { d.creative += 2; }
-  if (learningApproach === "Group projects and discussion")         { d.social += 2; d.leadership += 1; }
-  if (learningApproach === "Solo deep-dives and self-study")        { d.research += 2; d.analytical += 1; }
-  if (learningApproach === "Data analysis and structured reasoning") { d.analytical += 2; d.technical += 1; }
+  "Law & Political Science": {
+    dims: { analytical: 1.2, social: 0.6, leadership: 0.5 },
+    affinity: {
+      "History": 2, "Literature / Languages": 2, "Economics": 1,
+      "Defending justice & policy": 3, "Supporting communities & social causes": 1,
+      "Breaking down complex problems": 1, "Leading and motivating others": 1, "Explaining things clearly to others": 1,
+      "A government or policy institution": 3,
+      "Reading deeply and theorizing": 1,
+      "Lead teams and shape organizations": 1,
+      "Influencing policy and social change": 2, "Having meaningful impact in the world": 1,
+      "Interview people and present the findings": 1, "Reading about science, history, or big ideas": 1,
+    },
+    gate: {
+      anyOf: ["History", "Literature / Languages", "Economics", "Defending justice & policy", "Influencing policy and social change", "A government or policy institution"],
+      penalty: 0.7,
+    },
+  },
 
-  // Work orientation (new strings)
-  if (workOrientation === "Push the boundaries of scientific knowledge") { d.research += 3; d.analytical += 1; }
-  if (workOrientation === "Build products that millions of people use")  { d.technical += 3; }
-  if (workOrientation === "Lead teams and shape organizations")           { d.leadership += 3; d.business += 1; }
-  if (workOrientation === "Bring beauty and meaning into the world")     { d.creative += 3; }
-  if (workOrientation === "Directly improve people's lives day to day")  { d.social += 3; }
-  if (workOrientation === "Find patterns that explain complex phenomena") { d.analytical += 3; d.research += 1; }
+  "Mechanical & Civil Engineering": {
+    dims: { technical: 1.2, handsOn: 0.8, analytical: 0.7 },
+    affinity: {
+      "Physics": 2, "Mathematics": 1,
+      "Engineering innovative systems": 3, "Building technology & software": 1,
+      "Technical or digital skills": 2, "Staying calm and finding solutions": 1,
+      "Building or fixing physical things": 3,
+      "Hands-on practice and experimentation": 2,
+      "Build products that millions of people use": 1,
+      "Being at the cutting edge of innovation": 1,
+      "Architect the app and write the code": 1, "Building or tinkering with something technical": 2, "Playing sports or being outdoors": 1,
+    },
+    gate: {
+      anyOf: ["Physics", "Mathematics", "Engineering innovative systems", "Building or fixing physical things", "Technical or digital skills", "Building or tinkering with something technical"],
+      penalty: 0.6,
+    },
+  },
 
-  // Future goals (new strings)
-  if (futureGoals.includes("Having meaningful impact in the world"))    { d.social += 1; d.leadership += 1; }
-  if (futureGoals.includes("Earning well and building financial security")) { d.business += 2; }
-  if (futureGoals.includes("Using my creativity freely"))              { d.creative += 2; }
-  if (futureGoals.includes("Helping people directly every day"))        { d.social += 2; }
-  if (futureGoals.includes("Being at the cutting edge of innovation")) { d.technical += 1; d.leadership += 1; }
-  if (futureGoals.includes("Building systems and technology"))          { d.technical += 2; }
-  if (futureGoals.includes("Influencing policy and social change"))    { d.analytical += 1; d.leadership += 1; }
-  if (futureGoals.includes("Understanding the world at a deep level")) { d.research += 2; d.analytical += 1; }
+  "Data Science & Statistics": {
+    dims: { analytical: 1.5, technical: 0.8, research: 0.6 },
+    affinity: {
+      "Mathematics": 2, "Computer Science": 2, "Economics": 1,
+      "Building technology & software": 2, "Advancing science through research": 2,
+      "Breaking down complex problems": 2, "Organizing and planning effectively": 1, "Researching and digging into topics": 1,
+      "Analyzing data and patterns": 3, "Working independently on focused tasks": 1,
+      "A research lab or university": 1,
+      "Data analysis and structured reasoning": 3,
+      "Find patterns that explain complex phenomena": 3,
+      "Building systems and technology": 1, "Earning well and building financial security": 1, "Understanding the world at a deep level": 1,
+      "Run the numbers and analyze the data": 3, "Reading about science, history, or big ideas": 1,
+    },
+    gate: {
+      anyOf: ["Mathematics", "Computer Science", "Economics", "Analyzing data and patterns", "Data analysis and structured reasoning", "Breaking down complex problems", "Run the numbers and analyze the data"],
+      penalty: 0.65,
+    },
+  },
 
-  return d;
+  "Education & Teaching": {
+    dims: { social: 1.0, care: 0.8, creative: 0.3, leadership: 0.4 },
+    affinity: {
+      "Literature / Languages": 1, "Art / Design": 1,
+      "Shaping minds through education": 3, "Supporting communities & social causes": 1,
+      "Thinking creatively and originally": 1, "Connecting with and understanding people": 1, "Explaining things clearly to others": 3,
+      "Collaborating and connecting with people": 1, "Designing and creating something new": 1,
+      "A school, hospital, or community space": 2,
+      "Group projects and discussion": 2,
+      "Directly improve people's lives day to day": 2,
+      "Helping people directly every day": 1,
+      "Interview people and present the findings": 1, "Volunteering or helping someone out": 1,
+    },
+  },
+
+  "Finance & Economics": {
+    dims: { business: 1.4, analytical: 1.2 },
+    affinity: {
+      "Economics": 3, "Mathematics": 2,
+      "Launching businesses & startups": 2,
+      "Breaking down complex problems": 1, "Organizing and planning effectively": 1,
+      "Analyzing data and patterns": 2,
+      "A fast-paced corporate environment": 2,
+      "Data analysis and structured reasoning": 2,
+      "Find patterns that explain complex phenomena": 1, "Lead teams and shape organizations": 1,
+      "Earning well and building financial security": 3,
+      "Run the numbers and analyze the data": 2, "Planning a small business or side hustle": 2,
+    },
+    gate: {
+      anyOf: ["Economics", "Mathematics", "Earning well and building financial security", "Launching businesses & startups", "Run the numbers and analyze the data", "Planning a small business or side hustle"],
+      penalty: 0.7,
+    },
+  },
+
+  "Architecture & Urban Design": {
+    dims: { creative: 1.2, technical: 0.9, handsOn: 0.4, analytical: 0.4 },
+    affinity: {
+      "Art / Design": 2, "Physics": 1, "Mathematics": 1,
+      "Creating visual art & design": 2, "Engineering innovative systems": 1,
+      "Thinking creatively and originally": 1,
+      "Designing and creating something new": 2, "Building or fixing physical things": 1,
+      "A creative studio or agency": 1,
+      "Creative exploration and play": 1, "Hands-on practice and experimentation": 1,
+      "Bring beauty and meaning into the world": 2,
+      "Using my creativity freely": 1,
+      "Design the look, feel, and story": 2, "Drawing, making music, or editing videos": 1,
+    },
+    gate: {
+      anyOf: ["Art / Design", "Physics", "Mathematics", "Creating visual art & design", "Designing and creating something new"],
+      penalty: 0.7,
+    },
+  },
+
+  "Pharmacy & Biomedical Sciences": {
+    dims: { research: 1.3, technical: 0.5, care: 0.7 },
+    affinity: {
+      "Chemistry": 3, "Biology": 2,
+      "Advancing science through research": 2, "Helping people with health & wellbeing": 2,
+      "Researching and digging into topics": 2,
+      "Working independently on focused tasks": 1,
+      "A research lab or university": 2, "A hospital or healthcare setting": 2,
+      "Data analysis and structured reasoning": 1,
+      "Push the boundaries of scientific knowledge": 1, "Directly improve people's lives day to day": 1,
+      "Helping people directly every day": 1, "Understanding the world at a deep level": 1,
+      "Research the science behind the problem": 2,
+    },
+    gate: {
+      anyOf: ["Chemistry", "Biology", "Advancing science through research", "Helping people with health & wellbeing"],
+      penalty: 0.55,
+    },
+  },
+
+  "Communication & Media Studies": {
+    dims: { creative: 1.1, social: 1.1 },
+    affinity: {
+      "Literature / Languages": 2, "Art / Design": 1,
+      "Supporting communities & social causes": 1, "Creating visual art & design": 1,
+      "Thinking creatively and originally": 1, "Connecting with and understanding people": 1, "Explaining things clearly to others": 2,
+      "Collaborating and connecting with people": 1, "Designing and creating something new": 1,
+      "A creative studio or agency": 2,
+      "Group projects and discussion": 1,
+      "Bring beauty and meaning into the world": 1,
+      "Using my creativity freely": 1, "Having meaningful impact in the world": 1,
+      "Interview people and present the findings": 3, "Drawing, making music, or editing videos": 1,
+    },
+  },
+
+  "International Relations & Global Affairs": {
+    dims: { analytical: 1.0, social: 0.8, leadership: 0.8 },
+    affinity: {
+      "History": 2, "Economics": 1, "Literature / Languages": 1, "Geography": 1,
+      "Defending justice & policy": 2, "Supporting communities & social causes": 1,
+      "Leading and motivating others": 1, "Explaining things clearly to others": 1,
+      "Collaborating and connecting with people": 1,
+      "A government or policy institution": 2,
+      "Group projects and discussion": 1, "Reading deeply and theorizing": 1,
+      "Lead teams and shape organizations": 1,
+      "Influencing policy and social change": 2, "Having meaningful impact in the world": 1,
+      "Interview people and present the findings": 1, "Reading about science, history, or big ideas": 1,
+    },
+  },
+
+  "Cybersecurity & Network Engineering": {
+    dims: { technical: 1.4, analytical: 1.0 },
+    affinity: {
+      "Computer Science": 2, "Mathematics": 1,
+      "Building technology & software": 2, "Engineering innovative systems": 1,
+      "Technical or digital skills": 2, "Breaking down complex problems": 1, "Staying calm and finding solutions": 1,
+      "Analyzing data and patterns": 1, "Working independently on focused tasks": 1,
+      "Data analysis and structured reasoning": 1, "Hands-on practice and experimentation": 1,
+      "Build products that millions of people use": 1,
+      "Building systems and technology": 2, "Being at the cutting edge of innovation": 1,
+      "Architect the app and write the code": 2, "Building or tinkering with something technical": 2,
+    },
+    gate: {
+      anyOf: ["Computer Science", "Mathematics", "Building technology & software", "Technical or digital skills", "Building systems and technology"],
+      penalty: 0.6,
+    },
+  },
+
+  "Game Design & Interactive Media": {
+    dims: { creative: 1.3, technical: 0.9 },
+    affinity: {
+      "Computer Science": 2, "Art / Design": 2,
+      "Building technology & software": 1, "Creating visual art & design": 2,
+      "Thinking creatively and originally": 1, "Technical or digital skills": 1,
+      "Designing and creating something new": 2,
+      "A creative studio or agency": 2,
+      "Creative exploration and play": 2,
+      "Bring beauty and meaning into the world": 1, "Build products that millions of people use": 1,
+      "Using my creativity freely": 1, "Building systems and technology": 1,
+      "Design the look, feel, and story": 2, "Architect the app and write the code": 1,
+      "Drawing, making music, or editing videos": 2, "Building or tinkering with something technical": 1,
+    },
+    gate: {
+      anyOf: ["Computer Science", "Art / Design", "Creating visual art & design", "Building technology & software", "Creative exploration and play", "Using my creativity freely"],
+      penalty: 0.65,
+    },
+  },
+
+  "Nursing & Allied Health": {
+    dims: { care: 1.5, social: 0.6, handsOn: 0.4 },
+    affinity: {
+      "Biology": 2, "Chemistry": 1, "Physical Education": 1,
+      "Helping people with health & wellbeing": 3, "Supporting communities & social causes": 2,
+      "Connecting with and understanding people": 1, "Staying calm and finding solutions": 1,
+      "Collaborating and connecting with people": 1,
+      "A hospital or healthcare setting": 3, "A school, hospital, or community space": 2,
+      "Hands-on practice and experimentation": 1,
+      "Directly improve people's lives day to day": 2,
+      "Helping people directly every day": 2,
+      "Volunteering or helping someone out": 2,
+    },
+    gate: {
+      anyOf: ["Biology", "Helping people with health & wellbeing", "A hospital or healthcare setting", "A school, hospital, or community space", "Helping people directly every day"],
+      penalty: 0.55,
+    },
+  },
+
+  "Marketing & Advertising": {
+    dims: { creative: 1.0, business: 1.1, social: 0.5 },
+    affinity: {
+      "Economics": 1, "Art / Design": 1,
+      "Launching businesses & startups": 2, "Creating visual art & design": 1,
+      "Thinking creatively and originally": 1, "Connecting with and understanding people": 1,
+      "Collaborating and connecting with people": 1, "Designing and creating something new": 1,
+      "A fast-paced corporate environment": 1, "A creative studio or agency": 1, "My own startup or business": 1,
+      "Creative exploration and play": 1, "Group projects and discussion": 1,
+      "Lead teams and shape organizations": 1,
+      "Earning well and building financial security": 1, "Using my creativity freely": 1,
+      "Design the look, feel, and story": 1, "Interview people and present the findings": 1,
+      "Planning a small business or side hustle": 2, "Drawing, making music, or editing videos": 1,
+    },
+  },
+
+  "Linguistics & Translation": {
+    dims: { analytical: 0.7, creative: 0.6, social: 0.9 },
+    affinity: {
+      "Literature / Languages": 3, "History": 1,
+      "Supporting communities & social causes": 1, "Shaping minds through education": 1,
+      "Explaining things clearly to others": 1, "Thinking creatively and originally": 1, "Researching and digging into topics": 1,
+      "Working independently on focused tasks": 1,
+      "Reading deeply and theorizing": 2, "Solo deep-dives and self-study": 1,
+      "Find patterns that explain complex phenomena": 1,
+      "Understanding the world at a deep level": 1,
+      "Interview people and present the findings": 1, "Reading about science, history, or big ideas": 2,
+    },
+    gate: {
+      anyOf: ["Literature / Languages", "History", "Shaping minds through education", "Reading deeply and theorizing", "Reading about science, history, or big ideas"],
+      penalty: 0.7,
+    },
+  },
+};
+
+// ─── Engine internals ─────────────────────────────────────────────────────────
+interface ActiveField { options: string[]; selected: string[]; weight: number }
+
+function activeFields(a: QuestionnaireAnswers): ActiveField[] {
+  const fields: ActiveField[] = QUIZ_FIELDS.map(f => {
+    const raw = a[f];
+    const selected = Array.isArray(raw) ? raw : raw ? [raw] : [];
+    return { options: QUIZ_OPTIONS[f], selected, weight: FIELD_WEIGHT[f] };
+  });
+  if (a.scenarios?.length) {
+    for (const sf of SCENARIO_FIELDS) {
+      const sel = a.scenarios.find(s => SCENARIO_OPTIONS[sf].includes(s));
+      if (sel) fields.push({ options: SCENARIO_OPTIONS[sf], selected: [sel], weight: SCENARIO_FIELD_WEIGHT });
+    }
+  }
+  return fields;
 }
 
-// ─── Dimension → major score ──────────────────────────────────────────────────
-function dimScores(d: Dims): Record<string, number> {
-  return {
-    "Computer Science & Software Engineering":  d.technical * 1.5 + d.analytical * 1.0,
-    "Business Administration & Management":     d.business  * 1.5 + d.leadership * 1.2,
-    "Medicine & Health Sciences":               d.social * 0.8 + d.research * 1.3,
-    "Creative Arts & Graphic Design":           d.creative * 1.8,
-    "Environmental Science & Sustainability":   d.research * 1.2 + d.social * 0.5,
-    "Psychology & Social Sciences":             d.social * 1.5 + d.analytical * 0.5,
-    "Law & Political Science":                  d.analytical * 1.2 + d.social * 0.6 + d.leadership * 0.5,
-    "Mechanical & Civil Engineering":           d.technical * 1.3 + d.analytical * 0.8,
-    "Data Science & Statistics":                d.analytical * 1.5 + d.technical * 0.8 + d.research * 0.6,
-    "Education & Teaching":                     d.social * 1.2 + d.creative * 0.4 + d.leadership * 0.4,
-    "Finance & Economics":                      d.business * 1.4 + d.analytical * 1.2,
-    "Architecture & Urban Design":              d.creative * 1.2 + d.technical * 1.0 + d.analytical * 0.5,
-    "Pharmacy & Biomedical Sciences":           d.research * 1.2 + d.technical * 0.8 + d.social * 0.5,
-    "Communication & Media Studies":            d.creative * 1.2 + d.social * 1.0,
-    "International Relations & Global Affairs": d.analytical * 1.0 + d.social * 0.8 + d.leadership * 0.8,
-    "Cybersecurity & Network Engineering":      d.technical * 1.4 + d.analytical * 1.0,
-    "Game Design & Interactive Media":          d.creative * 1.3 + d.technical * 0.8,
-    "Nursing & Allied Health":                  d.social * 1.4 + d.research * 0.6,
-    "Marketing & Advertising":                  d.creative * 1.0 + d.business * 1.0 + d.social * 0.5,
-    "Linguistics & Translation":                d.analytical * 0.8 + d.creative * 0.6 + d.social * 0.8,
-  };
+function allSelected(a: QuestionnaireAnswers): Set<string> {
+  const set = new Set<string>();
+  for (const f of activeFields(a)) f.selected.forEach(o => set.add(o));
+  return set;
 }
 
-// ─── Keyword scoring ──────────────────────────────────────────────────────────
-function kwScores(a: QuestionnaireAnswers): Record<string, number> {
-  const s: Record<string, number> = {};
-  MAJORS.forEach(m => (s[m] = 0));
-  const { subjects, interests, strengths, workStyle, futureGoals } = a;
+const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 
-  subjects.forEach(sub => {
-    if (sub === "Computer Science")        { s["Computer Science & Software Engineering"] += 3; s["Data Science & Statistics"] += 2; s["Cybersecurity & Network Engineering"] += 2; s["Game Design & Interactive Media"] += 1; }
-    if (sub === "Mathematics")             { s["Computer Science & Software Engineering"] += 2; s["Data Science & Statistics"] += 2; s["Mechanical & Civil Engineering"] += 1; s["Finance & Economics"] += 2; }
-    if (sub === "Physics")                 { s["Mechanical & Civil Engineering"] += 2; s["Computer Science & Software Engineering"] += 1; s["Architecture & Urban Design"] += 1; }
-    if (sub === "Chemistry")               { s["Medicine & Health Sciences"] += 2; s["Environmental Science & Sustainability"] += 1; s["Pharmacy & Biomedical Sciences"] += 3; s["Nursing & Allied Health"] += 1; }
-    if (sub === "Biology")                 { s["Medicine & Health Sciences"] += 3; s["Environmental Science & Sustainability"] += 1; s["Psychology & Social Sciences"] += 1; s["Pharmacy & Biomedical Sciences"] += 2; s["Nursing & Allied Health"] += 2; }
-    if (sub === "History")                 { s["Law & Political Science"] += 2; s["Psychology & Social Sciences"] += 1; s["International Relations & Global Affairs"] += 2; }
-    if (sub === "Economics")               { s["Business Administration & Management"] += 2; s["Data Science & Statistics"] += 1; s["Law & Political Science"] += 1; s["Finance & Economics"] += 3; s["International Relations & Global Affairs"] += 1; s["Marketing & Advertising"] += 1; }
-    if (sub === "Art / Design")            { s["Creative Arts & Graphic Design"] += 3; s["Education & Teaching"] += 1; s["Architecture & Urban Design"] += 2; s["Game Design & Interactive Media"] += 2; s["Marketing & Advertising"] += 1; }
-    if (sub === "Literature / Languages")  { s["Law & Political Science"] += 2; s["Education & Teaching"] += 1; s["Psychology & Social Sciences"] += 1; s["Linguistics & Translation"] += 3; s["Communication & Media Studies"] += 2; s["International Relations & Global Affairs"] += 1; }
-  });
+/** Student dimension vector plus the achievable maximum for the answered fields. */
+function computeDims(a: QuestionnaireAnswers): { dims: Dims; maxDims: Dims } {
+  const dims = zeroDims();
+  const maxDims = zeroDims();
 
-  interests.forEach(i => {
-    if (i === "Building technology & software")         { s["Computer Science & Software Engineering"] += 3; s["Data Science & Statistics"] += 2; s["Mechanical & Civil Engineering"] += 1; s["Cybersecurity & Network Engineering"] += 2; s["Game Design & Interactive Media"] += 1; }
-    if (i === "Launching businesses & startups")        { s["Business Administration & Management"] += 3; s["Law & Political Science"] += 1; s["Finance & Economics"] += 2; s["Marketing & Advertising"] += 2; }
-    if (i === "Creating visual art & design")           { s["Creative Arts & Graphic Design"] += 3; s["Education & Teaching"] += 1; s["Architecture & Urban Design"] += 2; s["Game Design & Interactive Media"] += 2; s["Marketing & Advertising"] += 1; }
-    if (i === "Advancing science through research")     { s["Medicine & Health Sciences"] += 2; s["Data Science & Statistics"] += 2; s["Environmental Science & Sustainability"] += 1; s["Pharmacy & Biomedical Sciences"] += 2; }
-    if (i === "Helping people with health & wellbeing") { s["Medicine & Health Sciences"] += 3; s["Psychology & Social Sciences"] += 1; s["Nursing & Allied Health"] += 3; s["Pharmacy & Biomedical Sciences"] += 2; }
-    if (i === "Shaping minds through education")        { s["Education & Teaching"] += 3; s["Psychology & Social Sciences"] += 1; }
-    if (i === "Defending justice & policy")             { s["Law & Political Science"] += 3; s["Psychology & Social Sciences"] += 1; s["International Relations & Global Affairs"] += 2; }
-    if (i === "Protecting the environment")             { s["Environmental Science & Sustainability"] += 3; s["Medicine & Health Sciences"] += 1; }
-    if (i === "Supporting communities & social causes") { s["Psychology & Social Sciences"] += 3; s["Education & Teaching"] += 1; s["Law & Political Science"] += 1; s["Nursing & Allied Health"] += 2; s["International Relations & Global Affairs"] += 1; s["Communication & Media Studies"] += 1; }
-    if (i === "Engineering innovative systems")         { s["Mechanical & Civil Engineering"] += 3; s["Computer Science & Software Engineering"] += 2; s["Cybersecurity & Network Engineering"] += 1; s["Architecture & Urban Design"] += 1; }
-  });
+  for (const f of activeFields(a)) {
+    for (const k of DIM_KEYS) {
+      let best = 0;
+      for (const o of f.options) best = Math.max(best, OPTION_DIMS[o]?.[k] ?? 0);
+      maxDims[k] += best * f.weight;
+      if (f.selected.length === 0) continue;
+      let sum = 0;
+      for (const o of f.selected) sum += OPTION_DIMS[o]?.[k] ?? 0;
+      dims[k] += (sum / f.selected.length) * f.weight;
+    }
+  }
 
-  strengths.forEach(st => {
-    if (st === "Breaking down complex problems")       { s["Data Science & Statistics"] += 2; s["Computer Science & Software Engineering"] += 1; s["Law & Political Science"] += 1; }
-    if (st === "Thinking creatively and originally")   { s["Creative Arts & Graphic Design"] += 2; s["Education & Teaching"] += 1; }
-    if (st === "Connecting with and understanding people") { s["Psychology & Social Sciences"] += 2; s["Education & Teaching"] += 1; s["Medicine & Health Sciences"] += 1; }
-    if (st === "Leading and motivating others")        { s["Business Administration & Management"] += 2; s["Law & Political Science"] += 1; }
-    if (st === "Technical or digital skills")          { s["Computer Science & Software Engineering"] += 2; s["Mechanical & Civil Engineering"] += 2; }
-    if (st === "Organizing and planning effectively")  { s["Business Administration & Management"] += 2; s["Data Science & Statistics"] += 1; }
-    if (st === "Researching and digging into topics")  { s["Medicine & Health Sciences"] += 2; s["Data Science & Statistics"] += 1; s["Environmental Science & Sustainability"] += 1; }
-    if (st === "Explaining things clearly to others")  { s["Education & Teaching"] += 2; s["Law & Political Science"] += 1; }
-    if (st === "Staying calm and finding solutions")   { s["Mechanical & Civil Engineering"] += 1; s["Medicine & Health Sciences"] += 1; }
-  });
+  // Likert statements (detailed mode): 1–5 rating → −1…+1 factor around neutral.
+  const answered = a.likert ? LIKERT_IDS.filter(id => a.likert![id] != null) : [];
+  if (answered.length > 0) {
+    for (const k of DIM_KEYS) {
+      let sum = 0;
+      let posSum = 0;
+      for (const id of answered) {
+        const w = LIKERT_DIMS[id][k] ?? 0;
+        sum += ((a.likert![id] - 3) / 2) * w;
+        posSum += w;
+      }
+      dims[k] += (sum / answered.length) * LIKERT_FIELD_WEIGHT;
+      maxDims[k] += (posSum / answered.length) * LIKERT_FIELD_WEIGHT;
+    }
+  }
 
-  if (workStyle === "Analyzing data and patterns")            { s["Data Science & Statistics"] += 2; s["Computer Science & Software Engineering"] += 1; }
-  if (workStyle === "Collaborating and connecting with people") { s["Psychology & Social Sciences"] += 2; s["Business Administration & Management"] += 1; s["Education & Teaching"] += 1; }
-  if (workStyle === "Building or fixing physical things")      { s["Mechanical & Civil Engineering"] += 2; }
-  if (workStyle === "Designing and creating something new")    { s["Creative Arts & Graphic Design"] += 2; s["Education & Teaching"] += 1; }
-  if (workStyle === "Working independently on focused tasks")  { s["Data Science & Statistics"] += 1; s["Computer Science & Software Engineering"] += 1; }
-  if (workStyle === "Managing a team toward a shared goal")   { s["Business Administration & Management"] += 2; }
+  return { dims, maxDims };
+}
 
-  futureGoals.forEach(g => {
-    if (g === "Building systems and technology")              { s["Computer Science & Software Engineering"] += 2; s["Data Science & Statistics"] += 1; }
-    if (g === "Earning well and building financial security") { s["Business Administration & Management"] += 2; s["Data Science & Statistics"] += 1; }
-    if (g === "Helping people directly every day")            { s["Medicine & Health Sciences"] += 2; s["Psychology & Social Sciences"] += 1; s["Education & Teaching"] += 1; }
-    if (g === "Using my creativity freely")                   { s["Creative Arts & Graphic Design"] += 2; }
-    if (g === "Having meaningful impact in the world")        { s["Environmental Science & Sustainability"] += 1; s["Law & Political Science"] += 1; s["Business Administration & Management"] += 1; }
-    if (g === "Understanding the world at a deep level")      { s["Data Science & Statistics"] += 1; s["Medicine & Health Sciences"] += 1; }
-    if (g === "Influencing policy and social change")         { s["Law & Political Science"] += 2; }
-    if (g === "Being at the cutting edge of innovation")      { s["Mechanical & Civil Engineering"] += 1; s["Computer Science & Software Engineering"] += 1; }
-  });
+/** Normalized dimension vector (each dim 0–1 of its achievable max). */
+function normalizedDims(a: QuestionnaireAnswers): Dims {
+  const { dims, maxDims } = computeDims(a);
+  const out = zeroDims();
+  for (const k of DIM_KEYS) out[k] = maxDims[k] > 0 ? clamp01(dims[k] / maxDims[k]) : 0;
+  return out;
+}
 
-  return s;
+/** Per-major affinity score and achievable max for the answered fields. */
+function affinityScore(a: QuestionnaireAnswers, major: Major): { score: number; max: number } {
+  const aff = SCORING[major].affinity;
+  let score = 0;
+  let max = 0;
+  for (const f of activeFields(a)) {
+    let best = 0;
+    for (const o of f.options) best = Math.max(best, aff[o] ?? 0);
+    max += best * f.weight;
+    if (f.selected.length === 0) continue;
+    let sum = 0;
+    for (const o of f.selected) sum += aff[o] ?? 0;
+    score += (sum / f.selected.length) * f.weight;
+  }
+  return { score, max };
+}
+
+/** Honest 0–100 match score for every major, gates applied. */
+function scoreAllMajors(a: QuestionnaireAnswers): Record<string, number> {
+  const { dims, maxDims } = computeDims(a);
+  const selected = allSelected(a);
+  const combined: Record<string, number> = {};
+
+  for (const m of MAJORS) {
+    const sc = SCORING[m];
+    let dimScore = 0;
+    let dimMax = 0;
+    for (const k of DIM_KEYS) {
+      const w = sc.dims[k] ?? 0;
+      if (w === 0) continue;
+      dimScore += Math.max(0, dims[k]) * w;
+      dimMax += maxDims[k] * w;
+    }
+    const dimNorm = dimMax > 0 ? clamp01(dimScore / dimMax) : 0;
+    const { score, max } = affinityScore(a, m);
+    const affNorm = max > 0 ? clamp01(score / max) : 0;
+
+    let final = AFFINITY_SHARE * affNorm + DIMENSION_SHARE * dimNorm;
+    if (sc.gate && !sc.gate.anyOf.some(o => selected.has(o))) final *= sc.gate.penalty;
+    combined[m] = Math.round(final * 100);
+  }
+  return combined;
 }
 
 // ─── Why-it-matches ───────────────────────────────────────────────────────────
@@ -1041,14 +1488,19 @@ function buildUserStrengths(major: Major, a: QuestionnaireAnswers): string[] {
 
 // ─── Profile type ─────────────────────────────────────────────────────────────
 export function getProfileType(a: QuestionnaireAnswers): ProfileType {
-  const d = scoreDimensions(a);
-  const max = Math.max(d.technical, d.creative, d.business, d.leadership, d.social, d.analytical, d.research);
-  if (max === d.technical && d.technical >= d.analytical) return { label: "Tech Builder",                    tagline: "You're driven by curiosity and love turning ideas into real systems and solutions.",                  icon: "⚡", color: "blue" };
-  if (max === d.creative)                                  return { label: "Creative Strategist",             tagline: "You think visually, express boldly, and bring imagination to everything you touch.",               icon: "🎨", color: "purple" };
-  if (max === d.business || max === d.leadership)          return { label: "Business-Oriented Innovator",     tagline: "You're naturally entrepreneurial — you lead, plan, and always see the bigger picture.",             icon: "🚀", color: "amber" };
-  if (max === d.social)                                    return { label: "Social Problem Solver",           tagline: "You're empathetic and people-centered — motivated by making a lasting difference in others' lives.",icon: "🌱", color: "green" };
-  if (max === d.research)                                  return { label: "Research & Science Explorer",     tagline: "You're methodical, curious, and thrive on investigating the unknown through evidence and data.",     icon: "🔬", color: "teal" };
-  return                                                          { label: "Analytical Explorer",             tagline: "You're methodical, intellectually curious, and thrive on understanding how complex systems work.",   icon: "🔭", color: "indigo" };
+  const d = normalizedDims(a);
+  const max = Math.max(...DIM_KEYS.map(k => d[k]));
+  if ((max === d.technical || max === d.handsOn) && d.technical >= d.analytical * 0.8)
+    return { label: "Tech Builder",                tagline: "You're driven by curiosity and love turning ideas into real systems and solutions.",                  icon: "⚡", color: "blue" };
+  if (max === d.creative)
+    return { label: "Creative Strategist",         tagline: "You think visually, express boldly, and bring imagination to everything you touch.",               icon: "🎨", color: "purple" };
+  if (max === d.business || max === d.leadership)
+    return { label: "Business-Oriented Innovator", tagline: "You're naturally entrepreneurial — you lead, plan, and always see the bigger picture.",             icon: "🚀", color: "amber" };
+  if (max === d.social || max === d.care)
+    return { label: "Social Problem Solver",       tagline: "You're empathetic and people-centered — motivated by making a lasting difference in others' lives.",icon: "🌱", color: "green" };
+  if (max === d.research)
+    return { label: "Research & Science Explorer", tagline: "You're methodical, curious, and thrive on investigating the unknown through evidence and data.",     icon: "🔬", color: "teal" };
+  return   { label: "Analytical Explorer",         tagline: "You're methodical, intellectually curious, and thrive on understanding how complex systems work.",   icon: "🔭", color: "indigo" };
 }
 
 // ─── Hidden match ─────────────────────────────────────────────────────────────
@@ -1101,24 +1553,24 @@ function buildWhyNot(top3: string[], dims: Dims): WhyNotEntry[] {
     "Data Science & Statistics",
   ];
   const notInTop = POPULAR.filter(m => !top3.includes(m));
-  const WHY_NOT_REASONS: Record<Major, (d: Dims) => WhyNotEntry> = {
+  const WHY_NOT_REASONS: Partial<Record<Major, (d: Dims) => WhyNotEntry>> = {
     "Computer Science & Software Engineering": d => ({
       major: "Computer Science & Software Engineering",
-      reason: d.creative > d.technical + 2
+      reason: d.creative > d.technical + 0.15
         ? "Your creative strengths and expressive style are better suited to fields that center on human experience rather than technical systems."
         : "While you have analytical ability, your profile leans more toward research, people, or creative domains than core technical computing.",
       tip: "If you're curious, try one free coding tutorial — many students discover unexpected interest once they begin.",
     }),
     "Business Administration & Management": d => ({
       major: "Business Administration & Management",
-      reason: d.research > d.business + 2 || d.creative > d.business + 2
+      reason: d.research > d.business + 0.15 || d.creative > d.business + 0.15
         ? "Your profile points strongly toward exploration, research, or creative work rather than the commercial and organizational focus of business."
         : "Business requires high motivation for financial systems and leadership — your profile gravitates more toward another direction.",
       tip: "Business knowledge is always useful alongside any other field — even one course in entrepreneurship could add real value.",
     }),
     "Medicine & Health Sciences": d => ({
       major: "Medicine & Health Sciences",
-      reason: d.technical > d.social + 2
+      reason: d.technical > Math.max(d.social, d.care) + 0.15
         ? "Medicine prioritizes patient empathy and direct human care. Your profile leans more toward technical or analytical environments."
         : "Medicine demands a very long, demanding academic path. Your profile suggests you may find similar fulfillment through shorter, equally impactful routes.",
       tip: "Public health, biomedical science, or healthcare management can let you contribute to health outcomes without the full medical degree path.",
@@ -1132,22 +1584,31 @@ function buildWhyNot(top3: string[], dims: Dims): WhyNotEntry[] {
     }),
     "Data Science & Statistics": d => ({
       major: "Data Science & Statistics",
-      reason: d.creative > d.analytical + 2 || d.social > d.analytical + 2
+      reason: d.creative > d.analytical + 0.15 || d.social > d.analytical + 0.15
         ? "Data science is deeply numbers and logic-driven. Your strengths in creativity and people-connection are better expressed in other directions."
         : "While data is everywhere, your profile suggests other priorities — human connection, physical creation, or artistic expression — take center stage for you.",
       tip: "Even in non-data roles, basic data literacy is a superpower. A short statistics or Excel course will benefit any career you choose.",
     }),
   };
 
-  return notInTop.slice(0, 3).map(m => WHY_NOT_REASONS[m](dims));
+  return notInTop.slice(0, 3).flatMap(m => {
+    const build = WHY_NOT_REASONS[m];
+    return build ? [build(dims)] : [];
+  });
 }
 
 // ─── Confidence level ─────────────────────────────────────────────────────────
-function getConfidence(score: number, top: number, rank: number): "Strong Match" | "Good Match" | "Exploratory Match" {
-  if (rank === 0 && score >= top * 0.85) return "Strong Match";
-  if (rank === 0) return "Good Match";
-  if (score >= top * 0.80) return "Strong Match";
-  if (score >= top * 0.60) return "Good Match";
+// Based on the absolute normalized score plus the gap to the top match.
+// Detailed mode carries more signal, so it earns a small trust bonus.
+function getConfidence(pct: number, topPct: number, rank: number, detailed: boolean): "Strong Match" | "Good Match" | "Exploratory Match" {
+  const bump = detailed ? 4 : 0;
+  if (rank === 0) {
+    if (pct + bump >= 55) return "Strong Match";
+    if (pct + bump >= 40) return "Good Match";
+    return "Exploratory Match";
+  }
+  if (pct + bump >= 55 && pct >= topPct * 0.85) return "Strong Match";
+  if (pct + bump >= 42 && pct >= topPct * 0.65) return "Good Match";
   return "Exploratory Match";
 }
 
@@ -1157,13 +1618,9 @@ export function calculateResults(a: QuestionnaireAnswers): {
   hiddenMatch: HiddenMatch;
   whyNot: WhyNotEntry[];
 } {
-  const kw = kwScores(a);
-  const dims = scoreDimensions(a);
-  const ds = dimScores(dims);
+  const combined = scoreAllMajors(a);
   const budget = getBudgetTier(a.budgetLevel);
-
-  const combined: Record<string, number> = {};
-  MAJORS.forEach(m => { combined[m] = (kw[m] ?? 0) * 0.6 + (ds[m] ?? 0) * 0.4; });
+  const detailed = !!a.likert && Object.keys(a.likert).length > 0;
 
   const sorted = Object.entries(combined).sort((x, y) => y[1] - x[1]);
   const top3 = sorted.slice(0, 3);
@@ -1171,11 +1628,11 @@ export function calculateResults(a: QuestionnaireAnswers): {
 
   const results: MatchResult[] = top3.map(([major, score], rank) => {
     const m = major as Major;
-    const pct = Math.round((score / topScore) * 100);
+    const pct = score;
     return {
       major,
       score,
-      confidence: getConfidence(score, topScore, rank),
+      confidence: getConfidence(pct, topScore, rank, detailed),
       explanation: `${pct}% profile match across subjects, interests, strengths, work preferences, and motivations.`,
       whyItMatches: buildWhyItMatches(m, a),
       userStrengths: buildUserStrengths(m, a),
@@ -1195,7 +1652,7 @@ export function calculateResults(a: QuestionnaireAnswers): {
 
   const top3names = top3.map(([m]) => m);
   const hiddenMatch = buildHiddenMatch(top3names, combined);
-  const whyNot = buildWhyNot(top3names, dims);
+  const whyNot = buildWhyNot(top3names, normalizedDims(a));
 
   return { results, hiddenMatch, whyNot };
 }

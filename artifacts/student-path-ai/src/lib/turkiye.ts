@@ -33,6 +33,7 @@ export interface YKSMajorEntry {
   major: string;
   yksType: YKSType;
   turkishEquivalent: string;
+  note?: string;
 }
 
 export const TURKISH_UNIVERSITIES: TurkishUniversity[] = [

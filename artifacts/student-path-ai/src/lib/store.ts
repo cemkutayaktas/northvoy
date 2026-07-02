@@ -8,6 +8,11 @@ export interface QuestionnaireAnswers {
   workOrientation: string;
   futureGoals: string[];
   budgetLevel: string;
+  /** Detailed mode only: statement id → 1–5 agreement rating */
+  likert?: Record<string, number>;
+  /** Detailed mode only: chosen canonical option per scenario question */
+  scenarios?: string[];
+  mode?: "quick" | "detailed";
 }
 
 export interface PathwayBranch {

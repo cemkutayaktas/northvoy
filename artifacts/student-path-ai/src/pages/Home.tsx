@@ -59,12 +59,14 @@ function AnimatedCounter({ value }: { value: string }) {
   return <span ref={ref}>{count}{suffix}</span>;
 }
 
+const EASE_OUT: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
+
 const fadeUp = {
   hidden: { opacity: 0, y: 32 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, delay: i * 0.1, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 0.6, delay: i * 0.1, ease: EASE_OUT },
   }),
 };
 
@@ -73,7 +75,7 @@ const slideIn = (dir: "left" | "right") => ({
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 0.7, ease: EASE_OUT },
   },
 });
 

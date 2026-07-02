@@ -10,6 +10,7 @@ import {
   QuestionnaireAnswers,
 } from "@/lib/store";
 import { calculateResults, getProfileType } from "@/lib/matching";
+import { QUIZ_OPTIONS } from "@/lib/quizOptions";
 import { Check, ChevronRight, ChevronLeft, ShieldCheck, AlertCircle, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLang } from "@/contexts/LanguageContext";
@@ -84,85 +85,8 @@ const STEPS = [
 
 type StepId = (typeof STEPS)[number]["id"];
 
-const OPTIONS: Record<StepId, string[]> = {
-  subjects: [
-    "Mathematics", "Physics", "Chemistry", "Biology", "History",
-    "Geography", "Literature / Languages", "Computer Science",
-    "Art / Design", "Economics", "Physical Education",
-  ],
-  interests: [
-    "Building technology & software",
-    "Launching businesses & startups",
-    "Creating visual art & design",
-    "Advancing science through research",
-    "Helping people with health & wellbeing",
-    "Shaping minds through education",
-    "Defending justice & policy",
-    "Protecting the environment",
-    "Supporting communities & social causes",
-    "Engineering innovative systems",
-  ],
-  strengths: [
-    "Breaking down complex problems",
-    "Thinking creatively and originally",
-    "Connecting with and understanding people",
-    "Leading and motivating others",
-    "Technical or digital skills",
-    "Organizing and planning effectively",
-    "Researching and digging into topics",
-    "Explaining things clearly to others",
-    "Staying calm and finding solutions",
-  ],
-  workStyle: [
-    "Analyzing data and patterns",
-    "Collaborating and connecting with people",
-    "Building or fixing physical things",
-    "Designing and creating something new",
-    "Working independently on focused tasks",
-    "Managing a team toward a shared goal",
-  ],
-  careerEnv: [
-    "A research lab or university",
-    "A fast-paced corporate environment",
-    "My own startup or business",
-    "A creative studio or agency",
-    "A school, hospital, or community space",
-    "Outdoors or in the field",
-    "A hospital or healthcare setting",
-    "A government or policy institution",
-  ],
-  learningApproach: [
-    "Reading deeply and theorizing",
-    "Hands-on practice and experimentation",
-    "Creative exploration and play",
-    "Group projects and discussion",
-    "Solo deep-dives and self-study",
-    "Data analysis and structured reasoning",
-  ],
-  workOrientation: [
-    "Push the boundaries of scientific knowledge",
-    "Build products that millions of people use",
-    "Lead teams and shape organizations",
-    "Bring beauty and meaning into the world",
-    "Directly improve people's lives day to day",
-    "Find patterns that explain complex phenomena",
-  ],
-  futureGoals: [
-    "Having meaningful impact in the world",
-    "Earning well and building financial security",
-    "Using my creativity freely",
-    "Helping people directly every day",
-    "Being at the cutting edge of innovation",
-    "Building systems and technology",
-    "Influencing policy and social change",
-    "Understanding the world at a deep level",
-  ],
-  budgetLevel: [
-    "I prefer more affordable options — local or lower-cost universities",
-    "I'm open to moderate costs, including some international options",
-    "I'm fully open to top universities anywhere, regardless of cost",
-  ],
-};
+// Canonical option strings live in one place — the scoring engine keys off them.
+const OPTIONS: Record<StepId, string[]> = QUIZ_OPTIONS;
 
 // ─── Consent screen ───────────────────────────────────────────────────────────
 function ConsentScreen({ onAgree, onDecline }: { onAgree: () => void; onDecline: () => void }) {
