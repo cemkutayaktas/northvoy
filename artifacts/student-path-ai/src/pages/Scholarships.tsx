@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { SCHOLARSHIPS, ALL_SCHOLARSHIP_COUNTRIES, type Scholarship } from "@/lib/scholarships";
 import { cn } from "@/lib/utils";
+import { FloatingOrbs } from "@/components/visual/FloatingOrbs";
 
 const TYPE_COLORS: Record<Scholarship["type"], string> = {
   full:         "bg-green-100 text-green-700 border-green-200",
@@ -42,7 +43,7 @@ function ScholarshipCard({ s, index }: { s: Scholarship; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.4) }}
     >
-      <Card className="h-full flex flex-col border border-border/70 hover:border-primary/40 hover:shadow-lg transition-all duration-200 overflow-hidden">
+      <Card className="h-full flex flex-col border border-border/70 hover:border-primary/40 card-tilt-hover overflow-hidden">
         {/* Header */}
         <div className="px-5 pt-5 pb-4 flex-1">
           <div className="flex items-start justify-between gap-3 mb-3">
@@ -183,10 +184,11 @@ export default function Scholarships() {
     <div className="min-h-screen">
       {/* Hero */}
       <div
-        className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 text-center"
+        className="relative pt-28 pb-16 px-4 sm:px-6 lg:px-8 text-center overflow-hidden"
         style={{ background: "linear-gradient(160deg, #07091c 0%, #0c1432 60%, #060e20 100%)" }}
       >
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+        <FloatingOrbs intensity="bold" />
+        <motion.div className="relative z-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary bg-primary/10 border border-primary/20 px-3 py-1.5 rounded-full mb-5">
             <Sparkles className="w-3.5 h-3.5" /> {t("scholarships.badge")}
           </div>

@@ -31,6 +31,8 @@ import {
   Zap,
 } from "lucide-react";
 import { useLang } from "@/contexts/LanguageContext";
+import { TiltCard } from "@/components/visual/TiltCard";
+import { IsoCap, IsoCube, IsoBooks } from "@/components/visual/IsoShapes";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -307,8 +309,20 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              {/* Layer 1 — main: Results card (browser mockup) */}
+              {/* Floating isometric shapes — depth accents around the mockup */}
+              <motion.div style={{ x: c2x, y: c2y }} className="absolute -top-16 right-20 z-0 w-24 animate-float-slow">
+                <IsoCap className="w-full h-auto" />
+              </motion.div>
+              <motion.div style={{ x: c3x, y: c3y }} className="absolute -bottom-12 -left-16 z-0 w-16 animate-float-slower">
+                <IsoCube className="w-full h-auto" />
+              </motion.div>
+              <motion.div style={{ x: c2x, y: c2y }} className="absolute top-1/3 -right-20 z-0 w-20 animate-float-slow" >
+                <IsoBooks className="w-full h-auto" />
+              </motion.div>
+
+              {/* Layer 1 — main: Results card (browser mockup, pointer-tilt) */}
               <motion.div style={{ x: c1x, y: c1y }} className="relative z-10">
+                <TiltCard maxTilt={4}>
                 <div className="rounded-2xl overflow-hidden"
                   style={{
                     border: "1px solid rgba(255,255,255,0.09)",
@@ -394,6 +408,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
+                </TiltCard>
               </motion.div>
 
               {/* Layer 2 — front: floating quiz card */}

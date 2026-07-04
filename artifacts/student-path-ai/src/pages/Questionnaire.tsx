@@ -3,6 +3,9 @@ import { motion } from "framer-motion";
 import { Zap, Target, Check, ArrowRight, Sparkles, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLang } from "@/contexts/LanguageContext";
+import { TiltCard } from "@/components/visual/TiltCard";
+import { FloatingOrbs } from "@/components/visual/FloatingOrbs";
+import { IsoCap } from "@/components/visual/IsoShapes";
 
 // Mode chooser: /questionnaire — routes to /questionnaire/quick or /questionnaire/detailed
 export default function Questionnaire() {
@@ -34,14 +37,21 @@ export default function Questionnaire() {
   ];
 
   return (
-    <div className="min-h-screen pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-gray-50/50 dark:bg-transparent">
-      <div className="max-w-4xl mx-auto">
+    <div className="relative min-h-screen pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-gray-50/50 dark:bg-transparent overflow-hidden">
+      <FloatingOrbs intensity="bold" />
+      <div className="relative z-10 max-w-4xl mx-auto">
 
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="relative text-center mb-12"
         >
+          <motion.div
+            initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
+            className="hidden md:block absolute -top-6 right-2 w-20 animate-float-slow" aria-hidden
+          >
+            <IsoCap className="w-full h-auto" />
+          </motion.div>
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/25 bg-primary/8 text-primary text-sm font-medium mb-6">
             <Sparkles className="w-3.5 h-3.5" />
             {t("quizChooser.badge")}
@@ -63,9 +73,10 @@ export default function Questionnaire() {
               transition={{ duration: 0.55, delay: 0.15 + i * 0.12 }}
             >
               <Link href={m.href} className="block group h-full">
+                <TiltCard maxTilt={6} className="h-full">
                 <div className={cn(
                   "relative h-full rounded-3xl border-2 border-border bg-card p-7 sm:p-8 flex flex-col",
-                  "transition-all duration-300 group-hover:-translate-y-1.5 group-hover:border-primary/40",
+                  "transition-all duration-300 group-hover:border-primary/40",
                   "group-hover:shadow-2xl", m.shadow
                 )}>
                   {m.badge && (
@@ -105,6 +116,7 @@ export default function Questionnaire() {
                     {t("quizChooser.start")} <ArrowRight className="w-4 h-4" />
                   </div>
                 </div>
+                </TiltCard>
               </Link>
             </motion.div>
           ))}

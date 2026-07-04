@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { GraduationCap, Wallet, ArrowRight, Sparkles } from "lucide-react";
 import { COUNTRY_GUIDES } from "@/lib/countryGuides";
+import { FloatingOrbs } from "@/components/visual/FloatingOrbs";
 
 function CountryCard({ guide, index }: { guide: (typeof COUNTRY_GUIDES)[number]; index: number }) {
   const { t } = useLang();
@@ -20,7 +21,7 @@ function CountryCard({ guide, index }: { guide: (typeof COUNTRY_GUIDES)[number];
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.4, delay: index * 0.08 }}
     >
-      <Card className="h-full flex flex-col overflow-hidden border border-border/70 hover:border-primary/40 hover:shadow-lg transition-all duration-200">
+      <Card className="h-full flex flex-col overflow-hidden border border-border/70 hover:border-primary/40 card-tilt-hover">
         {/* Card header */}
         <div className="px-6 pt-6 pb-4 flex items-center gap-4">
           <span className="text-5xl leading-none select-none">{guide.flag}</span>
@@ -74,12 +75,14 @@ export default function Countries() {
     <div className="min-h-screen">
       {/* Hero */}
       <div
-        className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 text-center"
+        className="relative pt-28 pb-16 px-4 sm:px-6 lg:px-8 text-center overflow-hidden"
         style={{
           background: "linear-gradient(160deg, #07091c 0%, #0c1432 60%, #060e20 100%)",
         }}
       >
+        <FloatingOrbs intensity="bold" />
         <motion.div
+          className="relative z-10"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}

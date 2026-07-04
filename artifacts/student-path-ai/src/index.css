@@ -150,6 +150,33 @@ html.dark body {
   }
 }
 
+/* ─── 3D depth system ──────────────────────────────────────────────────────── */
+/* Slow drift for decorative orbs and isometric shapes */
+@keyframes float-slow {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50%      { transform: translate3d(14px, -20px, 0) rotate(2deg); }
+}
+@keyframes float-slower {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50%      { transform: translate3d(-16px, 14px, 0) rotate(-2deg); }
+}
+.animate-float-slow   { animation: float-slow 14s ease-in-out infinite; }
+.animate-float-slower { animation: float-slower 20s ease-in-out infinite; }
+
+/* CSS-only 3D hover tilt for grid cards — cheap, applies anywhere */
+.card-tilt-hover {
+  transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.28s ease;
+}
+.card-tilt-hover:hover {
+  transform: perspective(900px) rotateX(2.5deg) rotateY(-1.5deg) translateY(-5px);
+  box-shadow: 0 24px 48px -16px hsl(var(--primary) / 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-slow, .animate-float-slower { animation: none; }
+  .card-tilt-hover, .card-tilt-hover:hover { transform: none; }
+}
+
 /* Button press feedback — all buttons scale slightly on click */
 button:not(:disabled),
 a[role="button"]:not(:disabled) {

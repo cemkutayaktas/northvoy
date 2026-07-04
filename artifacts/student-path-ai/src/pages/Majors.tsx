@@ -5,6 +5,8 @@ import { MAJORS } from "@/lib/matching";
 import { SALARY_DATA, GROWTH_COLOR, salaryChipText } from "@/lib/salaryData";
 import { majorToSlug } from "@/lib/majorSlugs";
 import { useLang } from "@/contexts/LanguageContext";
+import { FloatingOrbs } from "@/components/visual/FloatingOrbs";
+import { IsoBooks } from "@/components/visual/IsoShapes";
 
 const MAJOR_ICONS: Record<string, string> = {
   "Computer Science & Software Engineering": "💻",
@@ -47,9 +49,16 @@ export default function Majors() {
       {/* Hero */}
       <section
         style={{ background: "linear-gradient(160deg, #07091c 0%, #0c1432 60%, #060e20 100%)" }}
-        className="pt-24 pb-16 px-4"
+        className="relative pt-24 pb-16 px-4 overflow-hidden"
       >
-        <div className="max-w-5xl mx-auto text-center">
+        <FloatingOrbs intensity="bold" />
+        <motion.div
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.2 }}
+          className="hidden lg:block absolute top-16 right-[12%] w-24 animate-float-slow" aria-hidden
+        >
+          <IsoBooks className="w-full h-auto" />
+        </motion.div>
+        <div className="relative z-10 max-w-5xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -81,7 +90,7 @@ export default function Majors() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, delay: i * 0.04 }}
-                className="group rounded-2xl border border-border bg-card hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-200 flex flex-col"
+                className="group rounded-2xl border border-border bg-card hover:border-primary/40 card-tilt-hover flex flex-col"
               >
                 <div className="p-5 flex flex-col flex-1">
                   {/* Icon + name */}
