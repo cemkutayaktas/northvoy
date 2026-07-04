@@ -124,7 +124,7 @@ export default function Home() {
 
   // ── Data ──
   const stats = [
-    { value: "20+", label: t("home.statMajors"), icon: GraduationCap },
+    { value: "30+", label: t("home.statMajors"), icon: GraduationCap },
     { value: "60+", label: t("home.statCountries"), icon: Globe },
     { value: "200+", label: t("home.statUniversities"), icon: BookOpen },
     { value: "3", label: t("home.statLanguages"), icon: Users },
@@ -152,7 +152,7 @@ export default function Home() {
     `⚡ ${t("home.freeInstant")}`,
     `🎯 ${t("home.marqueePrecision")}`,
     `🌍 60+ ${t("home.statCountries")}`,
-    `📚 20+ ${t("home.statMajors")}`,
+    `📚 30+ ${t("home.statMajors")}`,
     `⏱ ${t("home.fiveMinutes")}`,
     `📄 ${t("home.marqueePDF")}`,
     `🔒 ${t("home.marqueePrivacy")}`,

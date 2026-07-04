@@ -28,6 +28,16 @@ export const MAJORS = [
   "Nursing & Allied Health",
   "Marketing & Advertising",
   "Linguistics & Translation",
+  "Electrical & Electronics Engineering",
+  "Artificial Intelligence & Robotics",
+  "Biotechnology & Genetic Engineering",
+  "Dentistry & Oral Health",
+  "Veterinary Medicine & Animal Sciences",
+  "Music & Performing Arts",
+  "Sports Science & Physiotherapy",
+  "Hospitality & Tourism Management",
+  "Aerospace & Aeronautical Engineering",
+  "Physics & Astronomy",
 ] as const;
 export type Major = (typeof MAJORS)[number];
 
@@ -777,6 +787,366 @@ export const MAJOR_DATA: Record<Major, MajorData> = {
     alternativeRoute: { major: "International Relations & Global Affairs", reason: "Language and culture are at the heart of diplomacy. If you want to apply your linguistic skills at a political and policy level, international relations values multilingualism and cross-cultural expertise deeply." },
     miniProject: "Take a 500-word newspaper article and translate it into another language you know — even partially. Then write a one-page reflection: which words were hardest to translate and why? What does that tell you about how language shapes meaning?",
   },
+
+  "Electrical & Electronics Engineering": {
+    skills: ["Circuit Design & Analysis", "Embedded Systems", "Signal Processing", "Power Systems", "Control Engineering"],
+    careers: ["Electrical Engineer", "Electronics Design Engineer", "Embedded Systems Engineer", "Power Systems Engineer", "Semiconductor Engineer", "Hardware Architect"],
+    nextSteps: [
+      "Strengthen Physics and Mathematics — they're the language of electrical engineering.",
+      "Buy an Arduino starter kit (~$30) and build your first circuit projects.",
+      "Explore EE, Electronics, or Mechatronics programs at technical universities.",
+    ],
+    strengthKeywords: ["precise", "systematic", "hands-on", "technical"],
+    countries: [
+      { name: "United States", flag: "🇺🇸" }, { name: "Germany", flag: "🇩🇪" },
+      { name: "Switzerland", flag: "🇨🇭" }, { name: "South Korea", flag: "🇰🇷" },
+      { name: "Netherlands", flag: "🇳🇱" }, { name: "Sweden", flag: "🇸🇪" },
+    ],
+    universitiesByBudget: {
+      1: ["TU Munich (Germany — low/no fees)", "RWTH Aachen (Germany)", "KTH Royal Institute of Technology (Sweden)", "TU Delft (Netherlands)"],
+      2: ["University of Toronto (Canada)", "KAIST (South Korea)", "University of Melbourne (Australia)", "University of Manchester (UK)"],
+      3: ["MIT (USA)", "Stanford University (USA)", "ETH Zurich (Switzerland)", "UC Berkeley (USA)", "Imperial College London (UK)"],
+    },
+    pathways: [
+      { name: "Industry & Semiconductors", description: "Design the chips, circuits, and devices that power the modern world.", roles: ["Graduate Engineer", "Design Engineer", "Senior/Principal Engineer", "Chief Engineer / CTO"] },
+      { name: "Energy & Power Track", description: "Build and modernize the electrical grids and renewable energy systems of the future.", roles: ["Power Systems Engineer", "Grid Specialist", "Lead Energy Engineer", "Engineering Director"] },
+      { name: "Research & Emerging Tech", description: "Push into photonics, quantum devices, and next-generation electronics.", roles: ["Research Assistant", "PhD Researcher", "R&D Scientist", "Research Group Lead"] },
+    ],
+    studyCostLabel: "Moderate",
+    studyCostColor: "text-amber-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Master the Fundamentals", focus: ["Push Physics (especially electricity & magnetism) and Math to top grades", "Watch a circuits fundamentals course (Khan Academy / All About Circuits — free)", "Learn what EE branches exist: power, electronics, telecom, control"] },
+      q2: { title: "Apr–Jun: Get Hands-On", focus: ["Get an Arduino or ESP32 kit and complete 3 starter projects", "Learn to read circuit diagrams and use a multimeter", "Join an electronics or robotics club at school — or start one"] },
+      q3: { title: "Jul–Sep: Build Something Real", focus: ["Design and build a project that solves a real problem (sensor system, small robot)", "Learn basic C/C++ for microcontrollers", "Document your build with photos and a write-up for your portfolio"] },
+      q4: { title: "Oct–Dec: Prepare & Apply", focus: ["Research EE programs and their specializations at target universities", "Prepare for any required entrance exams (varies by country)", "Write a personal statement anchored in your hands-on projects"] },
+    },
+    alternativeRoute: { major: "Computer Science & Software Engineering", reason: "If you love the logic of engineering but prefer software over hardware, CS gives you the same problem-solving thrill with faster iteration and broader remote-friendly careers." },
+    miniProject: "Build a temperature-and-light sensor station with an Arduino that logs data to your laptop. Graph a week of readings and write one page on what patterns you found.",
+  },
+
+  "Artificial Intelligence & Robotics": {
+    skills: ["Machine Learning Fundamentals", "Python & Deep Learning Frameworks", "Robotics & Control Systems", "Computer Vision", "AI Ethics & Safety"],
+    careers: ["Machine Learning Engineer", "Robotics Engineer", "AI Research Scientist", "Computer Vision Engineer", "MLOps Engineer", "AI Product Manager"],
+    nextSteps: [
+      "Learn Python — it's the universal language of AI (freeCodeCamp or CS50P, free).",
+      "Take Andrew Ng's Machine Learning Specialization (free to audit on Coursera).",
+      "Explore AI, Robotics, or CS-with-ML programs — this field's demand is exploding.",
+    ],
+    strengthKeywords: ["curious", "mathematical", "innovative", "rigorous"],
+    countries: [
+      { name: "United States", flag: "🇺🇸" }, { name: "United Kingdom", flag: "🇬🇧" },
+      { name: "Canada", flag: "🇨🇦" }, { name: "Switzerland", flag: "🇨🇭" },
+      { name: "Germany", flag: "🇩🇪" }, { name: "Singapore", flag: "🇸🇬" },
+    ],
+    universitiesByBudget: {
+      1: ["TU Munich (Germany — low/no fees)", "University of Amsterdam (Netherlands)", "Aalto University (Finland)", "TU Berlin (Germany)"],
+      2: ["University of Toronto (Canada)", "University of Edinburgh (UK)", "University of Montreal / MILA (Canada)", "NUS (Singapore)"],
+      3: ["Carnegie Mellon University (USA)", "MIT (USA)", "Stanford University (USA)", "ETH Zurich (Switzerland)", "University of Oxford (UK)"],
+    },
+    pathways: [
+      { name: "ML Engineering Track", description: "Build and deploy AI systems used by millions inside tech companies.", roles: ["Junior ML Engineer", "ML Engineer", "Staff ML Engineer", "Head of AI"] },
+      { name: "Research Track", description: "Advance the frontier of AI in academic or industrial research labs.", roles: ["Research Assistant", "PhD Researcher", "Research Scientist", "Lab Director"] },
+      { name: "Robotics Track", description: "Bring intelligence into the physical world — autonomous vehicles, drones, industrial robots.", roles: ["Robotics Engineer", "Perception Engineer", "Autonomy Lead", "Chief Robotics Officer"] },
+    ],
+    studyCostLabel: "Moderate–High",
+    studyCostColor: "text-amber-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Foundations", focus: ["Learn Python thoroughly (CS50P or freeCodeCamp — free)", "Strengthen math: linear algebra and statistics basics (3Blue1Brown, Khan Academy)", "Read one accessible AI book or follow reputable AI newsletters"] },
+      q2: { title: "Apr–Jun: First Models", focus: ["Complete Andrew Ng's ML Specialization or fast.ai's Practical Deep Learning", "Train your first model on a Kaggle beginner dataset", "Understand how LLMs like ChatGPT actually work at a high level"] },
+      q3: { title: "Jul–Sep: Build & Compete", focus: ["Enter a Kaggle competition or build an AI-powered app end to end", "Try a robotics simulator (Webots is free) or a physical kit if available", "Publish your projects on GitHub with clear write-ups"] },
+      q4: { title: "Oct–Dec: Position & Apply", focus: ["Research AI/Robotics/CS programs — check which have dedicated AI tracks", "Polish your two best projects into portfolio pieces", "Write a personal statement connecting your projects to where the field is going"] },
+    },
+    alternativeRoute: { major: "Data Science & Statistics", reason: "If you love the modelling but want broader applicability beyond AI labs, data science applies the same toolkit across every industry — finance, health, sport, policy." },
+    miniProject: "Train an image classifier that tells apart three things you care about (e.g. cat breeds, guitar types) using a free Google Colab notebook, and share the demo link with friends.",
+  },
+
+  "Biotechnology & Genetic Engineering": {
+    skills: ["Molecular Biology Techniques", "Genetic Engineering (CRISPR)", "Bioinformatics", "Lab Methods & Safety", "Bioprocess Engineering"],
+    careers: ["Biotechnologist", "Genetic Engineer", "Bioinformatician", "Bioprocess Engineer", "Clinical Research Associate", "Biotech Founder"],
+    nextSteps: [
+      "Excel in Biology and Chemistry — molecular biology builds directly on both.",
+      "Follow real biotech breakthroughs (CRISPR therapies, mRNA platforms) in science media.",
+      "Explore Biotechnology, Molecular Biology, or Bioengineering programs.",
+    ],
+    strengthKeywords: ["meticulous", "curious", "patient", "scientific"],
+    countries: [
+      { name: "United States", flag: "🇺🇸" }, { name: "Switzerland", flag: "🇨🇭" },
+      { name: "Denmark", flag: "🇩🇰" }, { name: "Netherlands", flag: "🇳🇱" },
+      { name: "United Kingdom", flag: "🇬🇧" }, { name: "Germany", flag: "🇩🇪" },
+    ],
+    universitiesByBudget: {
+      1: ["Wageningen University (Netherlands)", "Technical University of Denmark (DTU)", "University of Copenhagen (Denmark)", "Heidelberg University (Germany — low fees)"],
+      2: ["University of Toronto (Canada)", "University of Queensland (Australia)", "University of Edinburgh (UK)", "KU Leuven (Belgium)"],
+      3: ["MIT (USA)", "Harvard University (USA)", "Stanford University (USA)", "ETH Zurich (Switzerland)", "Imperial College London (UK)"],
+    },
+    pathways: [
+      { name: "Industry Track", description: "Develop therapies, diagnostics, and bio-based products in pharma and biotech companies.", roles: ["Lab Technician", "R&D Scientist", "Senior Scientist", "Director of R&D"] },
+      { name: "Academic Research", description: "Pursue graduate research in genetics, synthetic biology, or bioinformatics.", roles: ["Research Assistant", "PhD Researcher", "Postdoc", "Principal Investigator"] },
+      { name: "Biotech Entrepreneurship", description: "Turn lab breakthroughs into startups — biotech is one of the most VC-funded sectors.", roles: ["Research Scientist", "Scientific Co-founder", "CSO", "Biotech CEO"] },
+    ],
+    studyCostLabel: "Moderate–High",
+    studyCostColor: "text-amber-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Scientific Foundations", focus: ["Aim for top grades in Biology and Chemistry", "Learn the central dogma (DNA → RNA → protein) deeply — free on Khan Academy", "Read about CRISPR and mRNA vaccines to see the field's real impact"] },
+      q2: { title: "Apr–Jun: Get Closer to the Lab", focus: ["Ask your school about extra lab time or a science-fair project", "Try a basic bioinformatics tutorial (Rosalind.info is free and game-like)", "Watch iGEM competition project videos — high schoolers do real synthetic biology"] },
+      q3: { title: "Jul–Sep: Deepen & Differentiate", focus: ["Learn basic Python for biology — it's a superpower in modern biotech", "Do a deep-dive project: write an explainer on a gene therapy that interests you", "Look for local university open days or summer science programs"] },
+      q4: { title: "Oct–Dec: Apply Strategically", focus: ["Compare Biotechnology vs Molecular Biology vs Bioengineering programs — they differ", "Check lab facilities and research output of your target universities", "Write your personal statement around a specific breakthrough that inspires you"] },
+    },
+    alternativeRoute: { major: "Pharmacy & Biomedical Sciences", reason: "If you want the same molecular science with a clearer professional license and patient-facing option, pharmacy offers a more structured career path with strong employment security." },
+    miniProject: "Extract DNA from a strawberry using household items (salt, dish soap, alcohol), document the process on video, and explain in simple terms what the white strands actually are.",
+  },
+
+  "Dentistry & Oral Health": {
+    skills: ["Dental Anatomy & Diagnosis", "Clinical Manual Dexterity", "Radiography & Imaging", "Patient Communication", "Practice Management"],
+    careers: ["Dentist", "Orthodontist", "Oral & Maxillofacial Surgeon", "Periodontist", "Dental Public Health Specialist", "Practice Owner"],
+    nextSteps: [
+      "Excel in Biology and Chemistry — dentistry entry is as competitive as medicine.",
+      "Shadow a local dentist for a day — admissions committees value real exposure.",
+      "Research entry requirements early: many countries require entrance exams (DAT, UCAT).",
+    ],
+    strengthKeywords: ["dexterous", "precise", "caring", "composed"],
+    countries: [
+      { name: "United Kingdom", flag: "🇬🇧" }, { name: "United States", flag: "🇺🇸" },
+      { name: "Sweden", flag: "🇸🇪" }, { name: "Netherlands", flag: "🇳🇱" },
+      { name: "Australia", flag: "🇦🇺" }, { name: "Germany", flag: "🇩🇪" },
+    ],
+    universitiesByBudget: {
+      1: ["University of Gothenburg (Sweden)", "Charité Berlin (Germany — low fees)", "Radboud University (Netherlands)", "University of Helsinki (Finland)"],
+      2: ["University of Otago (New Zealand)", "University of Melbourne (Australia)", "ACTA Amsterdam (Netherlands)", "Cardiff University (UK)"],
+      3: ["King's College London (UK)", "University of Michigan (USA)", "Harvard School of Dental Medicine (USA)", "University of Hong Kong", "UCL Eastman (UK)"],
+    },
+    pathways: [
+      { name: "Clinical Practice", description: "Treat patients in general practice — and eventually own your own clinic.", roles: ["Dental Student", "Associate Dentist", "Practice Partner", "Clinic Owner"] },
+      { name: "Specialist Track", description: "Train further into orthodontics, oral surgery, or periodontics.", roles: ["General Dentist", "Specialty Resident", "Specialist", "Consultant Surgeon"] },
+      { name: "Academic & Public Health", description: "Teach, research, or shape oral health policy at population scale.", roles: ["Clinical Tutor", "Researcher", "Professor", "Public Health Director"] },
+    ],
+    studyCostLabel: "High (Long Study Duration)",
+    studyCostColor: "text-red-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Academic Excellence", focus: ["Push Biology and Chemistry to the top of your class", "Research what dentistry admission requires in your target countries", "Start a manual-dexterity hobby: model building, drawing, or instrument playing"] },
+      q2: { title: "Apr–Jun: Real Exposure", focus: ["Arrange to shadow a dentist — even one afternoon counts", "Volunteer in any healthcare or community care setting", "Keep a reflection journal of what you observe — gold for interviews"] },
+      q3: { title: "Jul–Sep: Test Preparation", focus: ["Begin UCAT/DAT preparation if your target country requires it", "Learn the basics of oral anatomy for interviews", "Research the difference between dental schools' teaching styles (PBL vs traditional)"] },
+      q4: { title: "Oct–Dec: Apply Early", focus: ["Dentistry deadlines are early and strict — map every date now", "Polish your personal statement around patient care and dexterity evidence", "Practice interview scenarios: ethics questions are common"] },
+    },
+    alternativeRoute: { major: "Medicine & Health Sciences", reason: "If you're drawn to healthcare but want broader diagnostic variety than the oral cavity, medicine opens more specialty doors — at the cost of a longer, less predictable training path." },
+    miniProject: "Interview a dentist about their least expected daily challenge, then create a one-page 'day in the life' infographic — you'll learn more from this than from any brochure.",
+  },
+
+  "Veterinary Medicine & Animal Sciences": {
+    skills: ["Animal Anatomy & Physiology", "Clinical Diagnosis", "Surgery Fundamentals", "Animal Welfare & Ethics", "Client Communication"],
+    careers: ["Veterinarian", "Veterinary Surgeon", "Wildlife Veterinarian", "Animal Nutritionist", "Veterinary Researcher", "Public Health Veterinarian"],
+    nextSteps: [
+      "Excel in Biology and Chemistry — vet school entry is among the most competitive.",
+      "Get animal experience now: shelters, farms, stables, or a local vet clinic.",
+      "Research vet programs early — seats are limited and requirements strict.",
+    ],
+    strengthKeywords: ["compassionate", "observant", "resilient", "practical"],
+    countries: [
+      { name: "United Kingdom", flag: "🇬🇧" }, { name: "Netherlands", flag: "🇳🇱" },
+      { name: "United States", flag: "🇺🇸" }, { name: "Denmark", flag: "🇩🇰" },
+      { name: "Austria", flag: "🇦🇹" }, { name: "New Zealand", flag: "🇳🇿" },
+    ],
+    universitiesByBudget: {
+      1: ["Utrecht University (Netherlands)", "University of Copenhagen (Denmark)", "Vetmeduni Vienna (Austria — low fees)", "Ghent University (Belgium)"],
+      2: ["University of Edinburgh — Dick Vet (UK)", "Massey University (New Zealand)", "University of Guelph (Canada)", "University of Sydney (Australia)"],
+      3: ["Royal Veterinary College London (UK)", "UC Davis (USA)", "Cornell University (USA)", "University of Cambridge (UK)"],
+    },
+    pathways: [
+      { name: "Clinical Practice", description: "Care for companion animals, livestock, or equine patients in practice.", roles: ["Vet Student", "Associate Veterinarian", "Senior Vet", "Practice Owner"] },
+      { name: "Wildlife & Conservation", description: "Work with zoos, sanctuaries, and conservation programs worldwide.", roles: ["Wildlife Intern", "Zoo Veterinarian", "Conservation Vet", "Program Director"] },
+      { name: "Research & One Health", description: "Tackle zoonotic disease and food safety where animal and human health meet.", roles: ["Research Assistant", "Veterinary Epidemiologist", "Senior Researcher", "One Health Lead"] },
+    ],
+    studyCostLabel: "High (Long Study Duration)",
+    studyCostColor: "text-red-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Foundations & First Contact", focus: ["Top grades in Biology and Chemistry — non-negotiable for vet school", "Contact local shelters, farms, or clinics about volunteering", "Start an animal-experience log: dates, species, what you did and learned"] },
+      q2: { title: "Apr–Jun: Broaden Animal Experience", focus: ["Aim for experience with at least two animal types (small animals + livestock ideally)", "Read about One Health — how animal, human, and environmental health connect", "Follow a vet school's social media to see real student life"] },
+      q3: { title: "Jul–Sep: Deepen & Differentiate", focus: ["Ask to observe a vet during procedures (many allow shadowing)", "Research vet program admission requirements in 3 countries", "Learn the emotional realities of the profession — resilience matters in interviews"] },
+      q4: { title: "Oct–Dec: Apply With Evidence", focus: ["Vet applications weigh animal experience heavily — quantify yours (hours, species)", "Request references from vets or shelter managers you worked with", "Prepare for interviews: welfare ethics scenarios are standard"] },
+    },
+    alternativeRoute: { major: "Biotechnology & Genetic Engineering", reason: "If you love animal biology but the decade of clinical training deters you, biotech lets you work on animal health, genetics, and welfare from the lab side with broader industry options." },
+    miniProject: "Volunteer one weekend at an animal shelter and write a short reflection: which moments energized you, which drained you? That honest signal matters more than grades for this path.",
+  },
+
+  "Music & Performing Arts": {
+    skills: ["Instrumental / Vocal Mastery", "Music Theory & Composition", "Stage Presence & Performance", "Music Production (DAW)", "Ensemble Collaboration"],
+    careers: ["Professional Musician", "Composer", "Music Producer", "Performing Artist", "Music Teacher", "Music Director"],
+    nextSteps: [
+      "Practice deliberately and get feedback — conservatoire entry is audition-based.",
+      "Record yourself monthly; progress you can hear builds both skill and audition material.",
+      "Research conservatoires vs university music programs — they differ enormously.",
+    ],
+    strengthKeywords: ["expressive", "disciplined", "collaborative", "creative"],
+    countries: [
+      { name: "United States", flag: "🇺🇸" }, { name: "United Kingdom", flag: "🇬🇧" },
+      { name: "Austria", flag: "🇦🇹" }, { name: "Germany", flag: "🇩🇪" },
+      { name: "France", flag: "🇫🇷" }, { name: "Finland", flag: "🇫🇮" },
+    ],
+    universitiesByBudget: {
+      1: ["mdw Vienna (Austria — low fees)", "Hanns Eisler Berlin (Germany)", "Sibelius Academy (Finland)", "Mozarteum Salzburg (Austria)"],
+      2: ["Paris Conservatoire (France)", "Royal Conservatoire of Scotland (UK)", "Melbourne Conservatorium (Australia)", "University of Toronto (Canada)"],
+      3: ["The Juilliard School (USA)", "Berklee College of Music (USA)", "Royal College of Music (UK)", "Royal Academy of Music (UK)", "Curtis Institute (USA)"],
+    },
+    pathways: [
+      { name: "Performance Track", description: "Perform as a soloist, ensemble member, or orchestra musician.", roles: ["Student Performer", "Freelance Musician", "Ensemble/Orchestra Member", "Principal / Soloist"] },
+      { name: "Creation Track", description: "Compose and produce for artists, film, games, and media.", roles: ["Bedroom Producer", "Composer/Producer", "Music Director", "Award-Winning Composer"] },
+      { name: "Education & Direction", description: "Teach, conduct, and lead musical institutions.", roles: ["Private Tutor", "Music Teacher", "Conductor / Department Head", "Conservatoire Professor"] },
+    ],
+    studyCostLabel: "Low–Moderate",
+    studyCostColor: "text-green-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Technical Foundation", focus: ["Set a deliberate practice routine (quality over hours) with clear weekly goals", "Study music theory fundamentals — free via musictheory.net", "Record a baseline video of your current level"] },
+      q2: { title: "Apr–Jun: Perform & Produce", focus: ["Perform publicly at least twice — school events, open mics, community concerts", "Learn a DAW basics (GarageBand or Reaper) and produce one simple track", "Get feedback from a teacher or experienced musician monthly"] },
+      q3: { title: "Jul–Sep: Audition Preparation", focus: ["Research audition requirements at 5 target schools — repertoire lists differ", "Build your audition program with your teacher", "Attend a summer music course or masterclass if possible"] },
+      q4: { title: "Oct–Dec: Applications & Auditions", focus: ["Record polished audition videos (many schools pre-screen by video)", "Apply early — conservatoire deadlines are often earlier than universities", "Practice performing your audition program under pressure, in full run-throughs"] },
+    },
+    alternativeRoute: { major: "Communication & Media Studies", reason: "If you love the creative world but want a wider safety net than performance, media studies channels the same expressiveness into content, broadcasting, and production careers." },
+    miniProject: "Produce a 60-second piece of music for an imaginary film scene using a free DAW, and post it with the scene description. Constraint breeds creativity — and it's a portfolio piece.",
+  },
+
+  "Sports Science & Physiotherapy": {
+    skills: ["Human Anatomy & Biomechanics", "Exercise Physiology", "Rehabilitation Techniques", "Performance Analysis", "Patient & Athlete Communication"],
+    careers: ["Physiotherapist", "Sports Scientist", "Strength & Conditioning Coach", "Performance Analyst", "Rehabilitation Specialist", "Team Physio (Pro Sports)"],
+    nextSteps: [
+      "Keep Biology strong and stay active in sport — both are your daily tools.",
+      "Volunteer with a local sports team or physio clinic to see the work up close.",
+      "Compare Physiotherapy (clinical, licensed) vs Sports Science (performance) programs.",
+    ],
+    strengthKeywords: ["energetic", "supportive", "practical", "disciplined"],
+    countries: [
+      { name: "United Kingdom", flag: "🇬🇧" }, { name: "Australia", flag: "🇦🇺" },
+      { name: "Netherlands", flag: "🇳🇱" }, { name: "Denmark", flag: "🇩🇰" },
+      { name: "Germany", flag: "🇩🇪" }, { name: "Canada", flag: "🇨🇦" },
+    ],
+    universitiesByBudget: {
+      1: ["German Sport University Cologne (Germany — low fees)", "University of Copenhagen (Denmark)", "Norwegian School of Sport Sciences (Norway)", "Vrije Universiteit Amsterdam (Netherlands)"],
+      2: ["University of Queensland (Australia)", "University of Birmingham (UK)", "Deakin University (Australia)", "McMaster University (Canada)"],
+      3: ["Loughborough University (UK)", "University of Sydney (Australia)", "University of Bath (UK)", "University of British Columbia (Canada)"],
+    },
+    pathways: [
+      { name: "Clinical Physiotherapy", description: "Rehabilitate patients from injury in hospitals, clinics, or private practice.", roles: ["Physio Student", "Junior Physiotherapist", "Senior Physio", "Clinic Owner / Specialist"] },
+      { name: "Elite Sport Track", description: "Work with professional athletes and teams on performance and recovery.", roles: ["Performance Intern", "Sports Scientist", "Head of Performance", "Pro Team Director"] },
+      { name: "Research & Health Promotion", description: "Study human performance or design public exercise-health programs.", roles: ["Research Assistant", "Exercise Researcher", "Senior Scientist", "Public Health Lead"] },
+    ],
+    studyCostLabel: "Moderate",
+    studyCostColor: "text-amber-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Foundations", focus: ["Strengthen Biology — anatomy and physiology are your core subjects", "Stay consistently active; document your own training as a case study", "Learn basic anatomy with free apps (Complete Anatomy trial, Kenhub basics)"] },
+      q2: { title: "Apr–Jun: Field Exposure", focus: ["Volunteer with a school or local sports team (water carrier counts — you'll observe)", "Ask a physiotherapist if you can observe a session", "Learn taping or basic first aid — many federations run cheap weekend courses"] },
+      q3: { title: "Jul–Sep: Specialize Your Interest", focus: ["Decide your leaning: clinical rehab vs sports performance", "Do a project: analyze a sport's common injuries and their prevention", "Get a recognized first-aid or sports-safety certificate"] },
+      q4: { title: "Oct–Dec: Apply", focus: ["Check whether your target programs require health-science entrance tests", "Physiotherapy seats are limited in many countries — apply to several", "Build your statement around real observation hours and your own athletic discipline"] },
+    },
+    alternativeRoute: { major: "Nursing & Allied Health", reason: "If helping people recover motivates you more than sport itself, nursing and allied health offer broader clinical settings with equally strong job security." },
+    miniProject: "Design a 4-week beginner training plan for a friend or family member, track their progress weekly, and write up what worked and what you'd change — that's sports science in miniature.",
+  },
+
+  "Hospitality & Tourism Management": {
+    skills: ["Guest Experience Design", "Revenue & Yield Management", "Event Planning & Operations", "Cross-Cultural Communication", "F&B and Hotel Operations"],
+    careers: ["Hotel Manager", "Event Director", "Tourism Development Manager", "Resort Operations Director", "Restaurant Group Manager", "Hospitality Entrepreneur"],
+    nextSteps: [
+      "Get any customer-facing work experience — cafés, events, front desks all count.",
+      "Learn a second (or third) language — it's a genuine career accelerator in this field.",
+      "Look at dedicated hotel schools (EHL, Hotelschool The Hague) vs university programs.",
+    ],
+    strengthKeywords: ["welcoming", "organized", "adaptable", "service-minded"],
+    countries: [
+      { name: "Switzerland", flag: "🇨🇭" }, { name: "Netherlands", flag: "🇳🇱" },
+      { name: "United States", flag: "🇺🇸" }, { name: "Hong Kong", flag: "🇭🇰" },
+      { name: "Spain", flag: "🇪🇸" }, { name: "United Arab Emirates", flag: "🇦🇪" },
+    ],
+    universitiesByBudget: {
+      1: ["Hotelschool The Hague (Netherlands)", "Breda University of Applied Sciences (Netherlands)", "University of Girona (Spain)", "Munich University of Applied Sciences (Germany)"],
+      2: ["Hong Kong Polytechnic University (SHTM)", "Griffith University (Australia)", "University of Surrey (UK)", "César Ritz Colleges (Switzerland)"],
+      3: ["EHL Hospitality Business School (Switzerland)", "Les Roches (Switzerland)", "Glion Institute (Switzerland)", "Cornell Nolan School (USA)"],
+    },
+    pathways: [
+      { name: "Hotel & Resort Track", description: "Rise through operations to lead world-class properties.", roles: ["Management Trainee", "Department Head", "Hotel Manager", "Regional VP"] },
+      { name: "Events & Experiences", description: "Design and run events, from conferences to festivals to luxury experiences.", roles: ["Event Coordinator", "Event Manager", "Event Director", "Agency Owner"] },
+      { name: "Tourism Strategy & Entrepreneurship", description: "Develop destinations, travel products, or your own hospitality venture.", roles: ["Tourism Analyst", "Product Manager", "Destination Director", "Founder"] },
+    ],
+    studyCostLabel: "Moderate–High",
+    studyCostColor: "text-amber-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Service Foundations", focus: ["Get a part-time or weekend service job — real guest experience is the entry ticket", "Start language learning (or level up your English/third language) daily", "Observe great and terrible service everywhere — keep notes on why"] },
+      q2: { title: "Apr–Jun: Organize Something", focus: ["Plan and run a school or community event end to end", "Learn spreadsheet basics for budgets and schedules", "Follow hospitality industry news (Skift, Hospitality Net — free)"] },
+      q3: { title: "Jul–Sep: Broaden Perspective", focus: ["Interview someone who manages a hotel, restaurant, or venue", "Research how hotel schools differ from university tourism programs", "If you travel, analyze the guest journey of where you stay like a professional"] },
+      q4: { title: "Oct–Dec: Apply", focus: ["Hotel schools often interview — prepare stories from your service experience", "Quantify your experience: events run, guests served, problems solved", "Apply to a mix of hotel schools and university programs"] },
+    },
+    alternativeRoute: { major: "Business Administration & Management", reason: "If you enjoy operations and leadership but want maximum industry flexibility, a general business degree keeps hospitality open while adding every other sector too." },
+    miniProject: "Plan and host an event for 15+ people (dinner, tournament, fundraiser) with a real budget. Track costs, gather feedback afterwards, and write down three things you'd do differently.",
+  },
+
+  "Aerospace & Aeronautical Engineering": {
+    skills: ["Aerodynamics & Fluid Mechanics", "Propulsion Systems", "Structural Analysis", "Flight Mechanics & Control", "CAD & Simulation Tools"],
+    careers: ["Aerospace Engineer", "Propulsion Engineer", "Flight Systems Engineer", "Satellite Engineer", "UAV/Drone Engineer", "Mission Systems Architect"],
+    nextSteps: [
+      "Master Physics and Mathematics — aerospace is applied physics at its purest.",
+      "Build and fly something: model rockets, RC planes, or drone kits teach real intuition.",
+      "Explore Aerospace programs and their focus: aeronautics (air) vs astronautics (space).",
+    ],
+    strengthKeywords: ["precise", "ambitious", "systematic", "resilient"],
+    countries: [
+      { name: "United States", flag: "🇺🇸" }, { name: "France", flag: "🇫🇷" },
+      { name: "Netherlands", flag: "🇳🇱" }, { name: "Germany", flag: "🇩🇪" },
+      { name: "United Kingdom", flag: "🇬🇧" }, { name: "Canada", flag: "🇨🇦" },
+    ],
+    universitiesByBudget: {
+      1: ["TU Delft (Netherlands)", "University of Stuttgart (Germany — low fees)", "TU Munich (Germany)", "KTH Royal Institute of Technology (Sweden)"],
+      2: ["ISAE-SUPAERO (France)", "University of Toronto — UTIAS (Canada)", "University of Bristol (UK)", "Monash University (Australia)"],
+      3: ["MIT (USA)", "Caltech (USA)", "Georgia Tech (USA)", "Stanford University (USA)", "Imperial College London (UK)"],
+    },
+    pathways: [
+      { name: "Aeronautics Track", description: "Design aircraft, engines, and the future of sustainable aviation.", roles: ["Graduate Engineer", "Design Engineer", "Chief Engineer", "Program Director"] },
+      { name: "Space Track", description: "Build satellites, launch vehicles, and exploration systems.", roles: ["Systems Engineer", "Mission Engineer", "Lead Engineer", "Mission Director"] },
+      { name: "New Space & Startups", description: "Join the commercial space race — small sats, launch startups, space logistics.", roles: ["Engineer", "Senior Engineer", "Head of Engineering", "Founder / CTO"] },
+    ],
+    studyCostLabel: "Moderate–High",
+    studyCostColor: "text-amber-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Physics First", focus: ["Push Physics (mechanics!) and Math to excellence", "Follow real missions: SpaceX launches, ESA programs, NASA Artemis", "Learn the four forces of flight and basic aerodynamics (free NASA resources)"] },
+      q2: { title: "Apr–Jun: Build & Fly", focus: ["Build a model rocket or RC glider kit and fly it", "Try a flight simulator to understand control surfaces hands-on", "Start learning CAD basics (Onshape is free for hobbyists)"] },
+      q3: { title: "Jul–Sep: Go Deeper", focus: ["Design your own small project: improve your rocket/glider and measure the difference", "Learn basic Python or MATLAB-style computation for engineers", "Research aerospace clubs at target universities — hands-on teams matter"] },
+      q4: { title: "Oct–Dec: Apply", focus: ["Compare aeronautics vs astronautics focus at each program", "Note citizenship restrictions: some US aerospace work requires clearances", "Anchor your personal statement in what you built and measured"] },
+    },
+    alternativeRoute: { major: "Mechanical & Civil Engineering", reason: "If you love the engineering but want broader industry options than air and space, mechanical engineering shares 80% of the foundations with far more employers." },
+    miniProject: "Build and launch a model rocket (kits from ~$25), measure its altitude with a phone app or stopwatch method, then change one variable (fins, weight) and launch again. Congratulations — that's the engineering method.",
+  },
+
+  "Physics & Astronomy": {
+    skills: ["Classical & Quantum Mechanics", "Mathematical Modelling", "Experimental Methods", "Scientific Computing (Python)", "Data Analysis"],
+    careers: ["Research Physicist", "Astrophysicist", "Data Scientist", "Quantitative Analyst", "Optics/Photonics Engineer", "Science Communicator"],
+    nextSteps: [
+      "Go beyond the syllabus in Physics and Math — depth is what distinguishes applicants.",
+      "Learn Python early — modern physics is computational at every level.",
+      "Explore Physics programs' research strengths: particle, astro, quantum, condensed matter.",
+    ],
+    strengthKeywords: ["deep-thinking", "mathematical", "persistent", "curious"],
+    countries: [
+      { name: "United States", flag: "🇺🇸" }, { name: "United Kingdom", flag: "🇬🇧" },
+      { name: "Germany", flag: "🇩🇪" }, { name: "Switzerland", flag: "🇨🇭" },
+      { name: "Netherlands", flag: "🇳🇱" }, { name: "Australia", flag: "🇦🇺" },
+    ],
+    universitiesByBudget: {
+      1: ["LMU Munich (Germany — low/no fees)", "Heidelberg University (Germany)", "Leiden University (Netherlands)", "Uppsala University (Sweden)"],
+      2: ["University of Toronto (Canada)", "Australian National University", "University of Edinburgh (UK)", "McGill University (Canada)"],
+      3: ["MIT (USA)", "Caltech (USA)", "University of Cambridge (UK)", "University of Oxford (UK)", "ETH Zurich (Switzerland)"],
+    },
+    pathways: [
+      { name: "Academic Research", description: "Pursue the deepest questions through a PhD and research career.", roles: ["Research Assistant", "PhD Researcher", "Postdoc", "Professor"] },
+      { name: "Applied Physics & Industry", description: "Apply physics in photonics, semiconductors, energy, or quantum computing.", roles: ["R&D Engineer", "Applied Physicist", "Senior Scientist", "R&D Director"] },
+      { name: "Quantitative Careers", description: "Physics graduates are prized in finance, data science, and AI.", roles: ["Data Analyst", "Quantitative Analyst", "Senior Quant / Data Scientist", "Head of Research"] },
+    ],
+    studyCostLabel: "Low–Moderate",
+    studyCostColor: "text-green-600",
+    twelveMonthPlan: {
+      q1: { title: "Jan–Mar: Depth Over Breadth", focus: ["Work ahead in Physics and Math — try olympiad-style problems", "Watch one serious lecture series (MIT OCW 8.01 is free)", "Start Python with physics flavour: simulate a falling object with drag"] },
+      q2: { title: "Apr–Jun: Compute & Observe", focus: ["Write simulations: projectile motion, orbits, a pendulum", "Do backyard astronomy — learn the sky with free apps (Stellarium)", "Enter a physics olympiad or competition if available"] },
+      q3: { title: "Jul–Sep: Research Taste", focus: ["Read arXiv abstracts in a field that excites you (astro-ph is accessible)", "Do a mini research project: analyze real open data (exoplanets, cosmic rays)", "Attend a university open day or public physics lecture"] },
+      q4: { title: "Oct–Dec: Apply", focus: ["Compare programs by research groups, not just rankings", "Oxbridge and top programs have early deadlines and entrance tests (PAT) — check now", "Write your statement around problems you actually solved, not just fascination"] },
+    },
+    alternativeRoute: { major: "Data Science & Statistics", reason: "If you love the mathematical modelling more than the physical questions, data science applies the same rigour to every domain — with a faster route to industry." },
+    miniProject: "Using free NASA exoplanet data and a Google Colab notebook, plot the transit light curve of a known exoplanet. You'll have analyzed real telescope data before finishing high school.",
+  },
 };
 
 // ─── Scoring engine v2 ────────────────────────────────────────────────────────
@@ -1288,6 +1658,190 @@ export const SCORING: Record<Major, MajorScoring> = {
       penalty: 0.7,
     },
   },
+
+  "Electrical & Electronics Engineering": {
+    dims: { technical: 1.4, analytical: 0.9, handsOn: 0.5 },
+    affinity: {
+      "Physics": 3, "Mathematics": 2, "Computer Science": 1,
+      "Engineering innovative systems": 3, "Building technology & software": 2,
+      "Technical or digital skills": 2, "Staying calm and finding solutions": 1,
+      "Building or fixing physical things": 2, "Analyzing data and patterns": 1,
+      "Hands-on practice and experimentation": 2,
+      "Build products that millions of people use": 2,
+      "Building systems and technology": 2, "Being at the cutting edge of innovation": 1,
+      "Architect the app and write the code": 2, "Building or tinkering with something technical": 3,
+    },
+    gate: {
+      anyOf: ["Physics", "Mathematics", "Engineering innovative systems", "Technical or digital skills", "Building or tinkering with something technical"],
+      penalty: 0.6,
+    },
+  },
+
+  "Artificial Intelligence & Robotics": {
+    dims: { technical: 1.4, analytical: 1.1, research: 0.5 },
+    affinity: {
+      "Computer Science": 3, "Mathematics": 2, "Physics": 1,
+      "Building technology & software": 3, "Engineering innovative systems": 2, "Advancing science through research": 1,
+      "Technical or digital skills": 2, "Breaking down complex problems": 2,
+      "Analyzing data and patterns": 2,
+      "A research lab or university": 1, "My own startup or business": 1,
+      "Data analysis and structured reasoning": 2, "Hands-on practice and experimentation": 1,
+      "Build products that millions of people use": 2, "Push the boundaries of scientific knowledge": 1,
+      "Being at the cutting edge of innovation": 3, "Building systems and technology": 2,
+      "Architect the app and write the code": 3, "Building or tinkering with something technical": 2, "Reading about science, history, or big ideas": 1,
+    },
+    gate: {
+      anyOf: ["Computer Science", "Mathematics", "Building technology & software", "Technical or digital skills", "Engineering innovative systems", "Architect the app and write the code"],
+      penalty: 0.6,
+    },
+  },
+
+  "Biotechnology & Genetic Engineering": {
+    dims: { research: 1.4, technical: 0.6, analytical: 0.5, care: 0.3 },
+    affinity: {
+      "Biology": 3, "Chemistry": 2,
+      "Advancing science through research": 3, "Helping people with health & wellbeing": 1, "Protecting the environment": 1,
+      "Researching and digging into topics": 2, "Breaking down complex problems": 1,
+      "Working independently on focused tasks": 1,
+      "A research lab or university": 3,
+      "Hands-on practice and experimentation": 1, "Reading deeply and theorizing": 1,
+      "Push the boundaries of scientific knowledge": 2,
+      "Understanding the world at a deep level": 1, "Being at the cutting edge of innovation": 1,
+      "Research the science behind the problem": 3, "Reading about science, history, or big ideas": 1,
+    },
+    gate: {
+      anyOf: ["Biology", "Chemistry", "Advancing science through research"],
+      penalty: 0.55,
+    },
+  },
+
+  "Dentistry & Oral Health": {
+    dims: { care: 1.2, handsOn: 0.8, research: 0.7 },
+    affinity: {
+      "Biology": 2, "Chemistry": 2,
+      "Helping people with health & wellbeing": 3,
+      "Connecting with and understanding people": 1, "Staying calm and finding solutions": 1,
+      "Building or fixing physical things": 1,
+      "A hospital or healthcare setting": 3,
+      "Hands-on practice and experimentation": 2,
+      "Directly improve people's lives day to day": 2,
+      "Helping people directly every day": 2, "Earning well and building financial security": 1,
+      "Research the science behind the problem": 1, "Volunteering or helping someone out": 1,
+    },
+    gate: {
+      anyOf: ["Biology", "Chemistry", "Helping people with health & wellbeing", "A hospital or healthcare setting"],
+      penalty: 0.5,
+    },
+  },
+
+  "Veterinary Medicine & Animal Sciences": {
+    dims: { care: 1.3, research: 0.9, handsOn: 0.5 },
+    affinity: {
+      "Biology": 3, "Chemistry": 1,
+      "Helping people with health & wellbeing": 2, "Protecting the environment": 2, "Advancing science through research": 1,
+      "Researching and digging into topics": 1, "Staying calm and finding solutions": 1,
+      "Outdoors or in the field": 2, "A hospital or healthcare setting": 1,
+      "Hands-on practice and experimentation": 1,
+      "Directly improve people's lives day to day": 2,
+      "Helping people directly every day": 2,
+      "Playing sports or being outdoors": 1, "Volunteering or helping someone out": 2, "Research the science behind the problem": 1,
+    },
+    gate: {
+      anyOf: ["Biology", "Chemistry", "Protecting the environment", "Helping people with health & wellbeing"],
+      penalty: 0.5,
+    },
+  },
+
+  "Music & Performing Arts": {
+    dims: { creative: 1.6, social: 0.4, handsOn: 0.3 },
+    affinity: {
+      "Art / Design": 2, "Literature / Languages": 1,
+      "Creating visual art & design": 3,
+      "Thinking creatively and originally": 2,
+      "Designing and creating something new": 2,
+      "A creative studio or agency": 2,
+      "Creative exploration and play": 3,
+      "Bring beauty and meaning into the world": 3,
+      "Using my creativity freely": 3,
+      "Design the look, feel, and story": 1, "Drawing, making music, or editing videos": 3,
+    },
+    gate: {
+      anyOf: ["Art / Design", "Creating visual art & design", "Thinking creatively and originally", "Creative exploration and play", "Bring beauty and meaning into the world", "Using my creativity freely", "Drawing, making music, or editing videos"],
+      penalty: 0.55,
+    },
+  },
+
+  "Sports Science & Physiotherapy": {
+    dims: { handsOn: 1.1, care: 0.9, research: 0.4, social: 0.4 },
+    affinity: {
+      "Physical Education": 3, "Biology": 2,
+      "Helping people with health & wellbeing": 2, "Supporting communities & social causes": 1,
+      "Connecting with and understanding people": 1, "Staying calm and finding solutions": 1,
+      "Collaborating and connecting with people": 1, "Building or fixing physical things": 1,
+      "Outdoors or in the field": 2, "A hospital or healthcare setting": 1, "A school, hospital, or community space": 1,
+      "Hands-on practice and experimentation": 2,
+      "Directly improve people's lives day to day": 2,
+      "Helping people directly every day": 1,
+      "Playing sports or being outdoors": 3, "Volunteering or helping someone out": 1,
+    },
+    gate: {
+      anyOf: ["Physical Education", "Biology", "Helping people with health & wellbeing", "Playing sports or being outdoors"],
+      penalty: 0.55,
+    },
+  },
+
+  "Hospitality & Tourism Management": {
+    dims: { social: 0.9, business: 1.1, leadership: 0.6 },
+    affinity: {
+      "Economics": 1, "Geography": 1,
+      "Launching businesses & startups": 2, "Supporting communities & social causes": 1,
+      "Connecting with and understanding people": 2, "Leading and motivating others": 2, "Organizing and planning effectively": 2,
+      "Collaborating and connecting with people": 2, "Managing a team toward a shared goal": 1,
+      "A fast-paced corporate environment": 1, "My own startup or business": 1,
+      "Group projects and discussion": 2,
+      "Lead teams and shape organizations": 1, "Directly improve people's lives day to day": 1,
+      "Earning well and building financial security": 1,
+      "Organize the team, budget, and timeline": 2, "Interview people and present the findings": 1,
+      "Planning a small business or side hustle": 2, "Volunteering or helping someone out": 1,
+    },
+  },
+
+  "Aerospace & Aeronautical Engineering": {
+    dims: { technical: 1.4, analytical: 1.0, handsOn: 0.4 },
+    affinity: {
+      "Physics": 3, "Mathematics": 2, "Computer Science": 1,
+      "Engineering innovative systems": 3, "Building technology & software": 1,
+      "Technical or digital skills": 2, "Breaking down complex problems": 1, "Staying calm and finding solutions": 1,
+      "Building or fixing physical things": 2, "Analyzing data and patterns": 1,
+      "Hands-on practice and experimentation": 2,
+      "Push the boundaries of scientific knowledge": 1, "Build products that millions of people use": 1,
+      "Being at the cutting edge of innovation": 2, "Building systems and technology": 1,
+      "Architect the app and write the code": 1, "Research the science behind the problem": 1, "Building or tinkering with something technical": 2,
+    },
+    gate: {
+      anyOf: ["Physics", "Mathematics", "Engineering innovative systems", "Technical or digital skills"],
+      penalty: 0.55,
+    },
+  },
+
+  "Physics & Astronomy": {
+    dims: { analytical: 1.3, research: 1.2, technical: 0.5 },
+    affinity: {
+      "Physics": 3, "Mathematics": 3, "Computer Science": 1,
+      "Advancing science through research": 3,
+      "Breaking down complex problems": 2, "Researching and digging into topics": 2,
+      "Analyzing data and patterns": 2, "Working independently on focused tasks": 2,
+      "A research lab or university": 3,
+      "Reading deeply and theorizing": 2, "Solo deep-dives and self-study": 2, "Data analysis and structured reasoning": 1,
+      "Push the boundaries of scientific knowledge": 3, "Find patterns that explain complex phenomena": 2,
+      "Understanding the world at a deep level": 3, "Being at the cutting edge of innovation": 1,
+      "Research the science behind the problem": 3, "Run the numbers and analyze the data": 1, "Reading about science, history, or big ideas": 2,
+    },
+    gate: {
+      anyOf: ["Physics", "Mathematics", "Advancing science through research", "Understanding the world at a deep level"],
+      penalty: 0.55,
+    },
+  },
 };
 
 // ─── Engine internals ─────────────────────────────────────────────────────────
@@ -1430,6 +1984,16 @@ function buildWhyItMatches(major: Major, a: QuestionnaireAnswers): string[] {
     "Nursing & Allied Health":                  ["Biology", "Chemistry"],
     "Marketing & Advertising":                  ["Economics", "Art / Design"],
     "Linguistics & Translation":                ["Literature / Languages"],
+    "Electrical & Electronics Engineering":     ["Physics", "Mathematics", "Computer Science"],
+    "Artificial Intelligence & Robotics":       ["Computer Science", "Mathematics", "Physics"],
+    "Biotechnology & Genetic Engineering":      ["Biology", "Chemistry"],
+    "Dentistry & Oral Health":                  ["Biology", "Chemistry"],
+    "Veterinary Medicine & Animal Sciences":    ["Biology", "Chemistry"],
+    "Music & Performing Arts":                  ["Art / Design", "Literature / Languages"],
+    "Sports Science & Physiotherapy":           ["Physical Education", "Biology"],
+    "Hospitality & Tourism Management":         ["Economics", "Geography"],
+    "Aerospace & Aeronautical Engineering":     ["Physics", "Mathematics"],
+    "Physics & Astronomy":                      ["Physics", "Mathematics"],
   };
   const matchedSubs = (subjectMap[major] ?? []).filter(s => subjects.includes(s));
   if (matchedSubs.length > 0) reasons.push(`Your strength in ${matchedSubs.join(" and ")} forms a natural foundation for this field.`);
@@ -1455,6 +2019,16 @@ function buildWhyItMatches(major: Major, a: QuestionnaireAnswers): string[] {
     "Nursing & Allied Health":                  ["Helping people with health & wellbeing", "Supporting communities & social causes"],
     "Marketing & Advertising":                  ["Launching businesses & startups", "Creating visual art & design"],
     "Linguistics & Translation":                ["Supporting communities & social causes", "Defending justice & policy"],
+    "Electrical & Electronics Engineering":     ["Engineering innovative systems", "Building technology & software"],
+    "Artificial Intelligence & Robotics":       ["Building technology & software", "Engineering innovative systems"],
+    "Biotechnology & Genetic Engineering":      ["Advancing science through research", "Helping people with health & wellbeing"],
+    "Dentistry & Oral Health":                  ["Helping people with health & wellbeing"],
+    "Veterinary Medicine & Animal Sciences":    ["Helping people with health & wellbeing", "Protecting the environment"],
+    "Music & Performing Arts":                  ["Creating visual art & design"],
+    "Sports Science & Physiotherapy":           ["Helping people with health & wellbeing", "Supporting communities & social causes"],
+    "Hospitality & Tourism Management":         ["Launching businesses & startups", "Supporting communities & social causes"],
+    "Aerospace & Aeronautical Engineering":     ["Engineering innovative systems", "Building technology & software"],
+    "Physics & Astronomy":                      ["Advancing science through research"],
   };
   const matchedInt = (interestMap[major] ?? []).filter(i => interests.includes(i));
   if (matchedInt.length > 0) reasons.push(`Your genuine interest in ${matchedInt[0].toLowerCase()} reflects what this major is about at its core.`);
@@ -1526,6 +2100,16 @@ function buildHiddenMatch(top3majors: string[], combined: Record<string, number>
     "Nursing & Allied Health":                  { reason: "Your empathy and action-oriented nature could make nursing or allied health a deeply fulfilling path — you'd thrive where every action directly helps someone.", icon: "🏥", tag: "Hidden Carer" },
     "Marketing & Advertising":                  { reason: "Your creativity and people-reading skills could make marketing a surprisingly strong fit — the best marketers are part psychologist, part storyteller.", icon: "📣", tag: "Hidden Marketer" },
     "Linguistics & Translation":                { reason: "Your love of communication and patterns in language may run deeper than you think — linguistics is the science of how humans connect across barriers.", icon: "🗣️", tag: "Hidden Language Mind" },
+    "Electrical & Electronics Engineering":     { reason: "Your precision and love of understanding how things work under the hood point to electrical engineering — the invisible force behind every device you use.", icon: "⚡", tag: "Hidden Circuit Mind" },
+    "Artificial Intelligence & Robotics":       { reason: "Your blend of analytical thinking and fascination with what's next could make AI a natural home — the field is hungry for exactly your kind of mind.", icon: "🤖", tag: "Hidden AI Builder" },
+    "Biotechnology & Genetic Engineering":      { reason: "Your scientific curiosity could thrive in biotech — a field rewriting medicine and food with the code of life itself.", icon: "🧬", tag: "Hidden Bio-Innovator" },
+    "Dentistry & Oral Health":                  { reason: "Your steady hands and care for people could make dentistry a surprisingly strong fit — precise craft plus direct patient impact, with excellent career stability.", icon: "🦷", tag: "Surprising Clinical Match" },
+    "Veterinary Medicine & Animal Sciences":    { reason: "Your compassion and scientific curiosity could extend beyond people — veterinary medicine combines both in a deeply purposeful career.", icon: "🐾", tag: "Hidden Animal Advocate" },
+    "Music & Performing Arts":                  { reason: "Your expressive side may deserve more room than you're giving it — performing arts turn discipline and emotion into a life's craft.", icon: "🎵", tag: "Hidden Performer" },
+    "Sports Science & Physiotherapy":           { reason: "Your energy and drive to help people could combine in sports science — where movement, recovery, and human performance meet.", icon: "🏃", tag: "Hidden Performance Mind" },
+    "Hospitality & Tourism Management":         { reason: "Your people skills and organizational instinct are exactly what world-class hospitality runs on — a global career that travels with you.", icon: "🏨", tag: "Hidden Host" },
+    "Aerospace & Aeronautical Engineering":     { reason: "Your ambition and systematic mind might belong in aerospace — few fields demand more precision or offer more inspiring missions.", icon: "🚀", tag: "Hidden Rocket Mind" },
+    "Physics & Astronomy":                      { reason: "Your drive to understand things at the deepest level is the very definition of a physicist — the universe's biggest questions may be your natural habitat.", icon: "🔭", tag: "Hidden Deep Thinker" },
   };
 
   const sorted = Object.entries(combined)

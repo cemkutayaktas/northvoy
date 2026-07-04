@@ -12,7 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const ROUTE_META: Record<string, { title: string; description: string }> = {
   "/": {
     title: "NorthVoy — Discover Your Ideal University Major",
-    description: "Find your ideal university major in 5 minutes. NorthVoy matches high school students with 20+ majors, career paths, and universities across 60+ countries.",
+    description: "Find your ideal university major in 5 minutes. NorthVoy matches high school students with 30+ majors, career paths, and universities across 60+ countries.",
   },
   "/questionnaire": {
     title: "University Major Quiz — NorthVoy",
@@ -60,7 +60,7 @@ const ROUTE_META: Record<string, { title: string; description: string }> = {
   },
   "/majors": {
     title: "Explore University Majors — NorthVoy",
-    description: "Browse all 20 university majors with salary data, career paths, top universities, and 12-month action plans.",
+    description: "Browse all 30 university majors with salary data, career paths, top universities, and 12-month action plans.",
   },
   "/majors/:slug": {
     title: "Major Guide — NorthVoy",

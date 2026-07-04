@@ -1,300 +1,561 @@
 {
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "Content-Language", "value": "en, tr, de" },
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+        {
+          "key": "Content-Language",
+          "value": "en, tr, de"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
       ]
     },
     {
       "source": "/",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/about",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/about>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/about>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/questionnaire",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/questionnaire>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/questionnaire>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/results",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/results>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/results>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/compare",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/compare>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/compare>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/turkiye",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/turkiye>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/turkiye>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/tracker",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/tracker>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/tracker>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/auth",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/auth>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/auth>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/account",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/account>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/account>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/blog",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/blog>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/blog>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/blog/how-to-choose-a-university-major",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/blog/how-to-choose-a-university-major>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/blog/how-to-choose-a-university-major>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/blog/best-countries-for-international-students",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/blog/best-countries-for-international-students>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/blog/best-countries-for-international-students>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/blog/what-is-qs-rankings",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/blog/what-is-qs-rankings>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/blog/what-is-qs-rankings>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/blog/how-to-write-a-university-application",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/blog/how-to-write-a-university-application>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/blog/how-to-write-a-university-application>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/countries",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/countries>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/countries>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/scholarships",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/scholarships>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/scholarships>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/countries/germany",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/countries/germany>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/countries/germany>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/countries/uk",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/countries/uk>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/countries/uk>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/countries/canada",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/countries/canada>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/countries/canada>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/countries/usa",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/countries/usa>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/countries/usa>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/countries/netherlands",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/countries/netherlands>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/countries/netherlands>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/computer-science-software-engineering",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/computer-science-software-engineering>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/computer-science-software-engineering>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/business-administration-management",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/business-administration-management>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/business-administration-management>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/medicine-health-sciences",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/medicine-health-sciences>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/medicine-health-sciences>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/creative-arts-graphic-design",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/creative-arts-graphic-design>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/creative-arts-graphic-design>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/environmental-science-sustainability",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/environmental-science-sustainability>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/environmental-science-sustainability>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/psychology-social-sciences",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/psychology-social-sciences>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/psychology-social-sciences>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/law-political-science",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/law-political-science>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/law-political-science>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/mechanical-civil-engineering",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/mechanical-civil-engineering>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/mechanical-civil-engineering>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/data-science-statistics",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/data-science-statistics>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/data-science-statistics>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/education-teaching",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/education-teaching>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/education-teaching>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/finance-economics",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/finance-economics>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/finance-economics>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/architecture-urban-design",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/architecture-urban-design>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/architecture-urban-design>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/pharmacy-biomedical-sciences",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/pharmacy-biomedical-sciences>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/pharmacy-biomedical-sciences>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/communication-media-studies",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/communication-media-studies>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/communication-media-studies>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/international-relations-global-affairs",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/international-relations-global-affairs>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/international-relations-global-affairs>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/cybersecurity-network-engineering",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/cybersecurity-network-engineering>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/cybersecurity-network-engineering>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/game-design-interactive-media",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/game-design-interactive-media>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/game-design-interactive-media>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/nursing-allied-health",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/nursing-allied-health>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/nursing-allied-health>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/marketing-advertising",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/marketing-advertising>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/marketing-advertising>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/majors/linguistics-translation",
       "headers": [
-        { "key": "Link", "value": "<https://northvoy.com/majors/linguistics-translation>; rel=\"canonical\"" }
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/linguistics-translation>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/majors/electrical-electronics-engineering",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/electrical-electronics-engineering>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/majors/artificial-intelligence-robotics",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/artificial-intelligence-robotics>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/majors/biotechnology-genetic-engineering",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/biotechnology-genetic-engineering>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/majors/dentistry-oral-health",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/dentistry-oral-health>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/majors/veterinary-medicine-animal-sciences",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/veterinary-medicine-animal-sciences>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/majors/music-performing-arts",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/music-performing-arts>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/majors/sports-science-physiotherapy",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/sports-science-physiotherapy>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/majors/hospitality-tourism-management",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/hospitality-tourism-management>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/majors/aerospace-aeronautical-engineering",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/aerospace-aeronautical-engineering>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/majors/physics-astronomy",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/majors/physics-astronomy>; rel=\"canonical\""
+        }
       ]
     },
     {
       "source": "/assets/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/(.*).js",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
       "source": "/(.*).css",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
       "source": "/(.*).woff2",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
       "source": "/sitemap.xml",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400" },
-        { "key": "Content-Type", "value": "application/xml" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/xml"
+        }
       ]
     },
     {
       "source": "/robots.txt",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
       ]
     }
   ]

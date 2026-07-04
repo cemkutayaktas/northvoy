@@ -31,6 +31,16 @@ const MAJOR_ICONS: Record<string, string> = {
   "Nursing & Allied Health": "🏥",
   "Marketing & Advertising": "📣",
   "Linguistics & Translation": "🗣️",
+  "Electrical & Electronics Engineering": "⚡",
+  "Artificial Intelligence & Robotics": "🤖",
+  "Biotechnology & Genetic Engineering": "🧬",
+  "Dentistry & Oral Health": "🦷",
+  "Veterinary Medicine & Animal Sciences": "🐾",
+  "Music & Performing Arts": "🎵",
+  "Sports Science & Physiotherapy": "🏃",
+  "Hospitality & Tourism Management": "🏨",
+  "Aerospace & Aeronautical Engineering": "🚀",
+  "Physics & Astronomy": "🔭",
 };
 
 const COUNTRY_FLAGS: Record<string, string> = {
