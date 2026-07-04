@@ -174,6 +174,7 @@ function CountryExplorer({ major, countries, onUniversityClick }: { major: strin
 function ProfileBanner({ profile }: { profile: ProfileType }) {
   const { t, lang } = useLang();
   const c = PROFILE_COLORS[profile.color] ?? PROFILE_COLORS.indigo;
+  const detailed = getAnswers()?.mode === "detailed";
   return (
     <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
       className={cn("relative rounded-2xl border p-6 sm:p-8 mb-8 bg-gradient-to-br overflow-hidden", c.bg, c.border)}
@@ -182,8 +183,15 @@ function ProfileBanner({ profile }: { profile: ProfileType }) {
       <div className="relative z-10 flex flex-col sm:flex-row sm:items-center gap-4">
         <div className={cn("w-16 h-16 rounded-2xl flex items-center justify-center text-3xl shrink-0", c.badge)}>{profile.icon}</div>
         <div>
-          <div className={cn("inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest mb-1 px-2.5 py-1 rounded-full", c.badge)}>
-            <User className="w-3 h-3" />{t("results.sections.yourStudentProfile")}
+          <div className="flex flex-wrap items-center gap-1.5 mb-1">
+            <div className={cn("inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full", c.badge)}>
+              <User className="w-3 h-3" />{t("results.sections.yourStudentProfile")}
+            </div>
+            {detailed && (
+              <div className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-violet-500/15 text-violet-700 dark:text-violet-300 border border-violet-400/30">
+                🎯 {t("results.sections.detailedBadge")}
+              </div>
+            )}
           </div>
           <h2 className={cn("text-2xl sm:text-3xl font-display font-extrabold", c.text)}>{tContent(lang, "profileTypes", profile.label)}</h2>
           <p className="text-sm text-muted-foreground mt-1 max-w-xl">{tContent(lang, "profileTaglines", profile.tagline)}</p>

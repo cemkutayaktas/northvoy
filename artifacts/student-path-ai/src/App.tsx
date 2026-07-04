@@ -16,7 +16,15 @@ const ROUTE_META: Record<string, { title: string; description: string }> = {
   },
   "/questionnaire": {
     title: "University Major Quiz — NorthVoy",
+    description: "Choose your quiz: a quick 5-minute major match or a detailed 24-question analysis. Both match you across 30+ university majors. Free, instant results.",
+  },
+  "/questionnaire/quick": {
+    title: "Quick Major Quiz (5 min) — NorthVoy",
     description: "Answer 9 questions about your interests, strengths, and goals to discover which university major fits you best. Free, instant results.",
+  },
+  "/questionnaire/detailed": {
+    title: "Detailed Major Analysis (24 questions) — NorthVoy",
+    description: "Our most accurate quiz: a 24-question personality and scenario profile that matches you across 30+ university majors with high confidence.",
   },
   "/results": {
     title: "Your Results — NorthVoy",
@@ -134,6 +142,8 @@ const BlogPost = lazy(() => import("@/pages/BlogPost"));
 const Countries = lazy(() => import("@/pages/Countries"));
 const CountryDetail = lazy(() => import("@/pages/CountryDetail"));
 const Scholarships = lazy(() => import("@/pages/Scholarships"));
+const QuestionnaireQuick = lazy(() => import("@/pages/QuestionnaireQuick"));
+const QuestionnaireDetailed = lazy(() => import("@/pages/QuestionnaireDetailed"));
 const Majors = lazy(() => import("@/pages/Majors"));
 const MajorDetail = lazy(() => import("@/pages/MajorDetail"));
 const NotFound = lazy(() => import("@/pages/not-found"));
@@ -177,6 +187,8 @@ function Router() {
               <Switch>
                 <Route path="/" component={Home} />
                 <Route path="/questionnaire" component={Questionnaire} />
+                <Route path="/questionnaire/quick" component={QuestionnaireQuick} />
+                <Route path="/questionnaire/detailed" component={QuestionnaireDetailed} />
                 <Route path="/results" component={Results} />
                 <Route path="/about" component={About} />
                 <Route path="/auth" component={Auth} />
