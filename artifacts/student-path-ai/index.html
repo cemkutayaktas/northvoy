@@ -119,17 +119,19 @@
       "@type": "WebApplication",
       "name": "NorthVoy",
       "url": "https://northvoy.com",
-      "description": "NorthVoy helps high school students discover their ideal university major through a structured 9-question questionnaire. Get personalized recommendations for 30+ academic majors, career paths, skill breakdowns, and universities across 60+ countries.",
+      "description": "NorthVoy helps high school students discover their ideal university major through a quick 9-question quiz or a detailed 24-question analysis. Get personalized recommendations for 30+ academic majors, career paths, skill breakdowns, and universities across 60+ countries.",
       "applicationCategory": "EducationalApplication",
       "operatingSystem": "Web",
       "inLanguage": ["en", "tr", "de"],
       "audience": { "@type": "EducationalAudience", "educationalRole": "student" },
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
       "featureList": [
-        "9-question academic interest quiz",
+        "Quick 9-question quiz (~5 minutes)",
+        "Detailed 24-question analysis with personality profile (~12 minutes)",
         "Matches across 30+ university majors",
         "Career path recommendations",
         "University suggestions across 60+ countries",
+        "Scholarship finder with 20+ international scholarships",
         "12-month action plan",
         "Downloadable PDF report",
         "Available in English, Turkish, and German"
@@ -156,7 +158,15 @@
           "name": "How does NorthVoy work?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Answer 9 questions about your subjects, interests, strengths, work style, and goals. NorthVoy's scoring engine evaluates your answers across multiple dimensions and ranks the best-fit majors from a list of 30+ academic fields. Results include career paths, skill breakdowns, university suggestions, and a 12-month action plan."
+            "text": "Answer questions about your subjects, interests, strengths, work style, and goals. NorthVoy's scoring engine evaluates your answers across 9 personality dimensions and ranks the best-fit majors from a list of 30+ academic fields. Results include career paths, skill breakdowns, university suggestions, and a 12-month action plan."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between the Quick Quiz and the Detailed Analysis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Quick Quiz takes about 5 minutes (9 questions) and gives you an instant first read on your best-fit majors. The Detailed Analysis takes about 12 minutes (24 questions) and adds a 16-statement personality profile plus real-life scenario questions, producing finer-grained, higher-confidence recommendations. Both are free and cover all 30+ majors."
           }
         },
         {

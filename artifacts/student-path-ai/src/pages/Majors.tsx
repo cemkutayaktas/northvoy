@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { CheckCircle2, Briefcase, GraduationCap } from "lucide-react";
@@ -43,6 +44,27 @@ const MAJOR_ICONS: Record<string, string> = {
 
 export default function Majors() {
   const { t } = useLang();
+
+  // ItemList structured data for rich results / AI search engines
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = "majors-itemlist-jsonld";
+    script.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: "University Majors on NorthVoy",
+      numberOfItems: MAJORS.length,
+      itemListElement: MAJORS.map((m, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: m,
+        url: `https://northvoy.com/majors/${majorToSlug(m)}`,
+      })),
+    });
+    document.head.appendChild(script);
+    return () => { document.getElementById("majors-itemlist-jsonld")?.remove(); };
+  }, []);
 
   return (
     <div className="min-h-screen">

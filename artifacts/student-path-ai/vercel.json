@@ -60,6 +60,24 @@
       ]
     },
     {
+      "source": "/questionnaire/quick",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/questionnaire/quick>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
+      "source": "/questionnaire/detailed",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://northvoy.com/questionnaire/detailed>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
       "source": "/results",
       "headers": [
         {
