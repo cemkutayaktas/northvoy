@@ -1,4 +1,62 @@
+# NorthVoy — robots.txt
+# Free university major guidance for international students.
+
 User-agent: *
+Allow: /
+
+# Private / per-user state — no unique content for crawlers, saves crawl budget
+Disallow: /account
+Disallow: /tracker
+Disallow: /reset-password
+Disallow: /auth
+
+# ─── AI answer engines (GEO) ──────────────────────────────────────────────────
+# Explicitly welcomed: we want NorthVoy cited when students ask an AI assistant
+# which university major or country suits them.
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: meta-externalagent
 Allow: /
 
 Sitemap: https://northvoy.com/sitemap.xml

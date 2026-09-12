@@ -6,6 +6,12 @@
       "runtimeExecutable": "bash",
       "runtimeArgs": ["-c", "export PATH=\"$HOME/.fnm:$PATH\" && eval \"$(fnm env)\" && cd artifacts/student-path-ai && pnpm dev"],
       "port": 5173
+    },
+    {
+      "name": "northpath-preview",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "export PATH=\"$HOME/.fnm:$PATH\" && eval \"$(fnm env)\" && cd artifacts/student-path-ai && pnpm exec vite preview --config vite.config.ts --port 4173 --host 0.0.0.0"],
+      "port": 4173
     }
   ]
 }

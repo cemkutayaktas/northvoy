@@ -354,8 +354,10 @@ export default function QuizFlow({ mode }: { mode: "quick" | "detailed" }) {
                         val != null ? "border-primary/40 bg-primary/[0.03]" : "border-border bg-card"
                       )}>
                         <p className="font-medium text-sm leading-snug mb-3">{t(`likert.${id}`)}</p>
+                        {/* On phones the end labels move below the scale, so the five
+                            buttons get the full row width and clear a 44px touch target. */}
                         <div className="flex items-center gap-2 sm:gap-3">
-                          <span className="text-[10px] sm:text-[11px] text-muted-foreground w-14 sm:w-16 shrink-0 leading-tight">{t("likert.disagree")}</span>
+                          <span className="hidden sm:block text-[11px] text-muted-foreground sm:w-16 shrink-0 leading-tight">{t("likert.disagree")}</span>
                           <div className="flex flex-1 gap-1.5 sm:gap-2">
                             {[1, 2, 3, 4, 5].map(v => (
                               <button
@@ -363,7 +365,7 @@ export default function QuizFlow({ mode }: { mode: "quick" | "detailed" }) {
                                 onClick={() => setLikert(id, v)}
                                 aria-label={`${t(`likert.${id}`)} — ${v}/5`}
                                 className={cn(
-                                  "h-9 sm:h-10 flex-1 rounded-lg border-2 text-xs font-bold transition-all duration-150",
+                                  "h-11 sm:h-10 flex-1 rounded-lg border-2 text-sm sm:text-xs font-bold transition-all duration-150 touch-manipulation",
                                   val === v
                                     ? "bg-primary border-primary text-white shadow-[0_0_14px_rgba(59,130,246,0.25)] scale-[1.04]"
                                     : "border-border text-muted-foreground hover:border-primary/50 hover:text-foreground bg-card"
@@ -373,7 +375,11 @@ export default function QuizFlow({ mode }: { mode: "quick" | "detailed" }) {
                               </button>
                             ))}
                           </div>
-                          <span className="text-[10px] sm:text-[11px] text-muted-foreground w-14 sm:w-16 shrink-0 text-right leading-tight">{t("likert.agree")}</span>
+                          <span className="hidden sm:block text-[11px] text-muted-foreground sm:w-16 shrink-0 text-right leading-tight">{t("likert.agree")}</span>
+                        </div>
+                        <div className="flex justify-between mt-1.5 px-0.5 sm:hidden text-[10px] text-muted-foreground">
+                          <span>{t("likert.disagree")}</span>
+                          <span>{t("likert.agree")}</span>
                         </div>
                       </div>
                     );
