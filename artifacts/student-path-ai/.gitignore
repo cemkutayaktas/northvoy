@@ -1,13 +1,9 @@
 .vercel
 
 # ─── Secrets ──────────────────────────────────────────────────────────────────
-# Never commit env files. The one historical exception is .env.local, which is
-# already tracked and holds ONLY public values (VITE_* vars are compiled into
-# the client bundle by design, and the Supabase anon key is public — the
-# database is protected by Row Level Security, not by hiding this key).
-# Removing it from git requires first setting VITE_SUPABASE_URL and
-# VITE_SUPABASE_ANON_KEY in the Vercel project's Environment Variables,
-# otherwise the production build ships an undefined Supabase config.
+# Never commit env files. VITE_* values are public (they ship in the client
+# bundle) but env files are where secrets end up, so none of them are tracked.
+# Production values live in Vercel > Settings > Environment Variables.
 .env
 .env.*
 !.env.example
