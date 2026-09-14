@@ -8,7 +8,6 @@ const DEVELOPERS = [
   { key: "cem",   name: "Cem Kutay Aktaş", initials: "CKA", color: "from-blue-500 to-indigo-600"   },
   { key: "doruk", name: "Doruk Uzer",       initials: "DU",  color: "from-violet-500 to-purple-600" },
   { key: "devin", name: "Devin Tolun",      initials: "DT",  color: "from-emerald-500 to-teal-600"  },
-  { key: "can",   name: "Can Dalkıran",     initials: "CD",  color: "from-amber-500 to-orange-600"  },
 ] as const;
 
 const STEPS = [
@@ -288,8 +287,8 @@ export default function About() {
             </div>
           </FadeUp>
 
-          {/* Rest of team — 3-column grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          {/* Rest of team */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-2xl mx-auto">
             {DEVELOPERS.filter(d => d.key !== "cem").map((dev, i) => (
               <FadeUp key={dev.name} delay={(i + 1) * 0.08}>
                 <div
