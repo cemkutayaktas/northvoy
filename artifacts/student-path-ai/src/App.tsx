@@ -70,6 +70,10 @@ const ROUTE_META: Record<string, { title: string; description: string }> = {
     title: "Explore University Majors — NorthVoy",
     description: "Browse all 30 university majors with salary data, career paths, top universities, and 12-month action plans.",
   },
+  "/majors/:slug/:country": {
+    title: "Study Abroad Guide — NorthVoy",
+    description: "Universities, tuition, living costs, visas and career outcomes for studying this major in this country as an international student.",
+  },
   "/majors/:slug": {
     title: "Major Guide — NorthVoy",
     description: "Deep-dive into a university major — salary range, job growth, career pathways, top universities, and a 12-month plan.",
@@ -146,6 +150,7 @@ const QuestionnaireQuick = lazy(() => import("@/pages/QuestionnaireQuick"));
 const QuestionnaireDetailed = lazy(() => import("@/pages/QuestionnaireDetailed"));
 const Majors = lazy(() => import("@/pages/Majors"));
 const MajorDetail = lazy(() => import("@/pages/MajorDetail"));
+const MajorCountry = lazy(() => import("@/pages/MajorCountry"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 function PageLoader() {
@@ -203,6 +208,7 @@ function Router() {
                 <Route path="/countries/:slug" component={CountryDetail} />
                 <Route path="/scholarships" component={Scholarships} />
                 <Route path="/majors" component={Majors} />
+                <Route path="/majors/:slug/:country" component={MajorCountry} />
                 <Route path="/majors/:slug" component={MajorDetail} />
                 <Route component={NotFound} />
               </Switch>

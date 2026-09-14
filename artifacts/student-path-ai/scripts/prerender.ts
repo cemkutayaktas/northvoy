@@ -22,6 +22,7 @@ import { SALARY_DATA } from "../src/lib/salaryData";
 import { COUNTRY_GUIDES } from "../src/lib/countryGuides";
 import { BLOG_POSTS } from "../src/lib/blogPosts";
 import { t } from "../src/lib/i18n";
+import { allCombos, getCombo } from "../src/lib/majorCountry";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DIST = path.join(ROOT, "dist/public");
@@ -145,6 +146,53 @@ for (const p of BLOG_POSTS) {
       mainEntityOfPage: `${SITE}/blog/${p.slug}`,
     },
     content: `<article><h1>${esc(title)}</h1><p>${esc(excerpt)}</p>${body}</article>`,
+  });
+}
+
+
+// ─── Major x Country landing pages ────────────────────────────────────────────
+// Only combinations with BOTH a country guide (tuition/visa/living costs) and a
+// real university list are emitted, so every page carries substantive content
+// rather than reading as a thin doorway page.
+for (const { majorSlug, countrySlug } of allCombos()) {
+  const c = getCombo(majorSlug, countrySlug);
+  if (!c) continue;
+  const { major, country, universities, salary } = c;
+  const d = MAJOR_DATA[major];
+  const money = salary
+    ? `Graduates typically earn $${salary.avgSalaryUSD[0].toLocaleString()}–$${salary.avgSalaryUSD[1].toLocaleString()} per year, with ${salary.jobGrowthPct}% projected job growth (${salary.growthLabel}).`
+    : "";
+
+  pages.push({
+    route: `/majors/${majorSlug}/${countrySlug}`,
+    title: `Study ${major} in ${country.name} — Universities, Tuition & Visas | NorthVoy`,
+    description:
+      `Study ${major} in ${country.name}: ${universities.length} universities, tuition ${country.avgTuitionRange}, living costs ${country.costOfLivingRange}, visa requirements and career outcomes for international students.`.slice(0, 300),
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: `Study ${major} in ${country.name}`,
+      description: `Universities, tuition, living costs, visas and careers for studying ${major} in ${country.name}.`,
+      about: [{ "@type": "Thing", name: major }, { "@type": "Country", name: country.name }],
+      author: { "@type": "Organization", name: "NorthVoy", url: SITE },
+      publisher: { "@type": "Organization", name: "NorthVoy", url: SITE },
+      inLanguage: "en",
+      mainEntityOfPage: `${SITE}/majors/${majorSlug}/${countrySlug}`,
+    },
+    content: `
+      <nav><a href="/majors">Majors</a> / <a href="/majors/${majorSlug}">${esc(major)}</a> / ${esc(country.name)}</nav>
+      <h1>Study ${esc(major)} in ${esc(country.name)}</h1>
+      <p>${esc(`Thinking about studying ${major} in ${country.name}? This guide covers the universities that teach it, what the degree costs, living expenses, visa rules and where the career leads. ${money}`)}</p>
+      <h2>Where to study ${esc(major)} in ${esc(country.name)}</h2>
+      <ul>${universities.map(u => `<li>${esc(u.name)}${u.qsRank ? ` — QS world rank ${u.qsRank}` : ""}${u.city ? `, ${esc(u.city)}` : ""}${u.tuitionIntl ? `. International fee: ${esc(u.tuitionIntl)}` : ""}${u.ielts ? `. IELTS: ${esc(u.ielts)}` : ""}</li>`).join("")}</ul>
+      <h2>What it costs</h2>
+      <p>Average tuition: ${esc(country.avgTuitionRange)}. Cost of living: ${esc(country.costOfLivingRange)}. Currency: ${esc(country.currency)}.</p>
+      ${salary ? `<h2>Salary and outlook</h2><p>${esc(money)}</p><p>Highest-paying roles: ${esc(salary.topRoles.join(", "))}.</p>` : ""}
+      <h2>Why ${esc(country.name)}</h2>${list(country.highlights)}
+      <h2>Visas and student permits</h2><p>${esc(t("en", country.visaInfoKey))}</p>
+      <h2>Skills you will build</h2>${list(d.skills)}
+      <h2>Careers after ${esc(major)}</h2>${list(d.careers)}
+      <p><a href="/majors/${majorSlug}">All about ${esc(major)}</a> · <a href="/countries/${countrySlug}">Full ${esc(country.name)} guide</a> · <a href="/questionnaire">Take the free quiz</a></p>`,
   });
 }
 

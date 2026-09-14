@@ -7,7 +7,9 @@ import {
 import { MAJOR_DATA } from "@/lib/matching";
 import { SALARY_DATA, GROWTH_COLOR, fmtK } from "@/lib/salaryData";
 import { UNIVERSITIES_BY_COUNTRY } from "@/lib/universities";
-import { slugToMajor } from "@/lib/majorSlugs";
+import { slugToMajor, majorToSlug } from "@/lib/majorSlugs";
+import { countriesForMajor } from "@/lib/majorCountry";
+import type { Major } from "@/lib/matching";
 import { useLang } from "@/contexts/LanguageContext";
 
 const MAJOR_ICONS: Record<string, string> = {
@@ -315,6 +317,26 @@ export default function MajorDetail() {
           </h2>
           <p className="text-sm text-muted-foreground">{data.miniProject}</p>
         </motion.section>
+
+        {/* G2. Country-specific guides — deep links into the study-abroad pages */}
+        {countriesForMajor(major as Major).length > 0 && (
+          <motion.section
+            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: 0.36 }}
+          >
+            <h2 className="text-xl font-bold mb-3">{t("majorCountry.otherCountriesTitle").split("{major}").join(major)}</h2>
+            <div className="flex flex-wrap gap-2">
+              {countriesForMajor(major as Major).map(c => (
+                <Link
+                  key={c.slug}
+                  href={`/majors/${majorToSlug(major)}/${c.slug}`}
+                  className="inline-flex items-center gap-1.5 text-sm px-3.5 py-2 rounded-lg border border-border bg-card hover:border-primary/40 hover:text-primary transition-colors"
+                >
+                  <span>{c.flag}</span> {c.name}
+                </Link>
+              ))}
+            </div>
+          </motion.section>
+        )}
 
         {/* H. Bottom CTA */}
         <motion.section
