@@ -23,6 +23,8 @@ import { COUNTRY_GUIDES } from "../src/lib/countryGuides";
 import { BLOG_POSTS } from "../src/lib/blogPosts";
 import { t } from "../src/lib/i18n";
 import { allCombos, getCombo } from "../src/lib/majorCountry";
+import { allUniversityPages } from "../src/lib/universityPages";
+import { majorToSlug } from "../src/lib/majorSlugs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DIST = path.join(ROOT, "dist/public");
@@ -195,6 +197,61 @@ for (const { majorSlug, countrySlug } of allCombos()) {
       <p><a href="/majors/${majorSlug}">All about ${esc(major)}</a> · <a href="/countries/${countrySlug}">Full ${esc(country.name)} guide</a> · <a href="/questionnaire">Take the free quiz</a></p>`,
   });
 }
+
+
+// ─── University pages ─────────────────────────────────────────────────────────
+// Only the 41 institutions with curated detail data (tuition, acceptance rate,
+// English requirements, strengths). The ~500 other names that appear in major
+// lists have nothing beyond a name and would be thin pages.
+const uniPages = allUniversityPages();
+for (const u of uniPages) {
+  const { name, slug, info, qsRank, majors, countryGuide } = u;
+  const tuition = [
+    info.tuitionDomestic && `Domestic: ${info.tuitionDomestic}`,
+    info.tuitionIntl && `International: ${info.tuitionIntl}`,
+    info.tuitionEU && `EU: ${info.tuitionEU}`,
+    info.tuitionNonEU && `Non-EU: ${info.tuitionNonEU}`,
+  ].filter(Boolean) as string[];
+
+  pages.push({
+    route: `/universities/${slug}`,
+    title: `${name} — Tuition, Entry Requirements & Rankings | NorthVoy`,
+    description:
+      `${name} in ${info.city}, ${info.country}${qsRank ? ` (QS world rank ${qsRank})` : ""}: tuition, acceptance rate, IELTS and TOEFL requirements, and the ${majors.length} majors it is known for.`.slice(0, 300),
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "CollegeOrUniversity",
+      name,
+      description: info.description,
+      url: info.website,
+      foundingDate: String(info.founded),
+      address: { "@type": "PostalAddress", addressLocality: info.city, addressCountry: info.country },
+      ...(info.totalStudents ? { numberOfStudents: info.totalStudents } : {}),
+      mainEntityOfPage: `${SITE}/universities/${slug}`,
+    },
+    content: `
+      <nav><a href="/universities">University guides</a> / ${esc(name)}</nav>
+      <h1>${esc(name)}</h1>
+      <p>${esc(`${info.city}, ${info.country}${qsRank ? ` — QS world rank ${qsRank}` : ""}. Founded ${info.founded}. ${info.type} university.`)}</p>
+      <p>${esc(info.description)}</p>
+      ${tuition.length ? `<h2>Tuition</h2>${list(tuition)}` : ""}
+      ${info.ielts || info.toefl ? `<h2>English requirements</h2><ul>${info.ielts ? `<li>IELTS: ${esc(info.ielts)}</li>` : ""}${info.toefl ? `<li>TOEFL: ${esc(info.toefl)}</li>` : ""}</ul>` : ""}
+      ${info.acceptanceRate ? `<p>Acceptance rate: ${esc(info.acceptanceRate)}.</p>` : ""}
+      ${info.totalStudents ? `<p>Total students: ${esc(info.totalStudents)}.</p>` : ""}
+      <h2>Known for</h2>${info.notableFor ? `<p>${esc(info.notableFor)}</p>` : ""}${list(info.strengths)}
+      ${majors.length ? `<h2>Majors offered here</h2><ul>${majors.map(m => `<li><a href="${countryGuide ? `/majors/${majorToSlug(m)}/${countryGuide.slug}` : `/majors/${majorToSlug(m)}`}">${esc(m)}</a></li>`).join("")}</ul>` : ""}
+      ${countryGuide ? `<h2>Studying in ${esc(info.country)}</h2>${list(countryGuide.highlights.slice(0, 4))}<p><a href="/countries/${countryGuide.slug}">Full ${esc(info.country)} guide</a></p>` : ""}
+      <p><a href="${esc(info.website)}">Official site</a> · <a href="/questionnaire">Take the free quiz</a></p>`,
+  });
+}
+
+pages.push({
+  route: "/universities",
+  title: "University Guides — Tuition, Entry Requirements & Rankings | NorthVoy",
+  description:
+    "Compare 41 top universities worldwide: QS rankings, tuition for international students, acceptance rates, IELTS and TOEFL requirements, and the majors each is known for.",
+  content: `<h1>University Guides</h1><p>Tuition, entry requirements, acceptance rates and the majors each university is known for.</p><ul>${uniPages.map(u => `<li><a href="/universities/${u.slug}">${esc(u.name)}</a> — ${esc(u.info.city)}, ${esc(u.info.country)}${u.qsRank ? ` (QS ${u.qsRank})` : ""}</li>`).join("")}</ul>`,
+});
 
 // ─── Static routes ────────────────────────────────────────────────────────────
 const majorLinks = MAJORS.map(m => `<li><a href="/majors/${slugify(m)}">${esc(m)}</a></li>`).join("");

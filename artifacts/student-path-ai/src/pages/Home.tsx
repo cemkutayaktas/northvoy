@@ -164,6 +164,7 @@ export default function Home() {
   const footerProduct = [
     { label: t("home.navQuiz"), href: "/questionnaire" },
     { label: t("home.navCompare"), href: "/compare" },
+    { label: t("universities.indexTitle"), href: "/universities" },
     { label: t("home.navTurkey"), href: "/turkiye" },
     { label: t("home.navTracker"), href: "/tracker" },
   ];

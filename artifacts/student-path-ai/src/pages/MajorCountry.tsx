@@ -10,6 +10,7 @@ import { GROWTH_COLOR, fmtK } from "@/lib/salaryData";
 import { getQSRank, getRankLabel } from "@/lib/qsRankings";
 import { getCombo, countriesForMajor, majorsForCountry } from "@/lib/majorCountry";
 import { majorToSlug } from "@/lib/majorSlugs";
+import { universityToSlug, slugToUniversity } from "@/lib/universityPages";
 import { useLang } from "@/contexts/LanguageContext";
 import { FloatingOrbs } from "@/components/visual/FloatingOrbs";
 import NotFound from "@/pages/not-found";
@@ -113,7 +114,14 @@ export default function MajorCountry() {
                   viewport={{ once: true, margin: "-40px" }} transition={{ duration: 0.35, delay: Math.min(i * 0.05, 0.3) }}
                   className="rounded-xl border border-border bg-card p-5 card-tilt-hover">
                   <div className="flex items-start justify-between gap-3 mb-2">
-                    <h3 className="font-display font-bold text-base leading-snug">{u.name}</h3>
+                    {slugToUniversity(universityToSlug(u.name.split(" (")[0])) ? (
+                      <Link href={`/universities/${universityToSlug(u.name.split(" (")[0])}`}
+                        className="font-display font-bold text-base leading-snug hover:text-primary transition-colors">
+                        {u.name}
+                      </Link>
+                    ) : (
+                      <h3 className="font-display font-bold text-base leading-snug">{u.name}</h3>
+                    )}
                     {rank != null && (
                       <span className="shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
                         QS {getRankLabel(rank)}

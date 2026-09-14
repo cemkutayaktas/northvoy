@@ -10,6 +10,7 @@ import { COUNTRY_GUIDES } from "../src/lib/countryGuides";
 import { BLOG_POSTS } from "../src/lib/blogPosts";
 import { majorToSlug } from "../src/lib/majorSlugs";
 import { allCombos } from "../src/lib/majorCountry";
+import { allUniversityPages } from "../src/lib/universityPages";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://northvoy.com";
@@ -31,6 +32,9 @@ const entries: Entry[] = [
   ...BLOG_POSTS.map(p => e(`/blog/${p.slug}`, "0.7")),
   // Programmatic study-abroad pages
   ...allCombos().map(c => e(`/majors/${c.majorSlug}/${c.countrySlug}`, "0.7")),
+  // University guides
+  e("/universities", "0.8"),
+  ...allUniversityPages().map(u => e(`/universities/${u.slug}`, "0.7")),
 ];
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>

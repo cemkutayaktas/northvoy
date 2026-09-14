@@ -70,6 +70,14 @@ const ROUTE_META: Record<string, { title: string; description: string }> = {
     title: "Explore University Majors — NorthVoy",
     description: "Browse all 30 university majors with salary data, career paths, top universities, and 12-month action plans.",
   },
+  "/universities": {
+    title: "University Guides — Tuition, Entry Requirements & Rankings | NorthVoy",
+    description: "Compare 41 top universities worldwide: QS rankings, tuition for international students, acceptance rates, IELTS and TOEFL requirements, and the majors each is known for.",
+  },
+  "/universities/:slug": {
+    title: "University Guide — NorthVoy",
+    description: "Tuition, acceptance rate, English requirements, rankings and the majors offered at this university.",
+  },
   "/majors/:slug/:country": {
     title: "Study Abroad Guide — NorthVoy",
     description: "Universities, tuition, living costs, visas and career outcomes for studying this major in this country as an international student.",
@@ -151,6 +159,8 @@ const QuestionnaireDetailed = lazy(() => import("@/pages/QuestionnaireDetailed")
 const Majors = lazy(() => import("@/pages/Majors"));
 const MajorDetail = lazy(() => import("@/pages/MajorDetail"));
 const MajorCountry = lazy(() => import("@/pages/MajorCountry"));
+const Universities = lazy(() => import("@/pages/Universities"));
+const UniversityDetail = lazy(() => import("@/pages/UniversityDetail"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 function PageLoader() {
@@ -208,6 +218,8 @@ function Router() {
                 <Route path="/countries/:slug" component={CountryDetail} />
                 <Route path="/scholarships" component={Scholarships} />
                 <Route path="/majors" component={Majors} />
+                <Route path="/universities" component={Universities} />
+                <Route path="/universities/:slug" component={UniversityDetail} />
                 <Route path="/majors/:slug/:country" component={MajorCountry} />
                 <Route path="/majors/:slug" component={MajorDetail} />
                 <Route component={NotFound} />
