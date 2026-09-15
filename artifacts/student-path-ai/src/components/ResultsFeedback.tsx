@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, MessageSquareHeart, X } from "lucide-react";
 import { supabase } from "@/lib/supabase";
@@ -38,7 +38,18 @@ export function ResultsFeedback({ quizMode, topMajor }: { quizMode?: QuizMode; t
     } catch { return "idle"; }
   });
 
-  if (!resultsId || status === "dismissed") return null;
+  // Pre-flight: if the table is missing (migration not applied / schema cache stale),
+  // hide the card rather than show users a form that can only fail. RLS has no SELECT
+  // policy, so this returns an empty 200 when the table exists and PGRST205 when not.
+  const [available, setAvailable] = useState<boolean | null>(null);
+  useEffect(() => {
+    let alive = true;
+    supabase.from("results_feedback").select("id", { head: true, count: "exact" }).limit(0)
+      .then(({ error }) => { if (alive) setAvailable(!error || error.code !== "PGRST205"); });
+    return () => { alive = false; };
+  }, []);
+
+  if (!resultsId || status === "dismissed" || available !== true) return null;
 
   const remember = (v: "sent" | "dismissed") => { try { localStorage.setItem(storageKey(resultsId), v); } catch { /* ignore */ } };
 
