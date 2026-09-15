@@ -65,7 +65,8 @@ function LoginForm({ onForgot }: { onForgot: () => void }) {
     try {
       const res = await login(email, password);
       if (res.ok) { loginSucceeded(); setLocation("/account"); }
-      else setError(res.error ?? t("auth.errorLoginFailed"));
+      // Supabase returns English strings; map the common one so TR/DE users get a localised message.
+      else setError(/invalid login credentials/i.test(res.error ?? "") ? t("auth.errorLoginFailed") : (res.error ?? t("auth.errorLoginFailed")));
     } catch {
       setError(t("auth.errorLoginFailed"));
     } finally {
