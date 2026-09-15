@@ -15,6 +15,7 @@ import { Check, ChevronRight, ChevronLeft, ShieldCheck, AlertCircle, X } from "l
 import { cn } from "@/lib/utils";
 import { useLang } from "@/contexts/LanguageContext";
 import { useAccount } from "@/contexts/AccountContext";
+import { quizStarted, quizStepCompleted, quizCompleted } from "@/lib/analytics";
 
 // ─── Step definitions ─────────────────────────────────────────────────────────
 type OptionStepId = keyof typeof QUIZ_OPTIONS;
@@ -180,17 +181,18 @@ export default function QuizFlow({ mode }: { mode: "quick" | "detailed" }) {
     if (draftMode !== mode) return;
     const ageMs = Date.now() - new Date(draft.savedAt).getTime();
     if (ageMs > 24 * 60 * 60 * 1000) { clearDraft(); return; }
-    toast("Resume your questionnaire?", {
-      description: "You have saved progress from earlier.",
+    toast(t("quiz.resumeTitle"), {
+      description: t("quiz.resumeDesc"),
       action: {
-        label: "Resume",
+        label: t("quiz.resume"),
         onClick: () => {
           setAnswers({ likert: {}, scenarios: [], ...(draft.answers as QuestionnaireAnswers), mode });
           setCurrentStep(Math.min(draft.step, STEPS.length - 1));
+          quizStarted(mode, true);
           setScreen("quiz");
         },
       },
-      cancel: { label: "Start fresh", onClick: () => clearDraft() },
+      cancel: { label: t("quiz.startFresh"), onClick: () => clearDraft() },
       duration: 8000,
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -234,6 +236,7 @@ export default function QuizFlow({ mode }: { mode: "quick" | "detailed" }) {
   };
 
   const handleNext = () => {
+    quizStepCompleted(mode, step.id, currentStep, STEPS.length);
     if (currentStep < STEPS.length - 1) {
       setCurrentStep(p => p + 1);
     } else {
@@ -248,6 +251,7 @@ export default function QuizFlow({ mode }: { mode: "quick" | "detailed" }) {
       saveAnswers(answers);
       const { results, hiddenMatch, whyNot } = calculateResults(answers);
       saveResults(results);
+      if (results[0]) quizCompleted(mode, results[0].major, results[0].confidence);
       saveHiddenMatch(hiddenMatch);
       saveWhyNot(whyNot);
       saveProfile(getProfileType(answers));
@@ -259,7 +263,7 @@ export default function QuizFlow({ mode }: { mode: "quick" | "detailed" }) {
 
   if (screen === "consent") return (
     <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-gray-50/50">
-      <ConsentScreen onAgree={() => { saveConsent(); setScreen("quiz"); }} onDecline={() => setScreen("declined")} />
+      <ConsentScreen onAgree={() => { saveConsent(); quizStarted(mode, false); setScreen("quiz"); }} onDecline={() => setScreen("declined")} />
     </div>
   );
 
@@ -315,7 +319,7 @@ export default function QuizFlow({ mode }: { mode: "quick" | "detailed" }) {
         {/* Progress */}
         <div className="mb-8">
           <div className="flex justify-between text-sm font-medium text-muted-foreground mb-2">
-            <span>Question {currentStep + 1} / {STEPS.length}</span>
+            <span>{t("quiz.progress").replace("{n}", String(currentStep + 1)).replace("{total}", String(STEPS.length))}</span>
             <span>{Math.round(progress)}%</span>
           </div>
           <div className="h-2 w-full bg-border rounded-full overflow-hidden">
@@ -435,7 +439,7 @@ export default function QuizFlow({ mode }: { mode: "quick" | "detailed" }) {
               <ChevronLeft className="w-5 h-5 mr-1" />{t("common.back")}
             </Button>
             <Button onClick={handleNext} disabled={!canProceed()} className="min-w-[150px]">
-              {currentStep === STEPS.length - 1 ? "Discover My Path" : (<>{t("common.next")}<ChevronRight className="w-5 h-5 ml-1" /></>)}
+              {currentStep === STEPS.length - 1 ? t("quiz.finish") : (<>{t("common.next")}<ChevronRight className="w-5 h-5 ml-1" /></>)}
             </Button>
           </div>
         </Card>

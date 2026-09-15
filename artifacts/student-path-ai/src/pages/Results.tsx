@@ -8,6 +8,10 @@ import {
 import { calculateResults, getProfileType } from "@/lib/matching";
 import { generatePDF } from "@/lib/pdf";
 import { shareResults } from "@/lib/shareResults";
+import { ResultsFeedback } from "@/components/ResultsFeedback";
+import {
+  resultsViewed, signupCtaClicked, shareClicked, shareSucceeded, pdfDownloadClicked, pdfGenerated,
+} from "@/lib/analytics";
 import { UNIVERSITIES_BY_COUNTRY } from "@/lib/universities";
 import { SALARY_DATA, GROWTH_COLOR, salaryChipText } from "@/lib/salaryData";
 import { getQSRank } from "@/lib/qsRankings";
@@ -766,18 +770,20 @@ function ScholarshipsTab({ results, preferredCountries }: { results: MatchResult
 }
 
 // ─── Locked Overlay ───────────────────────────────────────────────────────────
-function LockedOverlay({ message }: { message?: string }) {
+type Gate = "matches" | "compare" | "plan" | "explore";
+function LockedOverlay({ gate }: { gate: Gate }) {
   const [, setLocation] = useLocation();
+  const { t } = useLang();
   return (
     <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-xl bg-background/70 dark:bg-background/80 backdrop-blur-sm border border-border/40">
       <div className="text-center px-6 py-8 max-w-xs">
         <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
           <UserCircle className="w-6 h-6 text-primary" />
         </div>
-        <h3 className="font-display font-bold text-base mb-1">Create a free account</h3>
-        <p className="text-sm text-muted-foreground mb-4">{message ?? "Sign up to unlock all your results and save your progress."}</p>
-        <Button size="sm" className="w-full" onClick={() => setLocation("/auth")}>
-          Sign up free →
+        <h3 className="font-display font-bold text-base mb-1">{t("locked.title")}</h3>
+        <p className="text-sm text-muted-foreground mb-4">{t(`locked.${gate}`)}</p>
+        <Button size="sm" className="w-full" onClick={() => { signupCtaClicked(`results_gate_${gate}`); setLocation("/auth"); }}>
+          {t("auth.signUpFree")} →
         </Button>
       </div>
     </div>
@@ -825,25 +831,35 @@ export default function Results() {
     setResults(r); setProfile(p); setHidden(h); setWhyNot(w);
   }, [setLocation, account]);
 
+  useEffect(() => {
+    if (!results || results.length === 0) return;
+    resultsViewed(getAnswers()?.mode, results[0].major, results[0].confidence, isSharedView);
+  }, [results, isSharedView]);
+
   const handleShare = () => {
     const answers = getAnswers();
     if (!answers) return;
+    shareClicked("clipboard_link");
     const encoded = btoa(encodeURIComponent(JSON.stringify(answers)));
     const url = `${window.location.origin}${window.location.pathname}?share=${encoded}`;
     navigator.clipboard.writeText(url).then(() => {
+      shareSucceeded("clipboard_link");
       setShareCopied(true);
       setTimeout(() => setShareCopied(false), 2500);
-    });
+    }).catch(() => toast.error(t("results.nativeShareFailed")));
   };
 
   const handlePDF = () => {
     if (!results || !profile) return;
+    pdfDownloadClicked();
     setPdfLoading(true);
     setTimeout(() => {
       try {
         generatePDF(results, profile, hidden, whyNot);
+        pdfGenerated();
       } catch (e) {
         console.error("PDF generation failed:", e);
+        toast.error(t("results.sections.pdfFailed"));
       }
       setPdfLoading(false);
     }, 50);
@@ -867,10 +883,13 @@ export default function Results() {
 
   const handleNativeShare = async () => {
     if (!results || !profile) return;
+    shareClicked("native");
     const outcome = await shareResults(results, profile);
     if (outcome === "shared") {
+      shareSucceeded("native");
       toast.success(t("results.nativeShareShared"));
     } else if (outcome === "copied") {
+      shareSucceeded("clipboard_text");
       toast.success(t("results.nativeShareCopied"));
     } else {
       toast.error(t("results.nativeShareFailed"));
@@ -913,6 +932,7 @@ export default function Results() {
 
         {/* Profile banner */}
         {profile && <ProfileBanner profile={profile} />}
+        <p className="text-xs text-muted-foreground leading-relaxed -mt-4 mb-6">{t("resultsDisclaimer")}</p>
 
         {/* Quick Overview — Visual Score Bars */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
@@ -957,7 +977,7 @@ export default function Results() {
                       <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-1.5">
                         <UserCircle className="w-4 h-4 text-primary" />
                       </div>
-                      <p className="text-xs font-semibold text-foreground">Sign up to unlock</p>
+                      <p className="text-xs font-semibold text-foreground">{t("locked.badge")}</p>
                     </div>
                   </div>
                 )}
@@ -996,7 +1016,7 @@ export default function Results() {
                     <MajorCard result={r} rank={RANK_CONFIG[i]} index={i} topScore={results[0]?.score ?? 1} />
                   </div>
                   {!account && i > 0 && (
-                    <LockedOverlay message="Sign up free to see all your matched majors." />
+                    <LockedOverlay gate="matches" />
                   )}
                 </div>
               ))}
@@ -1010,7 +1030,7 @@ export default function Results() {
                   <CompareTab results={results} />
                 </Card>
               </div>
-              {!account && <LockedOverlay message="Sign up free to compare your matched majors side by side." />}
+              {!account && <LockedOverlay gate="compare" />}
             </div>
           </TabsContent>
 
@@ -1021,7 +1041,7 @@ export default function Results() {
                   <TwelveMonthTab results={results} />
                 </Card>
               </div>
-              {!account && <LockedOverlay message="Sign up free to unlock your personalised 12-month action plan." />}
+              {!account && <LockedOverlay gate="plan" />}
             </div>
           </TabsContent>
 
@@ -1035,7 +1055,7 @@ export default function Results() {
                   }
                 </Card>
               </div>
-              {!account && <LockedOverlay message="Sign up free to explore your hidden match and alternative paths." />}
+              {!account && <LockedOverlay gate="explore" />}
             </div>
           </TabsContent>
 
@@ -1048,6 +1068,8 @@ export default function Results() {
             </Card>
           </TabsContent>
         </Tabs>
+
+        {!isSharedView && <ResultsFeedback quizMode={getAnswers()?.mode} topMajor={top.major} />}
 
         {/* Footer */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}
@@ -1078,7 +1100,7 @@ export default function Results() {
             </Button>
           )}
           {!isSharedView && !account && (
-            <Button variant="outline" size="lg" onClick={() => setLocation("/auth")} title={t("results.sections.signInToSave")}>
+            <Button variant="outline" size="lg" onClick={() => { signupCtaClicked("results_save"); setLocation("/auth"); }} title={t("results.sections.signInToSave")}>
               <UserCircle className="w-4 h-4 mr-2" />{t("results.sections.signInToSave")}
             </Button>
           )}

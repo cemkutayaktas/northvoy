@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { useAccount } from "@/contexts/AccountContext";
 import { useLang } from "@/contexts/LanguageContext";
+import { signupStarted, signupCompleted, loginSucceeded } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { UserCircle, Mail, Lock, User, Eye, EyeOff, Compass, ArrowLeft, Check, X, KeyRound } from "lucide-react";
@@ -63,7 +64,7 @@ function LoginForm({ onForgot }: { onForgot: () => void }) {
     setLoading(true);
     try {
       const res = await login(email, password);
-      if (res.ok) setLocation("/account");
+      if (res.ok) { loginSucceeded(); setLocation("/account"); }
       else setError(res.error ?? t("auth.errorLoginFailed"));
     } catch {
       setError(t("auth.errorLoginFailed"));
@@ -159,9 +160,11 @@ function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
     setErrors(errs);
     if (Object.keys(errs).length > 0) return;
     setLoading(true);
+    signupStarted();
     try {
       const res = await register(username, email, password);
       if (res.ok) {
+        signupCompleted(!!res.requiresConfirmation);
         if (res.requiresConfirmation) setConfirmationSent(true);
         else setLocation("/account");
       } else setGlobalError(res.error ?? t("auth.errorRegisterFailed"));

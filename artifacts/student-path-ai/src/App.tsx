@@ -7,12 +7,13 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AccountProvider, useAccount } from "@/contexts/AccountContext";
 import { lazy, Suspense, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { pageView } from "@/lib/analytics";
 
 // ─── Per-route SEO metadata ──────────────────────────────────────────────────
 const ROUTE_META: Record<string, { title: string; description: string }> = {
   "/": {
     title: "NorthVoy — Discover Your Ideal University Major",
-    description: "Find your ideal university major in 5 minutes. NorthVoy matches high school students with 30+ majors, career paths, and universities across 60+ countries.",
+    description: "Find your ideal university major in 5 minutes. NorthVoy matches high school students with 30+ majors, career paths, and universities across 20+ countries.",
   },
   "/questionnaire": {
     title: "University Major Quiz — NorthVoy",
@@ -24,11 +25,11 @@ const ROUTE_META: Record<string, { title: string; description: string }> = {
   },
   "/questionnaire/detailed": {
     title: "Detailed Major Analysis (24 questions) — NorthVoy",
-    description: "Our most accurate quiz: a 24-question personality and scenario profile that matches you across 30+ university majors with high confidence.",
+    description: "Our most detailed quiz: a 24-question personality and scenario profile that matches you across 30+ university majors with better-differentiated results.",
   },
   "/results": {
     title: "Your Results — NorthVoy",
-    description: "See your personalized university major matches, career paths, skill breakdowns, and university suggestions across 60+ countries.",
+    description: "See your personalized university major matches, career paths, skill breakdowns, and university suggestions across 20+ countries.",
   },
   "/about": {
     title: "About NorthVoy — How It Works & Our Team",
@@ -93,12 +94,7 @@ function usePageTracking() {
   const [location] = useLocation();
   useEffect(() => {
     // GA4 page-view tracking
-    if (typeof window.gtag === "function") {
-      window.gtag("event", "page_view", {
-        page_path: location,
-        page_location: window.location.href,
-      });
-    }
+    pageView(location);
 
     // Per-route title & description
     const meta = ROUTE_META[location] ?? ROUTE_META["/"]!;

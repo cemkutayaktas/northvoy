@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
 import { supabase } from "@/lib/supabase";
+import { loginSucceeded } from "@/lib/analytics";
 import type { User } from "@supabase/supabase-js";
 import { checkPassword } from "@/lib/accounts";
 
@@ -136,6 +137,8 @@ export function AccountProvider({ children }: { children: ReactNode }) {
     // query from freezing the app on the loading screen indefinitely.
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       clearTimeout(timeout);
+      // First sign-in after clicking the confirmation email lands here with type=signup in the hash.
+      if (_event === "SIGNED_IN" && session?.user && /type=signup/.test(window.location.hash)) loginSucceeded();
       if (!session?.user) {
         setAccount(null);
         setLoading(false);

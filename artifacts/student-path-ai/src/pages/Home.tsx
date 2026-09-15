@@ -19,7 +19,6 @@ import {
   FileDown,
   Clock,
   ChevronRight,
-  Star,
   CheckCircle2,
   AlertCircle,
   Frown,
@@ -127,7 +126,7 @@ export default function Home() {
   // ── Data ──
   const stats = [
     { value: "30+", label: t("home.statMajors"), icon: GraduationCap },
-    { value: "60+", label: t("home.statCountries"), icon: Globe },
+    { value: "20+", label: t("home.statCountries"), icon: Globe },
     { value: "200+", label: t("home.statUniversities"), icon: BookOpen },
     { value: "3", label: t("home.statLanguages"), icon: Users },
   ];
@@ -144,16 +143,10 @@ export default function Home() {
     { num: "03", title: t("home.step3Title"), desc: t("home.step3Desc") },
   ];
 
-  const testimonials = [
-    { name: "Alex K.", role: t("home.test1Role"), text: t("home.test1Text"), initial: "A" },
-    { name: "Maria S.", role: t("home.test2Role"), text: t("home.test2Text"), initial: "M" },
-    { name: "Yusuf T.", role: t("home.test3Role"), text: t("home.test3Text"), initial: "Y" },
-  ];
-
   const marqueeItems = [
     `⚡ ${t("home.freeInstant")}`,
     `🎯 ${t("home.marqueePrecision")}`,
-    `🌍 60+ ${t("home.statCountries")}`,
+    `🌍 20+ ${t("home.statCountries")}`,
     `📚 30+ ${t("home.statMajors")}`,
     `⏱ ${t("home.fiveMinutes")}`,
     `📄 ${t("home.marqueePDF")}`,
@@ -459,8 +452,7 @@ export default function Home() {
                 transition={{ duration: 0.4, delay: 1.25 }}
                 className="absolute -bottom-5 right-8 z-30 rounded-2xl px-4 py-2.5"
                 style={{ background: "rgba(15,23,42,0.96)", border: "1px solid rgba(255,255,255,0.10)", boxShadow: "0 16px 40px rgba(0,0,0,0.4)" }}>
-                <div className="text-sm font-display font-black text-white">2,000+</div>
-                <div className="text-[10px]" style={{ color: "#64748b" }}>{t("home.studentsGuided")}</div>
+                <div className="text-[11px] font-semibold text-white">{t("home.studentsGuided")}</div>
               </motion.div>
             </motion.div>
 
@@ -780,7 +772,7 @@ export default function Home() {
                   </div>
                   <span className="text-xs px-2.5 py-1 rounded-full font-medium"
                     style={{ background: "rgba(16,185,129,0.12)", color: "#10b981", border: "1px solid rgba(16,185,129,0.20)" }}>
-                    60+ {t("home.statCountries")}
+                    20+ {t("home.statCountries")}
                   </span>
                 </div>
                 {/* Country grid */}
@@ -906,43 +898,6 @@ export default function Home() {
               </button>
             </Link>
           </motion.div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════════════
-          10. TESTIMONIALS
-      ══════════════════════════════════════════════════════════════════ */}
-      <section className="py-24 sm:py-28 lg:py-36 bg-background relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 70% 50% at 50% 100%, rgba(99,102,241,0.05) 0%, transparent 60%)" }} />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
-            variants={fadeUp} custom={0} className="text-center mb-14">
-            <h2 className="text-4xl sm:text-5xl font-display font-black tracking-tight mb-5">{t("home.testimonialsTitle")}</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("home.testimonialsSubtitle")}</p>
-          </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {testimonials.map((tm, i) => (
-              <motion.div key={i} custom={i + 1} initial="hidden" whileInView="visible"
-                viewport={{ once: true, margin: "-50px" }} variants={fadeUp}
-                className="group glass-panel rounded-2xl p-7 card-lift border border-border/60 flex flex-col">
-                <div className="flex gap-1 mb-5">
-                  {Array.from({ length: 5 }).map((_, j) => <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-6 italic flex-1">"{tm.text}"</p>
-                <div className="flex items-center gap-3 pt-4 border-t border-border/40">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-primary text-sm shrink-0"
-                    style={{ background: "linear-gradient(135deg, rgba(59,130,246,0.15), rgba(99,102,241,0.15))", border: "1px solid rgba(99,102,241,0.20)" }}>
-                    {tm.initial}
-                  </div>
-                  <div>
-                    <div className="font-semibold text-sm">{tm.name}</div>
-                    <div className="text-xs text-muted-foreground">{tm.role}</div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 
