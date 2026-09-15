@@ -9,7 +9,9 @@
     "serve": "vite preview --config vite.config.ts --host 0.0.0.0",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "prerender": "tsx scripts/prerender.ts",
-    "sitemap": "tsx scripts/gen-sitemap.ts"
+    "sitemap": "tsx scripts/gen-sitemap.ts",
+    "marketing:brief": "tsx tools/marketing/brief.ts",
+    "marketing:capture": "bash tools/marketing/capture.sh"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.10.0",

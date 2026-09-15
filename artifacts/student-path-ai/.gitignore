@@ -29,3 +29,8 @@ npm-debug.log*
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# marketing tool artefacts (generated)
+tools/marketing/cache/
+tools/marketing/out/*
+!tools/marketing/out/seed-*.md
